@@ -1,0 +1,16 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+
+.idea
+**/[Bb]in/
+**/[Dd]ebug/
+**/[Dd]ebugPublic/
+**/[Rr]elease/
+**/x64/
+**/x86/
+**/bld/
+**/[Oo]bj/
+**/[Ll]og/
