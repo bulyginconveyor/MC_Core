@@ -3,9 +3,9 @@ using core_service.domain.valueobjects;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.repositories;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
-using TestingRepositories;
+using testing_repositories;
 
-namespace TestingRepositories.@base;
+namespace testing_repositories.@base;
 
 public class BaseCurrency : BaseTest
 {

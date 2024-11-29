@@ -1,10 +1,12 @@
 using core_service.infrastructure.repository.postgresql.context;
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.PostgreSql;
-using TestingRepositories.context;
-using TestContext = TestingRepositories.context.TestContext;
+using testing_repositories.context;
+using TestContext = testing_repositories.context.TestContext;
 
-namespace TestingRepositories;
+namespace testing_repositories;
+
+using TestContext = context.TestContext;
 
 public class BaseTest
 {

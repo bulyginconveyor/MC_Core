@@ -3,10 +3,10 @@ using core_service.domain.valueobjects;
 using core_service.infrastructure.repository.enums;
 using Microsoft.EntityFrameworkCore;
 using Renci.SshNet.Messages.Authentication;
-using TestingRepositories.@base;
+using testing_repositories.@base;
 using static NUnit.Framework.Assert;
 
-namespace TestingRepositories;
+namespace testing_repositories;
 
 public class TestManyCurrencies : BaseCurrency
 {

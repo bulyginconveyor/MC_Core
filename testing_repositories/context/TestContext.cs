@@ -2,7 +2,7 @@ using core_service.domain;
 using core_service.infrastructure.repository.postgresql.configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace TestingRepositories.context;
+namespace testing_repositories.context;
 
 public class TestContext : DbContext
 {

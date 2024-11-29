@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0423E287
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core_service", "core_service\core_service.csproj", "{780B492B-993E-4DA6-82E3-7BB0B8CF46D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingRepositories", "TestingRepositories\TestingRepositories.csproj", "{B83E0DA6-212D-43D7-B253-C2A93F7747E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testing_repositories", "testing_repositories\testing_repositories.csproj", "{B83E0DA6-212D-43D7-B253-C2A93F7747E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

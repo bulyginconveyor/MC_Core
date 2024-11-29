@@ -4,10 +4,10 @@ using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.repositories;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-using TestingRepositories.@base;
+using testing_repositories.@base;
 using static NUnit.Framework.Assert;
 
-namespace TestingRepositories;
+namespace testing_repositories;
 
 public class TestOneCurrency : BaseCurrency
 {
