@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace core_service.infrastructure.repository.postgresql.repositories.@base;
 
-public abstract class BaseBankAccountRepository<B>(PostgreSqlDbContext context) : BaseRepository<B>(context) where B : BankAccount
+public class BaseBankAccountRepository<B>(DbContext context) : BaseRepository<B>(context) where B : BankAccount
 {
     public override async Task<Result<IEnumerable<B>>> GetAll()
     {
@@ -118,7 +118,7 @@ public abstract class BaseBankAccountRepository<B>(PostgreSqlDbContext context) 
 
     public override async Task<Result<B>> LoadData(B entity)
     {
-        var list = await _context.Operations
+        var list = await _context.Set<Operation>()
             .Include(o => o.DebetBankAccount)
             .Include(o => o.CreditBankAccount)
             .Where(o => o.DeletedAt == null && 

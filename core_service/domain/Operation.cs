@@ -16,7 +16,7 @@ public class Operation : Entity, IDbModel
     public StatusOperation Status { get; private set; } 
 
     public DateTime CreatedAt { get; }
-    public DateTime? UpdatedAt { get; }
+    public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
     
     public Operation(Name name, DateOnly date, UDecimal amount, Period? period = null, BankAccount? credit = null,

@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace core_service.infrastructure.repository.postgresql.repositories.@base;
 
-public abstract class BaseRepository<T>(PostgreSqlDbContext context) 
+public class BaseRepository<T>(DbContext context) 
     : IDbRepository<T> where T : class, IDbModel, IEntity<Guid>
 {
-    protected readonly PostgreSqlDbContext _context = context;
+    protected readonly DbContext _context = context;
 
     public async Task<Result> Save()
     {
@@ -44,9 +44,9 @@ public abstract class BaseRepository<T>(PostgreSqlDbContext context)
     }
     public virtual async Task<Result<IEnumerable<T>>> GetAll(Tracking tracking, Expression<Func<T, bool>> filter)
     {
-        var result = tracking == Tracking.No ? 
-            await _context.Set<T>().AsNoTracking().Where(filter).Where(e => e.DeletedAt == null).ToListAsync() :
-            await _context.Set<T>().Where(filter).ToListAsync();
+        var result = tracking == Tracking.No
+            ? await _context.Set<T>().AsNoTracking().Where(filter).Where(e => e.DeletedAt == null).ToListAsync()
+            : await _context.Set<T>().Where(filter).Where(e => e.DeletedAt == null).ToListAsync();
         
         return Result<IEnumerable<T>>.Success(result);
     }
@@ -76,7 +76,8 @@ public abstract class BaseRepository<T>(PostgreSqlDbContext context)
     public virtual async Task<Result<T>> GetOne(Expression<Func<T, bool>> filter, Tracking tracking)
     {
         var result = tracking == Tracking.No ?
-            await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(filter) :
+            await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(filter) 
+            :
             await _context.Set<T>().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(filter);
 
         if (result == null)
@@ -103,9 +104,23 @@ public abstract class BaseRepository<T>(PostgreSqlDbContext context)
         tasks.AddRange(entities.Select(this.Add));
 
         await Task.WhenAll(tasks);
-    }    
-    
-    public abstract Task<Result> Update(T entity);
+    }
+
+    public virtual async Task<Result> Update(T entity)
+    {
+        try
+        {
+            entity.UpdatedAt = DateTime.UtcNow;
+            
+            _context.Set<T>().Update(entity);
+            
+            return Result.Success();
+        }
+        catch (Exception ex)
+        {
+            return Result.Error(ex.Message);
+        }
+    }
     public virtual async Task UpdateRange(IEnumerable<T> entities)
     {
         List<Task> tasks = [];
@@ -152,14 +167,14 @@ public abstract class BaseRepository<T>(PostgreSqlDbContext context)
     }
     public virtual async Task DeleteRange(IEnumerable<T> entities)
     {
-        List<Task> tasks = [];
+        //TODO: Сделать более оптимизированным вариантом!!!
+        // Вариант с собиранием всех tasks в список и вызов метода Task.WhenAll(tasks) не работает!!!
         
-        tasks.AddRange(entities.Select(this.Delete));
-
-        await Task.WhenAll(tasks);
+        foreach (var entity in entities)
+            await Delete(entity);
     }
 
-    public abstract Task<Result<T>> LoadData(T entity);
+    public virtual async Task<Result<T>> LoadData(T entity) => await Task.FromResult(Result<T>.Success(entity));
 
     public virtual async Task<Result<bool>> Exists(Expression<Func<T, bool>> filter)
     {

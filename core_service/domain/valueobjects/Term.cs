@@ -32,6 +32,6 @@ public class Term : Entity, IDbModel
     }
 
     public DateTime CreatedAt { get; }
-    public DateTime? UpdatedAt { get; }
+    public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
 }

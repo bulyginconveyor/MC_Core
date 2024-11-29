@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace core_service.infrastructure.repository.postgresql.repositories;
 
-public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<Operation>(context)
+public class OperationRepository(DbContext context) : BaseRepository<Operation>(context)
 {
     public override async Task<Result<IEnumerable<Operation>>> GetAll()
     {
-        var res = await _context.Operations
+        var res = await _context.Set<Operation>()
             .Include(o => o.Period)
             .Include(o => o.CreditBankAccount)
             .Include(o => o.DebetBankAccount)
@@ -27,7 +27,7 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
         if (tracking == Tracking.Yes)
             return await GetAll();
         
-        var res = await _context.Operations
+        var res = await _context.Set<Operation>()
                 .AsNoTracking()
                 .Include(o => o.Period)
                 .Include(o => o.CreditBankAccount)
@@ -41,7 +41,7 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
     public override async Task<Result<IEnumerable<Operation>>> GetAll(Tracking tracking, Expression<Func<Operation, bool>> filter)
     {
         var res = tracking == Tracking.Yes
-            ? await _context.Operations
+            ? await _context.Set<Operation>()
                 .Include(o => o.Period)
                 .Include(o => o.CreditBankAccount)
                 .Include(o => o.DebetBankAccount)
@@ -49,7 +49,7 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
                 .Where(o => o.DeletedAt == null)
                 .Where(filter)
                 .ToListAsync()
-            : await _context.Operations
+            : await _context.Set<Operation>()
                 .AsNoTracking()
                 .Include(o => o.Period)
                 .Include(o => o.CreditBankAccount)
@@ -64,7 +64,7 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
 
     public override async Task<Result<Operation>> GetOne(Guid id)
     {
-        var res = await _context.Operations
+        var res = await _context.Set<Operation>()
             .Include(o => o.Period)
             .Include(o => o.CreditBankAccount)
             .Include(o => o.DebetBankAccount)
@@ -81,7 +81,7 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
         if (tracking == Tracking.Yes)
             return await GetOne(id);
         
-        var res = await _context.Operations
+        var res = await _context.Set<Operation>()
             .AsNoTracking()
             .Include(o => o.Period)
             .Include(o => o.CreditBankAccount)
@@ -97,7 +97,7 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
     public override async Task<Result<Operation>> GetOne(Expression<Func<Operation, bool>> filter, Tracking tracking)
     {
         var res = tracking == Tracking.Yes ?
-            await _context.Operations
+            await _context.Set<Operation>()
                 .Include(o => o.Period)
                 .Include(o => o.CreditBankAccount)
                 .Include(o => o.DebetBankAccount)
@@ -106,7 +106,7 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
                 .Where(filter)
                 .FirstOrDefaultAsync(filter)
             :
-            await _context.Operations
+            await _context.Set<Operation>()
                 .AsNoTracking()
                 .Include(o => o.Period)
                 .Include(o => o.CreditBankAccount)
@@ -119,34 +119,6 @@ public class OperationRepository(PostgreSqlDbContext context) : BaseRepository<O
         return res is null
             ? Result<Operation>.Error(res, $"Not found operation by filter!")
             : Result<Operation>.Success(res);
-    }
-
-    public override async Task<Result> Update(Operation entity)
-    {
-        try
-        {
-            await _context.Operations
-                .Where(o => o.Id == entity.Id)
-                .ExecuteUpdateAsync(
-                o => o
-                    .SetProperty(e => e.Name, entity.Name)
-                    .SetProperty(e => e.Date, entity.Date)
-                    .SetProperty(e => e.Amount, entity.Amount)
-                    .SetProperty(e => e.Period, entity.Period)
-                    .SetProperty(e => e.CreditBankAccount, entity.CreditBankAccount)
-                    .SetProperty(e => e.DebetBankAccount, entity.DebetBankAccount)
-                    .SetProperty(e => e.Category, entity.Category)
-                    .SetProperty(e => e.Status, entity.Status)
-                    
-                    .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-                );
-
-            return Result.Success();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
     }
 
     public override async Task<Result<Operation>> LoadData(Operation entity)

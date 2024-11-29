@@ -15,11 +15,11 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
         });
         builder.ComplexProperty(c => c.FullName, nameBuilder =>
         {
-            nameBuilder.Property(ic => ic.Value).HasMaxLength(100).HasColumnName("name");
+            nameBuilder.Property(n => n.Value).HasMaxLength(100).HasColumnName("name");
         });
         builder.ComplexProperty(c => c.ImageUrl, photoUrlBuilder =>
         {
-            photoUrlBuilder.Property(pu => pu.Url).HasColumnName("image_url").HasMaxLength(2048);
+            photoUrlBuilder.Property(pu => pu.Url).HasMaxLength(2048).HasColumnName("image_url");
         });
         
         builder.HasKey(c => c.Id);

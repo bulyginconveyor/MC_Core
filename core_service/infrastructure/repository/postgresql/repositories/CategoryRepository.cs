@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace core_service.infrastructure.repository.postgresql.repositories;
 
-public class CategoryRepository(PostgreSqlDbContext context) : BaseRepository<Category>(context)
+public class CategoryRepository(DbContext context) : BaseRepository<Category>(context)
 {
     public override async Task<Result<IEnumerable<Category>>> GetAll()
     {
-        var res = await _context.Categories
+        var res = await _context.Set<Category>()
             .Include(c => c.SubCategories)
             .Where(c => c.DeletedAt == null)
             .Where(c => c.SubCategories.Count > 0)
@@ -27,7 +27,7 @@ public class CategoryRepository(PostgreSqlDbContext context) : BaseRepository<Ca
         if(tracking == Tracking.Yes)
             return await this.GetAll();
         
-        var res = await _context.Categories
+        var res = await _context.Set<Category>()
             .AsNoTracking()
             .Include(c => c.SubCategories)
             .Where(e => e.DeletedAt == null)
@@ -51,13 +51,7 @@ public class CategoryRepository(PostgreSqlDbContext context) : BaseRepository<Ca
             var category = res.Value!;
             category.ChangeSubCategories(entity.SubCategories);
             
-            await _context.Categories
-                .Where(e => e.Id == entity.Id)
-                .ExecuteUpdateAsync(e => e
-                    .SetProperty(e => e.Name, entity.Name)
-                    .SetProperty(e => e.Color, entity.Color)
-                    .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-                );
+            _context.Set<Category>().Update(category);
             
             return Result.Success();
         }

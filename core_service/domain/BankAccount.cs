@@ -40,6 +40,6 @@ public class BankAccount : Entity, IDbModel
     }
 
     public DateTime CreatedAt { get; }
-    public DateTime? UpdatedAt { get; } = null!;
+    public DateTime? UpdatedAt { get; set; } = null!;
     public DateTime? DeletedAt { get; } = null!;
 }

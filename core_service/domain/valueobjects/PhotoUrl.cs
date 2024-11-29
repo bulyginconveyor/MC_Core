@@ -9,7 +9,7 @@ public record PhotoUrl
 
     private PhotoUrl(string url)
     {
-        Url = IsNullOrEmpty(url) ? null : url;
+        Url = url == "null" ? null : url;
     }
 
     public static PhotoUrl Create(string url)
@@ -19,7 +19,7 @@ public record PhotoUrl
         return new PhotoUrl(url);
     }
 
-    public static PhotoUrl Empty => new PhotoUrl(String.Empty);
+    public static PhotoUrl Empty => new PhotoUrl("null");
     public bool IsEmpty => this.Url == null;
     
     private static bool IsValidUrl(string url)
