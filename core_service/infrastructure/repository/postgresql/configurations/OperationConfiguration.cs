@@ -13,6 +13,7 @@ public class OperationConfiguration : IEntityTypeConfiguration<Operation>
         
         builder.HasKey(o => o.Id);
 
+        builder.Property(b => b.UserId).HasColumnName("user_id").IsRequired();
         builder.ComplexProperty(o => o.Name, nameBuilder =>
         {
             nameBuilder

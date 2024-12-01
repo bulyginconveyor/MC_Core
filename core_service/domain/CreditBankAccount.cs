@@ -14,7 +14,7 @@ public class CreditBankAccount : BankAccount
     public TypeCreditBankAccount TypeCredit { get; set; }
 
     public CreditBankAccount(Guid id, string name, string color, Currency currency, Loan loan, decimal balance = 0)
-        : base(id, name, color, currency, true,  balance, TypeBankAccount.Credit)
+        : base(id, name, color, currency, true, balance, TypeBankAccount.Credit)
     {
         this.Amount = loan.Amount;
         this.InitPayment = loan.InitPayment;

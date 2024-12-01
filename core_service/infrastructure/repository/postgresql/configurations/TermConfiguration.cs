@@ -13,6 +13,7 @@ public class TermConfiguration : IEntityTypeConfiguration<Term>
         
         builder.HasKey(t => t.Id);
         
+        builder.Property(b => b.UserId).HasColumnName("user_id").IsRequired();
         builder
             .Property(t => t.Unit)
             .HasConversion(v => v.ToString(),

@@ -4,7 +4,7 @@ using core_service.services.Result;
 
 namespace core_service.domain.valueobjects;
 
-public class Period : Entity, IDbModel
+public class Period : Entity, IDbModel, IByUserModel
 {
     public TypePeriod TypePeriod { get; }
     public ushort Value { get; }
@@ -67,4 +67,5 @@ public class Period : Entity, IDbModel
     public DateTime CreatedAt { get; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
+    public Guid UserId { get; set; }
 }

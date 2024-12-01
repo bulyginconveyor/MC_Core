@@ -5,7 +5,7 @@ using core_service.services.Result;
 
 namespace core_service.domain.valueobjects;
 
-public class Term : Entity, IDbModel
+public class Term : Entity, IDbModel, IByUserModel
 {
     public UnitTerm Unit { get; init; }
     public uint CountUnits { get; init; }
@@ -73,4 +73,5 @@ public class Term : Entity, IDbModel
     public DateTime CreatedAt { get; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
+    public Guid UserId { get; set; }
 }

@@ -1,3 +1,5 @@
+using core_service.domain.valueobjects;
+
 namespace core_service.domain;
 
 public class DebetBankAccount : BankAccount

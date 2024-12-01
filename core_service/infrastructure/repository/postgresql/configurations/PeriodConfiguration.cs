@@ -13,6 +13,7 @@ public class PeriodConfiguration : IEntityTypeConfiguration<Period>
         
         builder.HasKey(p => p.Id);
 
+        builder.Property(b => b.UserId).HasColumnName("user_id").IsRequired();
         builder.Property(p => p.Value).HasColumnName("count");
         builder
             .Property(p => p.TypePeriod)

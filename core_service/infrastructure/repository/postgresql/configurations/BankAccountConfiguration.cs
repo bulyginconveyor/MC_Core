@@ -14,6 +14,7 @@ public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
         builder.ToTable("bank_accounts");
         builder.HasKey(b => b.Id);
         
+        builder.Property(b => b.UserId).HasColumnName("user_id").IsRequired();
         builder.ComplexProperty(b => b.Name, nameBuilder =>
         {
             nameBuilder.Property(n => n.Value).HasColumnName("name").HasMaxLength(100);

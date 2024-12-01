@@ -6,7 +6,7 @@ using Color = core_service.domain.valueobjects.Color;
 
 namespace core_service.domain;
 
-public class BankAccount : Entity, IDbModel
+public class BankAccount : Entity, IDbModel, IByUserModel
 {
     public Name Name { get; set; } = null!;
     public Color Color { get; set; } = null!;
@@ -42,4 +42,5 @@ public class BankAccount : Entity, IDbModel
     public DateTime CreatedAt { get; }
     public DateTime? UpdatedAt { get; set; } = null!;
     public DateTime? DeletedAt { get; } = null!;
+    public Guid UserId { get; set; }
 }

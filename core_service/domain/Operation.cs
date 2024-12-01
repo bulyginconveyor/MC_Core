@@ -4,7 +4,7 @@ using core_service.domain.valueobjects;
 
 namespace core_service.domain;
 
-public class Operation : Entity, IDbModel
+public class Operation : Entity, IDbModel, IByUserModel
 {
     public Name Name { get; set; }
     public DateOnly Date { get; set; }
@@ -18,6 +18,8 @@ public class Operation : Entity, IDbModel
     public DateTime CreatedAt { get; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
+    
+    public Guid UserId { get; set; }
     
     public Operation(Name name, DateOnly date, UDecimal amount, Period? period = null, BankAccount? credit = null,
         BankAccount? debet = null, Category? category = null)
@@ -46,5 +48,6 @@ public class Operation : Entity, IDbModel
 
     public void Close() => Status = StatusOperation.Closed;
     public void Open() => Status = StatusOperation.Open;
-   
+
+    
 }
