@@ -19,7 +19,8 @@ public record Balance
         return new Balance(isMaybeNegative, value);
     }
 
-    private static bool BalanceParametersValid(bool isMaybeNegative, decimal value) => (isMaybeNegative && value <= 0) || value >= 0;
+    private static bool BalanceParametersValid(bool isMaybeNegative, decimal value) => 
+        (isMaybeNegative && value <= 0) || value >= 0;
 
     public bool TryDecrease(decimal value)
     {

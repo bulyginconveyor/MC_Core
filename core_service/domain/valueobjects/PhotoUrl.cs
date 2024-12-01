@@ -1,9 +1,8 @@
 using System.Text.RegularExpressions;
-using static System.String;
 
 namespace core_service.domain.valueobjects;
 
-public record PhotoUrl
+public partial record PhotoUrl
 {
     public string? Url { get; init; }
 
@@ -24,6 +23,10 @@ public record PhotoUrl
     
     private static bool IsValidUrl(string url)
     {
-        return Regex.IsMatch(url, "^http[s]?:\\/\\/[a-zA-Zа-яА-Яё-Ё0-9\\-_]{1,}\\.[a-zA-Zа-яА-Яё-Ё0-9\\-_]{1,}$");
+        if(string.IsNullOrEmpty(url))
+            return false;
+        
+        var pattern = @"^http[s]?://([a-zA-Zа-яА-ЯёЁ0-9\._\-/]){1,}\.+([a-zA-Z0-9]){1,}$";
+        return Regex.IsMatch(url, pattern);
     }
 }

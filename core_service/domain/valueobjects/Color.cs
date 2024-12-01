@@ -26,6 +26,9 @@ public partial record Color
 
     public static Result ColorIsValid(string color)
     {
+        if(color is null)
+            return Result.Error("Color is null!");
+        
         var valid = color.Length is 4 or 5 or 7 or 9;
 
         if (!valid)
@@ -33,11 +36,11 @@ public partial record Color
         
         valid = ColorRgbRgbaHex().IsMatch(color);
         
-        return valid
+        return !valid
             ? Result.Error("Invalid color by regex: {color}! RGB = #RGB or #RRGGBB, RGBA = #RGBA or #RRGGBBAA")
             : Result.Success();
     }
 
-    [GeneratedRegex("^#([0-9a-fA-F]{3,4}){1,2}$")]
+    [GeneratedRegex(@"^#([0-9A-Fa-f]{3,4}){1,2}$", RegexOptions.Singleline)]
     private static partial Regex ColorRgbRgbaHex();
 }

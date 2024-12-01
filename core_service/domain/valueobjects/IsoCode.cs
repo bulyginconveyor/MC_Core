@@ -12,9 +12,12 @@ public record IsoCode
     }
     public static IsoCode Create(string isoCode)
     {
-        if(!IsoCodeIsValid(isoCode))
+        string isoCodeUp = isoCode.ToUpper();
+        
+        if(!IsoCodeIsValid(isoCodeUp))
             throw new ArgumentException($"Invalid IsoCode: {isoCode}");
-        return new IsoCode(isoCode);
+        return new IsoCode(isoCodeUp);
     }
-    private static bool IsoCodeIsValid(string isoCode) => isoCode.Length == 3 && Regex.IsMatch(isoCode, "^[A-Z]{3}$"); //ISO 4217   
+    private static bool IsoCodeIsValid(string isoCode) => 
+        isoCode.Length == 3 && Regex.IsMatch(isoCode, "^[A-Z]{3}$"); //ISO 4217   
 }

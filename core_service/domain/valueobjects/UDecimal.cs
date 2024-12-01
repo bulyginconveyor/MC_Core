@@ -16,6 +16,20 @@ public struct UDecimal
 
             return new UDecimal(value);
     }
+    public static UDecimal Parse(double value)
+    {
+        if(!IsValid((decimal)value))
+            throw new ArgumentException("Invalid value");
+
+        return new UDecimal((decimal)value);
+    }
+    public static UDecimal Parse(long value)
+    {
+        if(!IsValid(value))
+            throw new ArgumentException("Invalid value");
+
+        return new UDecimal(value);
+    }
     private static bool IsValid(decimal value) => value >= 0;
     
     public static UDecimal Zero => new UDecimal(0);

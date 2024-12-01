@@ -14,14 +14,14 @@ public record DateRange
     public static DateRange Create(DateTime startDate, DateTime endDate)
     {
         if(!IsValid(startDate, endDate))
-            throw new ArgumentException("Start date must be earlier than end date");
+            throw new ArgumentException("EndDate must be earlier than StartDate");
         
         return new DateRange(startDate, endDate);
     }
 
     private static bool IsValid(DateTime startDate, DateTime endDate)
     {
-        if(startDate < endDate)
+        if(startDate > endDate)
             return false;
         
         return true;
