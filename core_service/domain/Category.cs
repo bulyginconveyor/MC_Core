@@ -7,8 +7,8 @@ namespace core_service.domain;
 
 public class Category : Entity, IDbModel
 {
-    public Name Name { get; private set; }
-    public Color Color { get; private set; }
+    public Name Name { get; set; }
+    public Color Color { get; set; }
 
     public List<Category>? SubCategories { get; private set; } = null!;
     // TODO: Как насчет добавить иконку? 
@@ -46,10 +46,12 @@ public class Category : Entity, IDbModel
 
     public Result AddSubCategory(Category category)
     {
-        if(this.SubCategories?.FirstOrDefault(c => c.Id == category.Id) != null)
+        this.SubCategories ??= [];
+
+        if(this.SubCategories.FirstOrDefault(c => c.Id == category.Id) != null)
             return Result.Error("This category is already use");
         
-        this.SubCategories?.Add(category);
+        this.SubCategories.Add(category);
         return Result.Success();
     }
 

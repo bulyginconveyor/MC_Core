@@ -1,10 +1,11 @@
 using core_service.domain.enums;
 using core_service.domain.valueobjects;
+using core_service.services.GuidGenerator;
 using core_service.services.Result;
 
 namespace core_service.domain;
 
-public class СontributionBankAccount : BankAccount
+public class ContributionBankAccount : BankAccount
 {
     public DateRange DateRange { get; set; }
     public DateTime? ActualСlosed { get; set; }
@@ -14,7 +15,7 @@ public class СontributionBankAccount : BankAccount
 
     public PercentContribution Percent { get; set; }
 
-    public СontributionBankAccount(Guid id, string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
+    public ContributionBankAccount(Guid id, string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
         : base(id, name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
     {
         this.DateRange = contribution.DateRange;
@@ -23,7 +24,17 @@ public class СontributionBankAccount : BankAccount
         this.TypeContribution = contribution.Type;
         this.Percent = contribution.Percent ?? PercentContribution.Empty;
     }
-    private СontributionBankAccount(){}
+    
+    public ContributionBankAccount(string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
+        : base(GuidGenerator.GenerateByBytes(), name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
+    {
+        this.DateRange = contribution.DateRange;
+        this.ActualСlosed = contribution.ActualСlosed;
+        this.Amount = contribution.Amount;
+        this.TypeContribution = contribution.Type;
+        this.Percent = contribution.Percent ?? PercentContribution.Empty;
+    }
+    private ContributionBankAccount(){}
 }
 
 public readonly struct Contribution

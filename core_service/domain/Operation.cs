@@ -1,6 +1,8 @@
 using core_service.domain.@base;
 using core_service.domain.enums;
 using core_service.domain.valueobjects;
+using core_service.infrastructure.repository.postgresql.repositories.exceptions;
+using core_service.services.Result;
 
 namespace core_service.domain;
 
@@ -8,7 +10,7 @@ public class Operation : Entity, IDbModel, IByUserModel
 {
     public Name Name { get; set; }
     public DateOnly Date { get; set; }
-    public UDecimal Amount { get; set; }
+    public UDecimal Amount { get; private set; }
     public Period? Period { get; set; }
     public BankAccount? CreditBankAccount { get; set; }
     public BankAccount? DebetBankAccount { get; set; }
@@ -49,5 +51,37 @@ public class Operation : Entity, IDbModel, IByUserModel
     public void Close() => Status = StatusOperation.Closed;
     public void Open() => Status = StatusOperation.Open;
 
+    public Result ChangeAmount(UDecimal amount, bool operationWasPreviouslySaved = true)
+    {
+        if (amount.IsZero)
+            return Result.Error("Amount can not be zero");
+
+        if(!operationWasPreviouslySaved)
+            if (CreditBankAccount != null && !CreditBankAccount.Balance.TryDecrease(amount))
+                return Result.Error("Balance of CreditBankAccount is smaller than amount Operation!");
+            else
+                return Result.Success();
+        
+        decimal diff = Amount - amount;
+        switch (diff)
+        {
+            case > 0:
+            {
+                if (DebetBankAccount != null)
+                    if (!DebetBankAccount.Balance.TryDecrease(diff))
+                        return Result.Error($"Not enough money in debet account!");
+                break;
+            }
+            case < 0:
+            {
+                if (CreditBankAccount != null)
+                    if (!CreditBankAccount.Balance.TryDecrease(-diff))
+                        return Result.Error($"Not enough money in credit account!");
+                break;
+            }
+        }
+
+        return Result.Success();
+    }
     
 }

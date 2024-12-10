@@ -9,7 +9,7 @@ using static NUnit.Framework.Assert;
 
 namespace testing_repositories;
 
-public class TestOneCurrency : BaseCurrency
+public class TestBaseRepositoryByOneModel : BaseRep
 {
     [Test]
     public async Task AddCurrency()

@@ -8,7 +8,7 @@ using static NUnit.Framework.Assert;
 
 namespace testing_repositories;
 
-public class TestManyCurrencies : BaseCurrency
+public class TestBaseRepositoryByManyModels : BaseRep
 {
     [Test]
     public async Task AddManyCurrencies()
@@ -107,7 +107,7 @@ public class TestManyCurrencies : BaseCurrency
         await _rep.Save();
         
         // Act
-        var resGet = await _rep.GetAll(Tracking.No, c => c.IsoCode == currencies[0].IsoCode);
+        var resGet = await _rep.GetAll(c => c.IsoCode == currencies[0].IsoCode, Tracking.No);
         if (resGet.IsError)
             Fail(resGet.ErrorMessage);
         

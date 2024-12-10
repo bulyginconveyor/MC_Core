@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace core_service.infrastructure.repository.postgresql.configurations;
 
-public class ContributionBankAccountConfiguration : IEntityTypeConfiguration<СontributionBankAccount>
+public class ContributionBankAccountConfiguration : IEntityTypeConfiguration<ContributionBankAccount>
 {
-    public void Configure(EntityTypeBuilder<СontributionBankAccount> builder)
+    public void Configure(EntityTypeBuilder<ContributionBankAccount> builder)
     {
         builder.ToTable("contribution_bank_accounts");
 

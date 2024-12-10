@@ -10,7 +10,7 @@ public sealed class PostgreSqlDbContext : DbContext
 
     public DbSet<DebetBankAccount> DebetBankAccounts { get; set; }
     public DbSet<ActiveBankAccount> ActiveBankAccounts { get; set; }
-    public DbSet<СontributionBankAccount> СontributionBankAccounts { get; set; }
+    public DbSet<ContributionBankAccount> СontributionBankAccounts { get; set; }
     public DbSet<CreditBankAccount> CreditBankAccounts { get; set; }
 
     public DbSet<Currency> Currencies { get; set; }
@@ -27,7 +27,6 @@ public sealed class PostgreSqlDbContext : DbContext
         Database.EnsureDeleted();
         Database.EnsureCreated();
     }
-    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //TODO: Придумать - где и когда брать строку подключения из .env файла

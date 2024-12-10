@@ -1,5 +1,6 @@
 using core_service.domain;
 using core_service.domain.enums;
+using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,6 +14,7 @@ public class OperationConfiguration : IEntityTypeConfiguration<Operation>
         
         builder.HasKey(o => o.Id);
 
+        builder.Property(o => o.Id).HasDefaultValue(GuidGenerator.GenerateByBytes());
         builder.Property(b => b.UserId).HasColumnName("user_id").IsRequired();
         builder.ComplexProperty(o => o.Name, nameBuilder =>
         {
@@ -47,7 +49,7 @@ public class OperationConfiguration : IEntityTypeConfiguration<Operation>
             .HasConversion(v => v.ToString(),
                 v => (StatusOperation)Enum.Parse(typeof(StatusOperation), v)).HasColumnName("status");
         
-        builder.Property(c => c.CreatedAt).HasColumnName("created_at").IsRequired();
+        builder.Property(c => c.CreatedAt).HasColumnName("created_at").IsRequired().HasDefaultValue(DateTime.UtcNow);;
         builder.Property(c => c.UpdatedAt).HasColumnName("updated_at");
         builder.Property(c => c.DeletedAt).HasColumnName("deleted_at");
     }

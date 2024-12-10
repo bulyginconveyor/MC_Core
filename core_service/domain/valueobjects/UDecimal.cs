@@ -35,4 +35,32 @@ public struct UDecimal
     public static UDecimal Zero => new UDecimal(0);
     public bool IsZero => Value == 0;
     
+    
+    public static UDecimal operator +(UDecimal a, UDecimal b) => new UDecimal(a.Value + b.Value);
+    public static UDecimal operator -(UDecimal a, UDecimal b)
+    {
+        if(a.Value < b.Value)
+            throw new ArgumentException("Invalid value");
+
+        return new UDecimal(a.Value - b.Value);
+    }
+    public static UDecimal operator *(UDecimal a, UDecimal b) => new UDecimal(a.Value * b.Value);
+
+    public static UDecimal operator /(UDecimal a, UDecimal b)
+    {
+        if (b.IsZero)
+            throw new DivideByZeroException("Cannot divide by zero!");
+        return new UDecimal(a.Value / b.Value);
+    }
+
+    public static UDecimal operator %(UDecimal a, UDecimal b)
+    {
+        if (b.IsZero)
+            throw new DivideByZeroException("Cannot divide by zero!");
+        return new UDecimal(a.Value % b.Value);
+    }
+    public static UDecimal operator ++(UDecimal a) => new UDecimal(a.Value + 1);
+    public static UDecimal operator --(UDecimal a) => a.IsZero ? throw new ArgumentException("Cannot decrement zero!") : new UDecimal(a.Value - 1);
+    
+    public static implicit operator decimal(UDecimal a) => a.Value;
 }

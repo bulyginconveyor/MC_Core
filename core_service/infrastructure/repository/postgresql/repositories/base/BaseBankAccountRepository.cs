@@ -37,7 +37,7 @@ public class BaseBankAccountRepository<B>(DbContext context) : BaseRepository<B>
         
         return Result<IEnumerable<B>>.Success(res);
     }
-    public override async Task<Result<IEnumerable<B>>> GetAll(Tracking tracking, Expression<Func<B, bool>> filter)
+    public override async Task<Result<IEnumerable<B>>> GetAll(Expression<Func<B, bool>> filter, Tracking tracking = Tracking.Yes)
     {
         List<B> res;
         
@@ -73,7 +73,7 @@ public class BaseBankAccountRepository<B>(DbContext context) : BaseRepository<B>
             : 
             Result<B>.Success(res);
     }
-    public override async Task<Result<B>> GetOne(Guid id, Tracking tracking)
+    public override async Task<Result<B>> GetOne(Guid id, Tracking tracking = Tracking.Yes)
     {
         B? res;
         
@@ -94,7 +94,7 @@ public class BaseBankAccountRepository<B>(DbContext context) : BaseRepository<B>
             : 
             Result<B>.Success(res);
     }
-    public override async Task<Result<B>> GetOne(Expression<Func<B, bool>> filter, Tracking tracking)
+    public override async Task<Result<B>> GetOne(Expression<Func<B, bool>> filter, Tracking tracking = Tracking.Yes)
     {
         B? res;
 
@@ -125,15 +125,12 @@ public class BaseBankAccountRepository<B>(DbContext context) : BaseRepository<B>
                         ((o.DebetBankAccount != null && o.DebetBankAccount.Id == entity.Id) 
                          || 
                         (o.CreditBankAccount != null && o.CreditBankAccount.Id == entity.Id)))
-            .OrderByDescending(o => o.CreatedAt)
+            .OrderByDescending(o => o.Date)
             .Take(10)
             .ToListAsync();
         
         var res = entity.SetOperations(list);
-        
-        return res.IsError ? 
-            Result<B>.Error(entity, "Load data error! " + res.ErrorMessage)
-            :
-            Result<B>.Success(entity);
+
+        return Result<B>.Success(entity);
     }
 }

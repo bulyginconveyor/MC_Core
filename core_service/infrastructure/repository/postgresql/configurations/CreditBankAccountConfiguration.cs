@@ -19,6 +19,10 @@ public class CreditBankAccountConfiguration : IEntityTypeConfiguration<CreditBan
         {
             initPaymentBuilder.Property(i => i.Value).HasColumnName("init_payment");
         });
+        builder.ComplexProperty(c => c.Percent, percentBuilder =>
+        {
+            percentBuilder.Property(p => p.Value).HasColumnName("percent");
+        });
         builder.ComplexProperty(c => c.DateRange, dateRangeBuilder =>
         {
             dateRangeBuilder.Property(d => d.StartDate).HasColumnName("start_date");

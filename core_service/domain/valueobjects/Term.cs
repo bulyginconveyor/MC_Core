@@ -35,7 +35,7 @@ public class Term : Entity, IDbModel, IByUserModel
         return Result.Success();
     }
 
-    public Result<DateTime?> EndDate(DateTime startDate)
+    public Result<DateTime> EndDate(DateTime startDate)
     {
         DateTime? endDate = null;
         
@@ -56,18 +56,18 @@ public class Term : Entity, IDbModel, IByUserModel
         }
         
         return endDate is null ? 
-            Result<DateTime?>.Error(endDate,$"Unit {Unit} is not valid! Return null!")
+            Result<DateTime>.Error(DateTime.Now, $"Unit {Unit} is not valid! Return null!")
             :
-            Result<DateTime?>.Success(endDate);
+            Result<DateTime>.Success((DateTime)endDate);
     }
-    public Result<DateOnly?> EndDate(DateOnly startDate) {
+    public Result<DateOnly> EndDate(DateOnly startDate) {
         DateTime start = new DateTime(startDate.Year, startDate.Month, startDate.Day);
         
         var res = EndDate(start);
 
         return res.IsError
-            ? Result<DateOnly?>.Error(null, $"Unit {Unit} is not valid! Return null!")
-            : Result<DateOnly?>.Success(DateOnly.FromDateTime(res.Value ?? start));
+            ? Result<DateOnly>.Error(DateOnly.FromDateTime(res.Value), $"Unit {Unit} is not valid! Return now value!")
+            : Result<DateOnly>.Success(DateOnly.FromDateTime(res.Value));
     }
 
     public DateTime CreatedAt { get; }

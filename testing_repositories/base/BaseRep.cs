@@ -7,7 +7,7 @@ using testing_repositories;
 
 namespace testing_repositories.@base;
 
-public class BaseCurrency : BaseTest
+public class BaseRep : BaseTest
 {
     protected IDbRepository<Currency> _rep;
 

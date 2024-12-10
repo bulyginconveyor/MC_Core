@@ -1,0 +1,43 @@
+using System.Globalization;
+using core_service.domain;
+using core_service.domain.enums;
+using core_service.domain.valueobjects;
+using core_service.domain.valueobjects.enums;
+using core_service.infrastructure.repository.interfaces;
+using core_service.infrastructure.repository.postgresql.repositories;
+using core_service.infrastructure.repository.postgresql.repositories.@base;
+using core_service.services.GuidGenerator;
+
+namespace testing_repositories.@base;
+
+public class BaseCreditBankAccountRep : BaseTest
+{
+    protected IDbRepository<CreditBankAccount> _rep;
+    
+    [SetUp]
+    public void SetUp()
+    {
+        _rep = new CreditBankAccountRepository(_context);
+    }
+
+    protected CreditBankAccount  OneCreditBankAccount()
+    {
+        IsoCode rubIsoCode = IsoCode.Create("RUB");
+        Name rubName = Name.Create("Российский рубль");
+        Currency rub = Currency.Create(rubIsoCode, rubName, PhotoUrl.Empty);
+        Percent percent = Percent.Create(24.6); 
+        Term term = Term.Create(UnitTerm.Week, 60u);
+        DateTime startDate = new DateTime(2021, 1, 20).ToUniversalTime();
+
+        Active loanObjectActive = new Active(UDecimal.Parse(750000), startDate, TypeActiveBankAccount.Transport);
+        ActiveBankAccount loanObject = new ActiveBankAccount(GuidGenerator.GenerateByBytes(), "Toyota Mark II", "#FF0",
+            rub, loanObjectActive, 750000);
+
+        Loan loan = new Loan(UDecimal.Parse(750000), UDecimal.Parse(100000), percent, term, startDate,
+            TypeCreditBankAccount.CarLoan, loanObject);
+        
+        CreditBankAccount credit = new CreditBankAccount(GuidGenerator.GenerateByBytes(), "Автокредит", "#F00", rub, loan, 750000);
+        credit.UserId = GuidGenerator.GenerateByBytes();
+        return credit;
+    }
+}

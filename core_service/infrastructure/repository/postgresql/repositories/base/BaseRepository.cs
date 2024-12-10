@@ -42,7 +42,7 @@ public class BaseRepository<T>(DbContext context)
         
         return await this.GetAll();
     }
-    public virtual async Task<Result<IEnumerable<T>>> GetAll(Tracking tracking, Expression<Func<T, bool>> filter)
+    public virtual async Task<Result<IEnumerable<T>>> GetAll(Expression<Func<T, bool>> filter, Tracking tracking = Tracking.Yes)
     {
         var result = tracking == Tracking.No
             ? await _context.Set<T>().AsNoTracking().Where(filter).Where(e => e.DeletedAt == null).ToListAsync()
@@ -60,7 +60,7 @@ public class BaseRepository<T>(DbContext context)
         
         return Result<T>.Success(result);
     }
-    public virtual async Task<Result<T>> GetOne(Guid id, Tracking tracking)
+    public virtual async Task<Result<T>> GetOne(Guid id, Tracking tracking = Tracking.Yes)
     {
         if (tracking == Tracking.No)
         {
@@ -73,7 +73,7 @@ public class BaseRepository<T>(DbContext context)
 
         return await this.GetOne(id);
     }
-    public virtual async Task<Result<T>> GetOne(Expression<Func<T, bool>> filter, Tracking tracking)
+    public virtual async Task<Result<T>> GetOne(Expression<Func<T, bool>> filter, Tracking tracking = Tracking.Yes)
     {
         var result = tracking == Tracking.No ?
             await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(filter) 

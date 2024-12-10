@@ -10,7 +10,7 @@ public class TestContext : DbContext
 
     public DbSet<DebetBankAccount> DebetBankAccounts { get; set; }
     public DbSet<ActiveBankAccount> ActiveBankAccounts { get; set; }
-    public DbSet<СontributionBankAccount> СontributionBankAccounts { get; set; }
+    public DbSet<ContributionBankAccount> ContributionBankAccounts { get; set; }
     public DbSet<CreditBankAccount> CreditBankAccounts { get; set; }
 
     public DbSet<Currency> Currencies { get; set; }
