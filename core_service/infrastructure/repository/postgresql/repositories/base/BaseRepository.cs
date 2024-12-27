@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using core_service.domain.@base;
+using core_service.domain.models.@base;
 using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.context;
@@ -55,7 +55,7 @@ public class BaseRepository<T>(DbContext context)
     {
         var result = await _context.Set<T>().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(e => e.Id == id);
         
-        if(result == null || result.DeletedAt != null)
+        if(result == null)
             return Result<T>.Error(null!, $"Not found by {id}. Return null");
         
         return Result<T>.Success(result);

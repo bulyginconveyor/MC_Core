@@ -1,4 +1,5 @@
 using core_service.domain;
+using core_service.domain.models;
 using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

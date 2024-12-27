@@ -1,4 +1,4 @@
-using core_service.domain.@base;
+using core_service.domain.models.@base;
 using core_service.services.Result;
 
 namespace core_service.infrastructure.repository.interfaces;

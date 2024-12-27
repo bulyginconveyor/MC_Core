@@ -1,5 +1,5 @@
-using core_service.domain.valueobjects;
-using core_service.domain.valueobjects.enums;
+using core_service.domain.models.valueobjects;
+using core_service.domain.models.valueobjects.enums;
 using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

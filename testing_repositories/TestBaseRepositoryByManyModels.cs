@@ -1,5 +1,6 @@
 using core_service.domain;
-using core_service.domain.valueobjects;
+using core_service.domain.models;
+using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.enums;
 using Microsoft.EntityFrameworkCore;
 using Renci.SshNet.Messages.Authentication;

@@ -1,4 +1,4 @@
-using core_service.domain.valueobjects;
+using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
 using testing_repositories.ase;

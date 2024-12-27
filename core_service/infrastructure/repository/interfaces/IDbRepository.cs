@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using core_service.domain.@base;
+using core_service.domain.models.@base;
 using core_service.infrastructure.repository.enums;
 using core_service.services.Result;
 

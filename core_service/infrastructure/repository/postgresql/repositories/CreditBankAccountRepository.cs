@@ -1,4 +1,5 @@
 using core_service.domain;
+using core_service.domain.models;
 using core_service.infrastructure.repository.postgresql.context;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
 using core_service.services.Result;

@@ -1,6 +1,7 @@
 using core_service.domain;
-using core_service.domain.enums;
-using core_service.domain.valueobjects;
+using core_service.domain.models;
+using core_service.domain.models.enums;
+using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
 using core_service.services.GuidGenerator;

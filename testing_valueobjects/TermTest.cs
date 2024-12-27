@@ -1,3 +1,5 @@
+using core_service.domain.models.valueobjects;
+using core_service.domain.models.valueobjects.enums;
 using static NUnit.Framework.Assert;
 
 namespace testing_valueobjects;

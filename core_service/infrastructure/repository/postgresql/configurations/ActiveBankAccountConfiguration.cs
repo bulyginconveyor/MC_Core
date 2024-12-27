@@ -1,5 +1,6 @@
 using core_service.domain;
-using core_service.domain.enums;
+using core_service.domain.models;
+using core_service.domain.models.enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
