@@ -31,4 +31,6 @@ public record Balance
     public void Increase(UDecimal entityAmount) => Value = Value + entityAmount.Value;
     public void Increase(decimal entityAmount) => Value = Value + entityAmount;
     public void Increase(long entityAmount) => Value = Value + entityAmount;
+    
+    public static implicit operator decimal(Balance balance) => balance.Value;
 }

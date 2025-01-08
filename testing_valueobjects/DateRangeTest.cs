@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices.JavaScript;
+using core_service.domain.models.valueobjects;
 using static NUnit.Framework.Assert;
 
 namespace testing_valueobjects;
