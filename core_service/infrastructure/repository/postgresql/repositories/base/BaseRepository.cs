@@ -195,4 +195,36 @@ public class BaseRepository<T>(DbContext context)
         
         return Result<long>.Success(res);
     }
+
+    public async Task<Result<ulong>> PagesCount(uint countPerPage, Expression<Func<T, bool>> filter = null)
+    {
+        var countPerPageDec = (decimal)countPerPage;
+        var count = filter is null ? 
+            (decimal)await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).CountAsync()
+            : (decimal)await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).CountAsync(filter);
+        
+        if(count == 0)
+            return Result<ulong>.Error(0,$"Not found. Return 0");
+        
+        var pageCount = Math.Ceiling(count / countPerPageDec);
+        return Result<ulong>.Success((ulong)pageCount);
+    }
+
+    public async Task<Result<IEnumerable<T>>> GetByPage(uint countPerPage, uint pageNumber,
+        Expression<Func<T, bool>> filter = null)
+    {
+        var countPerPageDec = (decimal)countPerPage;
+        var count = filter is null ? 
+            (decimal)await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).CountAsync() 
+            : (decimal)await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).CountAsync(filter);
+
+        if (countPerPage * --pageNumber >= count)
+            return Result<IEnumerable<T>>.Error(null, $"Don't correct pageNumber. Return null");
+        
+        var res = filter == null ? 
+            await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).Skip((int)(countPerPage * pageNumber)).Take((int)countPerPage).ToListAsync()
+            : await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).Where(filter).Skip((int)(countPerPage * pageNumber)).Take((int)countPerPage).ToListAsync();
+        
+        return Result<IEnumerable<T>>.Success(res);
+    }
 }

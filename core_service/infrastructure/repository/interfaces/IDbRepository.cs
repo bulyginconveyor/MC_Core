@@ -19,4 +19,9 @@ public interface IDbRepository<T> : IRepository<T> where T : class, IDbModel, IE
     
     public Task<Result<bool>> Exists(Expression<Func<T, bool>> filter);
     public Task<Result<long>> Count(Expression<Func<T, bool>> filter);
+
+    public Task<Result<ulong>> PagesCount(uint countPerPage, Expression<Func<T, bool>> filter = null);
+
+    public Task<Result<IEnumerable<T>>> GetByPage(uint countPerPage, uint pageNumber,
+        Expression<Func<T, bool>> filter = null);
 }

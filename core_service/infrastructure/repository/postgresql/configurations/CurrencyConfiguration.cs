@@ -1,5 +1,6 @@
 using core_service.domain;
 using core_service.domain.models;
+using core_service.domain.models.valueobjects;
 using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -32,6 +33,5 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
         builder.Property(c => c.UpdatedAt).HasColumnName("updated_at");
         builder.Property(c => c.DeletedAt).HasColumnName("deleted_at");
         
-        //TODO: Добавить начальные значения
     }
 }
