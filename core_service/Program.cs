@@ -1,14 +1,30 @@
+using core_service.domain;
+using core_service.domain.logic;
+using core_service.domain.models;
+using core_service.infrastructure.repository.interfaces;
+using core_service.infrastructure.repository.postgresql;
 using core_service.infrastructure.repository.postgresql.context;
+using core_service.infrastructure.repository.postgresql.repositories.@base;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<PostgreSqlDbContext>();
+// Add service DbContext
+builder.Services.AddPostgreSqlDbContext();
+
+// Add services with Repository
+builder.Services.AddRepositories();
+
+// Add services with Logic
+builder.Services.AddLogics();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
@@ -19,9 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
