@@ -1,5 +1,8 @@
 using core_service.domain;
+using core_service.domain.models;
+using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.postgresql.configurations;
+using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 
 namespace core_service.infrastructure.repository.postgresql.context;
@@ -23,9 +26,23 @@ public sealed class PostgreSqlDbContext : DbContext
     
     public PostgreSqlDbContext()
     {
-        _connectionString = "Server=localhost;Port=5432;Database=CoreService;User Id=postgres;Password=postgres;";
+        _connectionString = "Server=localhost;Port=5432;Database=CoreService;User Id=postgres;Password=vova2005;";
         Database.EnsureDeleted();
         Database.EnsureCreated();
+
+        Currencies.AddRange(
+            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("RUB"), Name.Create("Российский рубль"),
+                PhotoUrl.Empty),
+            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("USD"), Name.Create("Американский доллар"),
+                PhotoUrl.Empty),
+            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("EUR"), Name.Create("Евро"),
+                PhotoUrl.Empty),
+            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("CNY"), Name.Create("Китайский юань"),
+                PhotoUrl.Empty),
+            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("JPY"), Name.Create("Японская иена"),
+                PhotoUrl.Empty));
+
+        SaveChanges();
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -40,6 +57,7 @@ public sealed class PostgreSqlDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PeriodConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
+        modelBuilder.ApplyConfiguration(new DebetBankAccountConfiguration());
         modelBuilder.ApplyConfiguration(new ActiveBankAccountConfiguration());
         modelBuilder.ApplyConfiguration(new ContributionBankAccountConfiguration());
         modelBuilder.ApplyConfiguration(new CreditBankAccountConfiguration());
