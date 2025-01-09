@@ -6,8 +6,8 @@ namespace core_service.domain.models.valueobjects;
 
 public class Term : Entity, IDbModel, IByUserModel
 {
-    public UnitTerm Unit { get; init; }
-    public uint CountUnits { get; init; }
+    public UnitTerm Unit { get; private set; }
+    public uint CountUnits { get; private set; }
 
     private Term(UnitTerm unit, uint countUnits)
     {

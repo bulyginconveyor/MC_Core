@@ -19,7 +19,7 @@ namespace core_service.application.rest_api.controllers
                 return BadRequest("Упс...");
 
             if (resGet.Value is null)
-                return NotFound();
+                return NoContent();
             return Ok(resGet.Value);
         }
 
@@ -28,7 +28,7 @@ namespace core_service.application.rest_api.controllers
         {
             var resGet = await _logic.GetById(id);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
             
             return Ok(resGet.Value);
         }
@@ -40,7 +40,7 @@ namespace core_service.application.rest_api.controllers
             if (resAdd.IsError)
                 return BadRequest("Не удалось добавить категорию!");
             
-            return Ok();
+            return Created();
         }
 
         [HttpPut]

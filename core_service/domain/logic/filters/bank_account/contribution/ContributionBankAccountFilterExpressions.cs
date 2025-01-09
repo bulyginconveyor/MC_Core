@@ -7,9 +7,9 @@ namespace core_service.domain.logic.filters.bank_account.contribution;
 public static class ContributionBankAccountFilterExpressions
 {
     internal static Expression<Func<ContributionBankAccount, bool>> ExpressionFilterAmount(this ContributionBankAccountFilter filter)
-        => b => b.Amount == filter.MinAmount;
+        => b => b.Amount.Value == filter.MinAmount;
     internal static Expression<Func<ContributionBankAccount, bool>> ExpressionFilterAmountRange(this ContributionBankAccountFilter filter)
-        => b => b.Amount >= filter.MinAmount && b.Amount <= filter.MaxAmount;
+        => b => b.Amount.Value >= filter.MinAmount && b.Amount.Value <= filter.MaxAmount;
     
     internal static Expression<Func<ContributionBankAccount, bool>> ExpressionFilterDateRange(this ContributionBankAccountFilter filter)
         => o => o.DateRange.StartDate >= filter.StartDateRange && o.DateRange.EndDate <= filter.EndDateRange &&
@@ -20,10 +20,10 @@ public static class ContributionBankAccountFilterExpressions
 
     internal static Expression<Func<ContributionBankAccount, bool>> ExpressionFilterPercent(
         this ContributionBankAccountFilter filter)
-        => b => b.Percent.Percent == filter.MinPercent;
+        => b => b.Percent.Percent.Value == filter.MinPercent;
     internal static Expression<Func<ContributionBankAccount, bool>> ExpressionFilterPercentRange(
         this ContributionBankAccountFilter filter)
-        => b => b.Percent.Percent >= filter.MinPercent && b.Percent.Percent <= filter.MaxPercent;
+        => b => b.Percent.Percent.Value >= filter.MinPercent && b.Percent.Percent.Value <= filter.MaxPercent;
 
     internal static Expression<Func<ContributionBankAccount, bool>> ExpressionFilterCountDaysForPercent(
         this ContributionBankAccountFilter filter)

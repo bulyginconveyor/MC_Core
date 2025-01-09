@@ -27,22 +27,26 @@ public sealed class PostgreSqlDbContext : DbContext
     public PostgreSqlDbContext()
     {
         _connectionString = "Server=localhost;Port=5432;Database=CoreService;User Id=postgres;Password=vova2005;";
-        Database.EnsureDeleted();
+        //Database.EnsureDeleted();
         Database.EnsureCreated();
 
-        Currencies.AddRange(
-            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("RUB"), Name.Create("Российский рубль"),
-                PhotoUrl.Empty),
-            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("USD"), Name.Create("Американский доллар"),
-                PhotoUrl.Empty),
-            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("EUR"), Name.Create("Евро"),
-                PhotoUrl.Empty),
-            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("CNY"), Name.Create("Китайский юань"),
-                PhotoUrl.Empty),
-            Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("JPY"), Name.Create("Японская иена"),
-                PhotoUrl.Empty));
+        if (!Currencies.Any())
+        {
+            Currencies.AddRange(
+                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("RUB"), Name.Create("Российский рубль"),
+                    PhotoUrl.Empty),
+                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("USD"),
+                    Name.Create("Американский доллар"),
+                    PhotoUrl.Empty),
+                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("EUR"), Name.Create("Евро"),
+                    PhotoUrl.Empty),
+                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("CNY"), Name.Create("Китайский юань"),
+                    PhotoUrl.Empty),
+                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("JPY"), Name.Create("Японская иена"),
+                    PhotoUrl.Empty));
 
-        SaveChanges();
+            SaveChanges();
+        }
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

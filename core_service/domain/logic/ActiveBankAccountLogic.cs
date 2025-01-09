@@ -54,6 +54,10 @@ public class ActiveBankAccountLogic(IDbRepository<ActiveBankAccount> rep)
         if(resUpdate.IsError)
             return Result.Error(resUpdate.ErrorMessage!);
         
+        var resSave = await _rep.Save();
+        if(resSave.IsError)
+            return Result.Error(resSave.ErrorMessage!);
+        
         return Result.Success();
     }
     

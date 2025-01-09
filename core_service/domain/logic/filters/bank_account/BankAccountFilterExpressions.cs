@@ -6,16 +6,16 @@ namespace core_service.domain.logic.filters.bank_account;
 public static class BankAccountFilterExpressions
 {
     internal static Expression<Func<T, bool>> ExpressionFilterName<T>(this BankAccountFilter<T> filter) where T : BankAccount
-        => b => b.Name.Contains(filter.Name!);
+        => e => e.Name.Value.ToLower().Contains(filter.Name!.ToLower());
     
     internal static Expression<Func<T, bool>> ExpressionFilterBalance<T>(this BankAccountFilter<T> filter) where T : BankAccount
-        => b => b.Balance == filter.MinBalance;
+        => e => e.Balance.Value == filter.MinBalance!;
     internal static Expression<Func<T, bool>> ExpressionFilterBalanceRange<T>(this BankAccountFilter<T> filter) where T : BankAccount
-        => b => b.Balance >= filter.MinBalance && b.Balance <= filter.MaxBalance;
+        => e => e.Balance.Value >= filter.MinBalance! && e.Balance.Value <= filter.MaxBalance!;
     
     internal static Expression<Func<T, bool>> ExpressionFilterCurrencyId<T>(this BankAccountFilter<T> filter) where T : BankAccount
-        => b => b.Currency.Id == filter.CurrencyId;
+        => e => e.Currency.Id == filter.CurrencyId;
     
     internal static Expression<Func<T, bool>> ExpressionFilterTypeBankAccount<T>(this BankAccountFilter<T> filter) where T : BankAccount
-        => b => b.Type.ToString() == filter.TypeBankAccount;
+        => e => e.Type.ToString() == filter.TypeBankAccount;
 }

@@ -29,7 +29,7 @@ public record PercentContribution
         if (countDays == 0)
             message = message + "CountDays cannot be 0";
         if (percent.IsZero)
-            message = message + "Percent cannot be 0";
+            message = message + " Percent cannot be 0";
 
         return string.IsNullOrEmpty(message) ? 
             Result.Success()

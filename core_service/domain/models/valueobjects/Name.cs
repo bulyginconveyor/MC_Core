@@ -31,5 +31,5 @@ public record Name
     public virtual bool Equals(Name? other) => Value == other?.Value;
     public override int GetHashCode() => Value != null ? Value.GetHashCode() : 0;
 
-    public bool Contains(string subString) => Value?.Contains(subString) ?? false;
+    public bool Contains(string subString) => Value?.ToLower().Contains(subString.ToLower()) ?? false;
 }

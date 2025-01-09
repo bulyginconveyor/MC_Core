@@ -6,6 +6,8 @@ namespace core_service.application.rest_controllers.DTO;
 
 public class DTOContributionBankAccount : DTOBankAccount
 {
+    public new string TypeBankAccount { get; set; } = "Contribution";
+    
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     
@@ -14,8 +16,8 @@ public class DTOContributionBankAccount : DTOBankAccount
     
     public string TypeContribution { get; set; }
     
-    public decimal Percent { get; set; }
-    public ushort CountDaysForPercent { get; set; }
+    public decimal? Percent { get; set; }
+    public ushort? CountDaysForPercent { get; set; }
 
     public static DTOContributionBankAccount? CreateLight(ContributionBankAccount contribution)
     {
@@ -54,7 +56,9 @@ public class DTOContributionBankAccount : DTOBankAccount
             DateRange dateRange = DateRange.Create(dto.StartDate, dto.EndDate);
             UDecimal amount = UDecimal.Parse(dto.Amount);
             TypeContributionBankAccount typeContribution = (TypeContributionBankAccount)Enum.Parse(typeof(TypeContributionBankAccount), dto.TypeContribution);
-            PercentContribution percent = PercentContribution.Create(UDecimal.Parse(dto.Percent), dto.CountDaysForPercent);
+            PercentContribution percent = dto.Percent == null && dto.CountDaysForPercent == null 
+                ? PercentContribution.Empty  
+                : PercentContribution.Create(UDecimal.Parse((decimal)dto.Percent!), (ushort)dto.CountDaysForPercent!);
             
             Contribution contribution = Contribution.Create(dateRange, amount, typeContribution, dto.ActualClosedDate, percent);
 

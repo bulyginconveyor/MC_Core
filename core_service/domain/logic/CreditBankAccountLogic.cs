@@ -21,7 +21,7 @@ public class CreditBankAccountLogic(IDbRepository<CreditBankAccount> rep)
         if(resGet.IsError)
             return Result<List<DTOCreditBankAccount>>.Error(new List<DTOCreditBankAccount>(), resGet.ErrorMessage);
 
-        return Result<List<DTOCreditBankAccount>>.Success(resGet.Value!.Select(e => (DTOCreditBankAccount)e!).ToList());
+        return Result<List<DTOCreditBankAccount>>.Success(resGet.Value.Select(e => (DTOCreditBankAccount)e).ToList());
     }
     
     public async Task<Result<DTOCreditBankAccount>> GetOneById(Guid id)
@@ -39,6 +39,10 @@ public class CreditBankAccountLogic(IDbRepository<CreditBankAccount> rep)
         if(resAdd.IsError)
             return Result.Error(resAdd.ErrorMessage!);
         
+        var resSave = await _rep.Save();
+        if(resSave.IsError)
+            return Result.Error(resSave.ErrorMessage!);
+        
         return Result.Success();
     }
 
@@ -47,6 +51,10 @@ public class CreditBankAccountLogic(IDbRepository<CreditBankAccount> rep)
         var resUpdate = await _rep.Update(dto);
         if(resUpdate.IsError)
             return Result.Error(resUpdate.ErrorMessage!);
+        
+        var resSave = await _rep.Save();
+        if(resSave.IsError)
+            return Result.Error(resSave.ErrorMessage!);
         
         return Result.Success();
     }

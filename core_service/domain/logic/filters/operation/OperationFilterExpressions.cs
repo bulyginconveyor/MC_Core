@@ -7,7 +7,7 @@ namespace core_service.domain.logic.filters.operation;
 public static class OperationFilterExpressions
 {
     internal static Expression<Func<Operation, bool>> ExpressionFilterName(this OperationFilter filter) 
-        => o => o.Name.Contains(filter.Name!);
+        => o => o.Name.Value.ToLower().Contains(filter.Name!.ToLower());
     
     internal static Expression<Func<Operation, bool>> ExpressionFilterDate(this OperationFilter filter) 
         => o => o.Date == filter.StartDate;
@@ -15,9 +15,9 @@ public static class OperationFilterExpressions
         => o => o.Date >= filter.StartDate && o.Date <= filter.EndDate;
 
     internal static Expression<Func<Operation, bool>> ExpressionFilterAmount(this OperationFilter filter) 
-        => o => o.Amount == filter.MinAmount;
+        => o => o.Amount.Value == filter.MinAmount;
     internal static Expression<Func<Operation, bool>> ExpressionFilterAmountRange(this OperationFilter filter)
-        => o => o.Amount >= filter.MinAmount && o.Amount <= filter.MaxAmount;
+        => o => o.Amount.Value >= filter.MinAmount && o.Amount.Value <= filter.MaxAmount;
 
     internal static Expression<Func<Operation, bool>> ExpressionFilterBankAccount(this OperationFilter filter)
         => filter.ExpressionFilterCreditBankAccount().ExpressionСoncatWithOr(filter.ExpressionFilterDebetBankAccount());

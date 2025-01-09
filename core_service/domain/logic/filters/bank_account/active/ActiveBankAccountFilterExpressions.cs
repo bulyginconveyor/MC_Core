@@ -6,9 +6,9 @@ namespace core_service.domain.logic.filters.bank_account.active;
 public static class ActiveBankAccountFilterExpressions
 {
     internal static Expression<Func<ActiveBankAccount, bool>> ExpressionFilterBuyPrice(this ActiveBankAccountFilter filter)
-        => b => b.BuyPrice == filter.MinBuyPrice;
+        => b => b.BuyPrice.Value == filter.MinBuyPrice;
     internal static Expression<Func<ActiveBankAccount, bool>> ExpressionFilterBuyPriceRange(this ActiveBankAccountFilter filter)
-        => b => b.BuyPrice >= filter.MinBuyPrice && b.BuyPrice <= filter.MaxBuyPrice;
+        => b => b.BuyPrice.Value >= filter.MinBuyPrice && b.BuyPrice.Value <= filter.MaxBuyPrice;
     
     internal static Expression<Func<ActiveBankAccount, bool>> ExpressionFilterDate(this ActiveBankAccountFilter filter)
         => o => o.BuyDate == filter.StartBuyDate;

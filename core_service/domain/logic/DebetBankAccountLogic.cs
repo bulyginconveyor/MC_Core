@@ -19,9 +19,11 @@ public class DebetBankAccountLogic(IDbRepository<DebetBankAccount> rep)
             : await _rep.GetAll(filter?.ToExpression(), Tracking.No);
         
         if(resGet.IsError)
-            return Result<List<DTODebetBankAccount>>.Error(new List<DTODebetBankAccount>(), resGet.ErrorMessage);
+            return Result<List<DTODebetBankAccount>>.Error(new (), resGet.ErrorMessage);
 
-        return Result<List<DTODebetBankAccount>>.Success(resGet.Value.Select(e => (DTODebetBankAccount)e!).ToList());
+        var dtos = resGet.Value!.Select(e => (DTODebetBankAccount)e!).ToList();
+        
+        return Result<List<DTODebetBankAccount>>.Success(dtos);
     }
 
     public async Task<Result<DTODebetBankAccount>> GetOneById(Guid id)
@@ -39,6 +41,10 @@ public class DebetBankAccountLogic(IDbRepository<DebetBankAccount> rep)
         if(resAdd.IsError)
             return Result.Error(resAdd.ErrorMessage);
         
+        var resSave = await _rep.Save();
+        if(resSave.IsError)
+            return Result.Error(resSave.ErrorMessage);
+        
         return Result.Success();
     }
 
@@ -47,6 +53,10 @@ public class DebetBankAccountLogic(IDbRepository<DebetBankAccount> rep)
         var resUpdate = await _rep.Update(dto);
         if(resUpdate.IsError)
             return Result.Error(resUpdate.ErrorMessage);
+        
+        var resSave = await _rep.Save();
+        if(resSave.IsError)
+            return Result.Error(resSave.ErrorMessage);
         
         return Result.Success();
     }

@@ -8,11 +8,11 @@ public static class Concat
         Expression<Func<T, bool>> filter)
         => expression == null
             ? filter
-            : Expression.Lambda<Func<T, bool>>(Expression.OrElse(expression.Body, filter.Body));
+            : Expression.Lambda<Func<T, bool>>(Expression.Or(expression.Body, Expression.Invoke(filter, expression.Parameters)), expression.Parameters);
     
     public static Expression<Func<T, bool>> ExpressionСoncatWithAnd<T>(this Expression<Func<T, bool>>? expression, 
         Expression<Func<T, bool>> filter)
         => expression == null
             ? filter
-            : Expression.Lambda<Func<T, bool>>(Expression.AndAlso(expression.Body, filter.Body));
+            : Expression.Lambda<Func<T, bool>>(Expression.AndAlso(expression.Body, Expression.Invoke(filter, expression.Parameters)), expression.Parameters);
 }

@@ -7,6 +7,8 @@ namespace core_service.application.rest_controllers.DTO;
 
 public class DTOCreditBankAccount : DTOBankAccount
 {
+    public new string TypeBankAccount { get; set; } = "Credit";
+    
     public decimal Amount { get; set; }
     public decimal InitPayment { get; set; }
     

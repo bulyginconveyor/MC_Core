@@ -90,7 +90,7 @@ public class BaseRepository<T>(DbContext context)
     {
         try
         {
-            await _context.Set<T>().AddAsync(entity);
+            await Task.Run(() => _context.Set<T>().Attach(entity));
             return Result.Success();
         }
         catch (Exception ex)

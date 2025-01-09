@@ -4,14 +4,14 @@ using core_service.services.Result;
 
 namespace core_service.application.rest_controllers.DTO;
 
-public class DTOCategory()
+public class  DTOCategory()
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string Color { get; set; }
     public List<DTOCategory>? SubCategories { get; set; }
 
-    public static implicit operator Category(DTOCategory dto)
+    public static implicit operator Category?(DTOCategory? dto)
     {
         if (dto is null)
             return null;
@@ -22,13 +22,13 @@ public class DTOCategory()
         if (dto.SubCategories is null || dto.SubCategories.Count == 0)
             return category;
 
-        var subCategories = dto.SubCategories.Select(c => (Category)c).ToList();
+        var subCategories = dto.SubCategories.Select(c => (Category)c!).ToList();
         category.ChangeSubCategories(subCategories);
 
         return category;
     }
     
-    public static implicit operator DTOCategory(Category category)
+    public static implicit operator DTOCategory?(Category? category)
     {
         if (category is null)
             return null;
@@ -41,11 +41,11 @@ public class DTOCategory()
             Id = category.Id,
             Name = category.Name.Value,
             Color = category.Color.Value,
-            SubCategories = category.SubCategories.Select(c => (DTOCategory)c).ToList()
+            SubCategories = category.SubCategories.Select(c => (DTOCategory)c!).ToList()
         };
     }
 
-    public static DTOCategory CreateLight(Category category)
+    public static DTOCategory? CreateLight(Category? category)
     {
         if(category is null)
             return null;

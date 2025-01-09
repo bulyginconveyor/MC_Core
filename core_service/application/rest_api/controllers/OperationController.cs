@@ -14,7 +14,7 @@ namespace core_service.application.rest_api.controllers
     {
         private OperationLogic _logic = logic;
 
-        [HttpGet("pages")]
+        [HttpPatch("pages")]
         public async Task<ActionResult<int>> GetPagesCount([FromBody]OperationFilter? filter = null)
         {
             // TODO: Получать кол-во элементов на одной странице из хранилища токена пользователя!
@@ -22,12 +22,12 @@ namespace core_service.application.rest_api.controllers
             var resGet = filter is null ? await _logic.GetCountPages(countPerPage)
                 : await _logic.GetCountPages(countPerPage, filter);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
 
             return Ok(resGet.Value);
         }
 
-        [HttpGet("page/{number}")]
+        [HttpPatch("page/{number}")]
         public async Task<ActionResult<IEnumerable<DTOOperation>>> GetByPage(int number,
             [FromBody] OperationFilter? filter = null)
         {
@@ -36,7 +36,7 @@ namespace core_service.application.rest_api.controllers
             var resGet = filter is null ? await _logic.GetByPage(countPerPage, (uint)number)
                 : await _logic.GetByPage(countPerPage, (uint)number, filter);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
 
             return Ok(resGet.Value);
         }
@@ -46,7 +46,7 @@ namespace core_service.application.rest_api.controllers
         {
             var resGet = await _logic.GetById(id);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
 
             return Ok(resGet.Value);
         }
@@ -58,7 +58,7 @@ namespace core_service.application.rest_api.controllers
             if (resAdd.IsError)
                 return BadRequest("Не удалось добавить операцию!");
 
-            return Ok();
+            return Created();
         }
 
         [HttpPut]

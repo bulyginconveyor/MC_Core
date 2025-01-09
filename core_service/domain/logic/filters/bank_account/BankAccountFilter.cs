@@ -12,6 +12,8 @@ public class BankAccountFilter<T>() where T : BankAccount
     public decimal? MaxBalance { get; set; } = null;
     
     public Guid? CurrencyId { get; set; } = null;
+    
+    //TODO: Сделать фильтр по типам счета (чтобы можно было указать несколько и они прочитались)
     public string? TypeBankAccount { get; set; } = null;
     
     public static BankAccountFilterBuilder<T> CreateBuilder() => new();
@@ -21,7 +23,7 @@ public class BankAccountFilter<T>() where T : BankAccount
         var f = this;
 
         Expression<Func<T, bool>>? expression = null;
-
+        
         if (f.Name != null)
             expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterName());
         

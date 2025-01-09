@@ -7,6 +7,8 @@ namespace core_service.application.rest_controllers.DTO;
 
 public class DTOActiveBankAccount : DTOBankAccount
 {
+    public new string TypeBankAccount { get; set; } = "Active";
+    
     public decimal BuyPrice { get; set; }
     public DateTime BuyDate { get; set; }
     public string TypeActive { get; set; }

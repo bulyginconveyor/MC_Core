@@ -13,12 +13,12 @@ namespace core_service.application.rest_api.controllers
     {
         private BankAccountLogic _logic = logic;
 
-        [HttpGet]
-        public async Task<ActionResult<List<DTOBankAccount>>> GetAll([FromBody] BankAccountFilter<BankAccount>? filter = null)
+        [HttpPatch]
+        public async Task<ActionResult<List<DTOBankAccount>>> GetAll(BankAccountFilter<BankAccount>? filter = null)
         {
             var resGet = await _logic.GetAll(filter);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
 
             return Ok(resGet.Value);
         }
@@ -28,7 +28,7 @@ namespace core_service.application.rest_api.controllers
         {
             var resGet = await _logic.GetOneById(id);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
 
             return Ok(resGet.Value);
         }

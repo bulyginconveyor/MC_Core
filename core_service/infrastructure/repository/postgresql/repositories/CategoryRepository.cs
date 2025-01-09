@@ -26,16 +26,19 @@ public class CategoryRepository(DbContext context) : BaseRepository<Category>(co
     {
         if(tracking == Tracking.Yes)
             return await this.GetAll();
-        
+
         var res = await _context.Set<Category>()
             .AsNoTracking()
             .Include(c => c.SubCategories)
             .Where(e => e.DeletedAt == null)
             .Where(c => c.SubCategories.Count() > 0)
             .ToListAsync();
-        
+            
         if (res == null || res.Count() == 0)
             return Result<IEnumerable<Category>>.Error(res, "Categories not found");
+
+        foreach (var category in res)
+            category.ChangeSubCategories(category.SubCategories.Where(c => c.DeletedAt == null));
         
         return Result<IEnumerable<Category>>.Success(res);
     }
@@ -49,7 +52,11 @@ public class CategoryRepository(DbContext context) : BaseRepository<Category>(co
                 return Result.Error(res.ErrorMessage!);
 
             var category = res.Value!;
+            category.Name = entity.Name;
+            category.Color = entity.Color;
             category.ChangeSubCategories(entity.SubCategories);
+            
+            category.UpdatedAt = DateTime.UtcNow;
             
             _context.Set<Category>().Update(category);
             

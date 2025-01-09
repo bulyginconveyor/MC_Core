@@ -5,6 +5,24 @@ namespace core_service.application.rest_controllers.DTO;
 
 public class DTODebetBankAccount : DTOBankAccount
 {
+    public new string TypeBankAccount { get; set; } = "Debet";
+    
+    public static DTODebetBankAccount? CreateLight(DebetBankAccount? bankAccount)
+    {
+        if (bankAccount is null)
+            return null;
+
+        return new DTODebetBankAccount
+        {
+            Id = bankAccount.Id,
+            Name = bankAccount.Name.Value,
+            Color = bankAccount.Color.Value,
+            Balance = bankAccount.Balance.Value,
+            Currency = bankAccount.Currency,
+            TypeBankAccount = bankAccount.Type.ToString(),
+            Operations = null
+        };
+    }
     public static implicit operator DebetBankAccount?(DTODebetBankAccount? dto)
     {
         if (dto is null)
@@ -27,7 +45,7 @@ public class DTODebetBankAccount : DTOBankAccount
             return null;
 
         if (bankAccount.Operations is null || bankAccount.Operations.Count() == 0)
-            return (DTODebetBankAccount)CreateLight(bankAccount);
+            return CreateLight(bankAccount)!;
         
         return new DTODebetBankAccount
         {
@@ -37,8 +55,10 @@ public class DTODebetBankAccount : DTOBankAccount
             Balance = bankAccount.Balance.Value,
             Currency = bankAccount.Currency,
             TypeBankAccount = bankAccount.Type.ToString(),
-            Operations = bankAccount.Operations.Select(x => DTOOperation.CreateLight(x)).ToList()
+            Operations = bankAccount.Operations.Select(x => DTOOperation.CreateLight(x)!).ToList()
         };
 
     }
+
+    
 }

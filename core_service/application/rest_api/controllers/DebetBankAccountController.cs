@@ -12,13 +12,13 @@ namespace core_service.application.rest_api.controllers
     {
         private DebetBankAccountLogic _logic = logic;
 
-        [HttpGet]
+        [HttpPatch]
         public async Task<ActionResult<List<DTODebetBankAccount>>> GetAll(
             [FromBody] DebetBankAccountFilter? filter = null)
         {
             var resGet = await _logic.GetAll(filter);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
 
             return Ok(resGet.Value);
         }
@@ -28,7 +28,7 @@ namespace core_service.application.rest_api.controllers
         {
             var resGet = await _logic.GetOneById(id);
             if (resGet.IsError)
-                return NotFound();
+                return NoContent();
 
             return Ok(resGet.Value);
         }
@@ -40,7 +40,7 @@ namespace core_service.application.rest_api.controllers
             if (resAdd.IsError)
                 return BadRequest("Не удалось добавить счет!");
 
-            return Ok();
+            return Created();
         }
 
         [HttpPut]

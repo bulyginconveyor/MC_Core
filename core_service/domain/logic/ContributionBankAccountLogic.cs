@@ -38,6 +38,10 @@ public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount>
         if(resAdd.IsError)
             return Result.Error(resAdd.ErrorMessage!);
         
+        var resSave = await _rep.Save();
+        if(resSave.IsError)
+            return Result.Error(resSave.ErrorMessage!);
+        
         return Result.Success();
     }
 
@@ -46,6 +50,10 @@ public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount>
         var resUpdate = await _rep.Update(dto);
         if(resUpdate.IsError)
             return Result.Error(resUpdate.ErrorMessage!);
+        
+        var resSave = await _rep.Save();
+        if(resSave.IsError)
+            return Result.Error(resSave.ErrorMessage!);
         
         return Result.Success();
     }

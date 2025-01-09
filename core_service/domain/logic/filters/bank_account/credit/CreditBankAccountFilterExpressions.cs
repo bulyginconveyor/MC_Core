@@ -7,14 +7,14 @@ namespace core_service.domain.logic.filters.bank_account.credit;
 public static class CreditBankAccountFilterExpressions
 {
     internal static Expression<Func<CreditBankAccount, bool>> ExpressionFilterAmount(this CreditBankAccountFilter filter)
-        => b => b.Amount == filter.MinAmount;
+        => b => b.Amount.Value == filter.MinAmount;
     internal static Expression<Func<CreditBankAccount, bool>> ExpressionFilterAmountRange(this CreditBankAccountFilter filter)
-        => b => b.Amount >= filter.MinAmount && b.Amount <= filter.MaxAmount;
+        => b => b.Amount.Value >= filter.MinAmount && b.Amount.Value <= filter.MaxAmount;
     
     internal static Expression<Func<CreditBankAccount, bool>> ExpressionFilterInitPayment(this CreditBankAccountFilter filter)
-        => b => b.InitPayment == filter.MinInitPayment;
+        => b => b.InitPayment.Value == filter.MinInitPayment;
     internal static Expression<Func<CreditBankAccount, bool>> ExpressionFilterInitPaymentRange(this CreditBankAccountFilter filter)
-        => b => b.InitPayment >= filter.MinInitPayment && b.InitPayment <= filter.MaxInitPayment;
+        => b => b.InitPayment.Value >= filter.MinInitPayment && b.InitPayment.Value <= filter.MaxInitPayment;
     
     internal static Expression<Func<CreditBankAccount, bool>> ExpressionFilterPercent(this CreditBankAccountFilter filter)
         => b => b.Percent.Value == filter.MinPercent;

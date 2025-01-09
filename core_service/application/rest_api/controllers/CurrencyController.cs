@@ -21,7 +21,7 @@ namespace core_service.application.rest_api.controllers
                 return BadRequest("Упс...");
 
             if (resGet.Value is null)
-                return NotFound();
+                return NoContent();
             return Ok(resGet.Value);
         }
 
@@ -32,7 +32,7 @@ namespace core_service.application.rest_api.controllers
             if (resAdd.IsError)
                 return BadRequest("Не удалось добавить валюту!");
             
-            return Ok();
+            return Created();
         }
 
         [HttpPut]
