@@ -215,6 +215,7 @@ public class OperationRepository(DbContext context) : BaseRepository<Operation>(
             if (resTryChangeAmount.IsError) 
                 return Result.Error(resTryChangeAmount.ErrorMessage);
             
+            entity.CreatedAt = oldOperation.CreatedAt;
             entity.UpdatedAt = DateTime.UtcNow;
             
             if(oldOperation.Amount != entity.Amount)
