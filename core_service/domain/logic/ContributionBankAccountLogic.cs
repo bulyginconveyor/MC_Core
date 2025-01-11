@@ -1,15 +1,18 @@
-using core_service.application.rest_controllers.DTO;
+using core_service.application.rest_api.DTO;
 using core_service.domain.logic.filters.bank_account.contribution;
 using core_service.domain.models;
+using core_service.domain.models.enums;
+using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.services.Result;
 
 namespace core_service.domain.logic;
 
-public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount> rep)
+public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount> rep, IDbRepository<Currency> repCurrency)
 {
     private IDbRepository<ContributionBankAccount> _rep = rep;
+    private IDbRepository<Currency> _repCurrency = repCurrency;
 
     public async Task<Result<List<DTOContributionBankAccount>>> GetAll(ContributionBankAccountFilter? filter)
     {
@@ -32,8 +35,23 @@ public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount>
         return Result<DTOContributionBankAccount>.Success(resGet.Value!);
     }
 
-    public async Task<Result> Add(DTOContributionBankAccount dto)
+    public async Task<Result> Add(DataDTOContributionBankAccount dataDto)
     {
+        var resCurrency = await _repCurrency.GetOne(dataDto.CurrencyId);
+        if(resCurrency.IsError)
+            return Result.Error(resCurrency.ErrorMessage!);
+        
+        DateRange dateRange = DateRange.Create(dataDto.StartDate, dataDto.EndDate);
+        UDecimal amount = UDecimal.Parse(dataDto.Amount);
+        TypeContributionBankAccount typeContribution = (TypeContributionBankAccount)Enum.Parse(typeof(TypeContributionBankAccount), dataDto.TypeContribution);
+        PercentContribution? percentContribution = dataDto.Percent.HasValue && dataDto.CountDaysForPercent.HasValue ? 
+            PercentContribution.Create(UDecimal.Parse(dataDto.Percent.Value), dataDto.CountDaysForPercent.Value) 
+            : null;
+
+        Contribution contribution = Contribution.Create(dateRange, amount, typeContribution, dataDto.ActualClosedDate, percentContribution);
+        
+        var dto = new ContributionBankAccount(dataDto.Name, dataDto.Color, resCurrency.Value!, contribution, true, dataDto.Balance);
+        
         var resAdd = await _rep.Add(dto);
         if(resAdd.IsError)
             return Result.Error(resAdd.ErrorMessage!);
@@ -45,8 +63,39 @@ public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount>
         return Result.Success();
     }
 
-    public async Task<Result> Update(DTOContributionBankAccount dto)
+    public async Task<Result> Update(DataDTOContributionBankAccount dataDto)
     {
+        if(dataDto.Id == null)
+            return Result.Error("Id is null");
+        
+        var resCurrency = await _repCurrency.GetOne(dataDto.CurrencyId);
+        if(resCurrency.IsError)
+            return Result.Error(resCurrency.ErrorMessage!);
+        
+        DateRange dateRange = DateRange.Create(dataDto.StartDate, dataDto.EndDate);
+        UDecimal amount = UDecimal.Parse(dataDto.Amount);
+        TypeContributionBankAccount typeContribution = 
+            (TypeContributionBankAccount)Enum.Parse(typeof(TypeContributionBankAccount), dataDto.TypeContribution);
+        PercentContribution? percentContribution = dataDto.Percent.HasValue && dataDto.CountDaysForPercent.HasValue ? 
+            PercentContribution.Create(UDecimal.Parse(dataDto.Percent.Value), dataDto.CountDaysForPercent.Value) 
+            : null;
+
+        Contribution contribution = Contribution.Create(
+            dateRange, 
+            amount, 
+            typeContribution, 
+            dataDto.ActualClosedDate, 
+            percentContribution);
+        
+        var dto = new ContributionBankAccount(
+            (Guid)dataDto.Id, 
+            dataDto.Name, 
+            dataDto.Color, 
+            resCurrency.Value!, 
+            contribution, 
+            true, 
+            dataDto.Balance);
+        
         var resUpdate = await _rep.Update(dto);
         if(resUpdate.IsError)
             return Result.Error(resUpdate.ErrorMessage!);

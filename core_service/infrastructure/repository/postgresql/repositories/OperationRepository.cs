@@ -102,7 +102,9 @@ public class OperationRepository(DbContext context) : BaseRepository<Operation>(
             await _context.Set<Operation>()
                 .Include(o => o.Period)
                 .Include(o => o.CreditBankAccount)
+                .ThenInclude(c => c.Currency)
                 .Include(o => o.DebetBankAccount)
+                .ThenInclude(c => c.Currency)
                 .Include(o => o.Category)
                 .Where(o => o.DeletedAt == null)
                 .Where(filter)
@@ -112,7 +114,9 @@ public class OperationRepository(DbContext context) : BaseRepository<Operation>(
                 .AsNoTracking()
                 .Include(o => o.Period)
                 .Include(o => o.CreditBankAccount)
+                .ThenInclude(c => c.Currency)
                 .Include(o => o.DebetBankAccount)
+                .ThenInclude(c => c.Currency)
                 .Include(o => o.Category)
                 .Where(o => o.DeletedAt == null)
                 .Where(filter)
@@ -122,7 +126,53 @@ public class OperationRepository(DbContext context) : BaseRepository<Operation>(
             ? Result<Operation>.Error(res, $"Not found operation by filter!")
             : Result<Operation>.Success(res);
     }
-    
+
+    public override async Task<Result<IEnumerable<Operation>>> GetByPage(uint countPerPage, uint pageNumber, Expression<Func<Operation, bool>> filter = null)
+    {
+        var countPerPageDec = (decimal)countPerPage;
+        var count = filter is null ? 
+            (decimal)await _context.Set<Operation>()
+                .AsNoTracking()
+                .Where(e => e.DeletedAt == null)
+                .CountAsync() 
+            : (decimal)await _context.Set<Operation>()
+                .AsNoTracking()
+                .Where(e => e.DeletedAt == null)
+                .CountAsync(filter);
+
+        if (countPerPage * --pageNumber >= count)
+            return Result<IEnumerable<Operation>>.Error(null, $"Don't correct pageNumber. Return null");
+        
+        var res = filter == null ? 
+            await _context.Set<Operation>()
+                .AsNoTracking()
+                .Include(o => o.Period)
+                .Include(o => o.CreditBankAccount)
+                .ThenInclude(c => c.Currency)
+                .Include(o => o.DebetBankAccount)
+                .ThenInclude(c => c.Currency)
+                .Include(o => o.Category)
+                .Where(e => e.DeletedAt == null)
+                .Skip((int)(countPerPage * pageNumber))
+                .Take((int)countPerPage)
+                .ToListAsync()
+            : await _context.Set<Operation>()
+                .AsNoTracking()
+                .Include(o => o.Period)
+                .Include(o => o.CreditBankAccount)
+                .ThenInclude(c => c.Currency)
+                .Include(o => o.DebetBankAccount)
+                .ThenInclude(c => c.Currency)
+                .Include(o => o.Category)
+                .Where(e => e.DeletedAt == null)
+                .Where(filter)
+                .Skip((int)(countPerPage * pageNumber))
+                .Take((int)countPerPage)
+                .ToListAsync();
+        
+        return Result<IEnumerable<Operation>>.Success(res);
+    }
+
     public override async Task<Result> Add(Operation entity)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
@@ -156,17 +206,20 @@ public class OperationRepository(DbContext context) : BaseRepository<Operation>(
         try
         {
             ArgumentNullException.ThrowIfNull(entity);
+            
             var oldOperation = await _context.Set<Operation>().AsNoTracking().FirstOrDefaultAsync(o => o.Id == entity.Id);
             
             if (oldOperation == null) return Result.Error($"Not found operation by Id! (id = {entity.Id}) ");
             
+            var resTryChangeAmount = oldOperation.TryChangeAmount(entity.Amount);
+            if (resTryChangeAmount.IsError) 
+                return Result.Error(resTryChangeAmount.ErrorMessage);
+            
             entity.UpdatedAt = DateTime.UtcNow;
             
-            if(oldOperation.Amount == entity.Amount)
-                _context.Set<Operation>().Update(entity);
-            else
+            if(oldOperation.Amount != entity.Amount)
             {
-                decimal diff = oldOperation.Amount - entity.Amount;
+                var diff = (decimal)oldOperation.Amount - (decimal)entity.Amount;
                 switch (diff)
                 {
                     case > 0:
@@ -192,11 +245,12 @@ public class OperationRepository(DbContext context) : BaseRepository<Operation>(
                         break;
                     }
                 }
+                
+                if(entity.CreditBankAccount != null)
+                    _context.Set<BankAccount>().Update(entity.CreditBankAccount);
+                if(entity.DebetBankAccount != null)
+                    _context.Set<BankAccount>().Update(entity.DebetBankAccount);
             }
-            if(entity.CreditBankAccount != null)
-                _context.Set<BankAccount>().Update(entity.CreditBankAccount);
-            if(entity.DebetBankAccount != null)
-                _context.Set<BankAccount>().Update(entity.DebetBankAccount);
             
             _context.Set<Operation>().Update(entity);
             
@@ -218,6 +272,41 @@ public class OperationRepository(DbContext context) : BaseRepository<Operation>(
         try
         {
             ArgumentNullException.ThrowIfNull(entity);
+
+            entity.CreditBankAccount?.Balance.Increase(entity.Amount);
+            entity.DebetBankAccount?.Balance.Decrease(entity.Amount);
+
+            if (entity.CreditBankAccount != null)
+                _context.Set<BankAccount>().Update(entity.CreditBankAccount);
+            if (entity.DebetBankAccount != null)
+                _context.Set<BankAccount>().Update(entity.DebetBankAccount);
+
+            await base.Delete(entity);
+
+            await _context.SaveChangesAsync();
+            
+            await transaction.CommitAsync();
+
+            return Result.Success();
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            return Result.Error(ex.Message);
+        }
+    }
+    public override async Task<Result> Delete(Guid id)
+    {
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            ArgumentNullException.ThrowIfNull(id);
+
+            var resGet = await this.GetOne(id);
+            if (resGet.IsError)
+                return Result.Error(resGet.ErrorMessage);
+
+            var entity = resGet.Value!;
 
             entity.CreditBankAccount?.Balance.Increase(entity.Amount);
             entity.DebetBankAccount?.Balance.Decrease(entity.Amount);

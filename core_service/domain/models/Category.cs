@@ -1,5 +1,6 @@
 using core_service.domain.models.@base;
 using core_service.domain.models.valueobjects;
+using core_service.services.GuidGenerator;
 using core_service.services.Result;
 using Color = core_service.domain.models.valueobjects.Color;
 
@@ -16,6 +17,13 @@ public class Category : Entity, IDbModel
     public Category(Guid id, Name name, Color color)
     {
         this.Id = id;
+        this.Name = name;
+        this.Color = color;
+    }
+    
+    public Category(Name name, Color color)
+    {
+        this.Id = GuidGenerator.GenerateByBytes();
         this.Name = name;
         this.Color = color;
     }
@@ -65,7 +73,7 @@ public class Category : Entity, IDbModel
     }
     
     
-    public DateTime CreatedAt { get; }
+    public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
 }

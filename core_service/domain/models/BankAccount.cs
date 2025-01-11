@@ -1,6 +1,7 @@
 using core_service.domain.models.@base;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
+using core_service.services.GuidGenerator;
 using core_service.services.Result;
 using Color = core_service.domain.models.valueobjects.Color;
 
@@ -16,11 +17,21 @@ public class BankAccount : Entity, IDbModel, IByUserModel
 
     public BankAccount(Guid id, string name, string color, Currency currency, bool isMaybeNegative, decimal balance = 0, TypeBankAccount type = TypeBankAccount.Debet)
     {
+        this.Id = id;
         this.Name = Name.Create(name);
         this.Color = Color.Parse(color);
         this.Balance = Balance.Create(isMaybeNegative, balance);
         this.Currency = currency;
-        this.Id = id;
+        this.Type = type;
+    }
+    
+    public BankAccount(string name, string color, Currency currency, bool isMaybeNegative, decimal balance = 0, TypeBankAccount type = TypeBankAccount.Debet)
+    {
+        this.Id = GuidGenerator.GenerateByBytes();
+        this.Name = Name.Create(name);
+        this.Color = Color.Parse(color);
+        this.Balance = Balance.Create(isMaybeNegative, balance);
+        this.Currency = currency;
         this.Type = type;
     }
 
@@ -39,7 +50,7 @@ public class BankAccount : Entity, IDbModel, IByUserModel
         return Result.Success();
     }
 
-    public DateTime CreatedAt { get; }
+    public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; } = null!;
     public DateTime? DeletedAt { get; } = null!;
     public Guid UserId { get; set; }

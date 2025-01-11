@@ -1,4 +1,4 @@
-using core_service.application.rest_controllers.DTO;
+using core_service.application.rest_api.DTO;
 using core_service.domain.logic;
 using core_service.domain.logic.filters.bank_account.debet;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +34,7 @@ namespace core_service.application.rest_api.controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([FromBody] DTODebetBankAccount debetBankAccount)
+        public async Task<ActionResult> Add([FromBody] DataDTODebetBankAccount debetBankAccount)
         {
             var resAdd = await _logic.Add(debetBankAccount);
             if (resAdd.IsError)
@@ -44,7 +44,7 @@ namespace core_service.application.rest_api.controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update([FromBody] DTODebetBankAccount debetBankAccount)
+        public async Task<ActionResult> Update([FromBody] DataDTODebetBankAccount debetBankAccount)
         {
             var resUpdate = await _logic.Update(debetBankAccount);
             if (resUpdate.IsError)

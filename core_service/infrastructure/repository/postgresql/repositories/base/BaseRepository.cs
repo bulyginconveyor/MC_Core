@@ -90,7 +90,8 @@ public class BaseRepository<T>(DbContext context)
     {
         try
         {
-            await Task.Run(() => _context.Set<T>().Attach(entity));
+            await _context.Set<T>().AddAsync(entity);
+            //await Task.Run(() => _context.Set<T>().Attach(entity));
             return Result.Success();
         }
         catch (Exception ex)
@@ -110,9 +111,20 @@ public class BaseRepository<T>(DbContext context)
     {
         try
         {
+            // Кажется, что это костыль и есть решение лучше
+            entity.CreatedAt = _context.Set<T>()
+                .Select(c => 
+                    new
+                    {
+                        Id = c.Id, 
+                        CreatedAt = c.CreatedAt
+                    })
+                .First(e => e.Id == entity.Id)
+                .CreatedAt;
             entity.UpdatedAt = DateTime.UtcNow;
-            
-            _context.Set<T>().Update(entity);
+
+            //await Task.Run(() => _context.Set<T>().Attach(entity));
+            await Task.Run(() => _context.Set<T>().Update(entity));
             
             return Result.Success();
         }
@@ -196,7 +208,7 @@ public class BaseRepository<T>(DbContext context)
         return Result<long>.Success(res);
     }
 
-    public async Task<Result<ulong>> PagesCount(uint countPerPage, Expression<Func<T, bool>> filter = null)
+    public virtual async Task<Result<ulong>> PagesCount(uint countPerPage, Expression<Func<T, bool>> filter = null)
     {
         var countPerPageDec = (decimal)countPerPage;
         var count = filter is null ? 
@@ -210,7 +222,7 @@ public class BaseRepository<T>(DbContext context)
         return Result<ulong>.Success((ulong)pageCount);
     }
 
-    public async Task<Result<IEnumerable<T>>> GetByPage(uint countPerPage, uint pageNumber,
+    public virtual async Task<Result<IEnumerable<T>>> GetByPage(uint countPerPage, uint pageNumber,
         Expression<Func<T, bool>> filter = null)
     {
         var countPerPageDec = (decimal)countPerPage;

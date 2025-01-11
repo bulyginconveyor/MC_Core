@@ -1,9 +1,8 @@
 using core_service.domain.models;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace core_service.application.rest_controllers.DTO;
+namespace core_service.application.rest_api.DTO;
 
 public class DTOActiveBankAccount : DTOBankAccount
 {

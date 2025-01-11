@@ -69,7 +69,7 @@ public class Term : Entity, IDbModel, IByUserModel
             : Result<DateOnly>.Success(DateOnly.FromDateTime(res.Value));
     }
 
-    public DateTime CreatedAt { get; }
+    public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
     public Guid UserId { get; set; }

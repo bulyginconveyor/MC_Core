@@ -1,5 +1,6 @@
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
+using core_service.services.GuidGenerator;
 
 namespace core_service.domain.models;
 
@@ -26,6 +27,19 @@ public class CreditBankAccount : BankAccount
         this.LoanObject = loan.LoanObject;
         this.PurposeLoan = loan.PurposeLoan;
     }
+    public CreditBankAccount(string name, string color, Currency currency, Loan loan, decimal balance = 0)
+        : base(name, color, currency, true, balance, TypeBankAccount.Credit)
+    {
+        this.Amount = loan.Amount;
+        this.InitPayment = loan.InitPayment;
+        this.Percent = loan.Percent;
+        this.Term = loan.Term;
+        this.DateRange = loan.DateRange;
+        this.TypeCredit = loan.Type;
+        this.LoanObject = loan.LoanObject;
+        this.PurposeLoan = loan.PurposeLoan;
+    }
+    
     private CreditBankAccount(){}
 }
 

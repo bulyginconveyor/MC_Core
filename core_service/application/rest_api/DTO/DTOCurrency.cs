@@ -1,13 +1,7 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-using core_service.domain;
 using core_service.domain.models;
-using core_service.domain.models.@base;
 using core_service.domain.models.valueobjects;
-using core_service.services.Result;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace core_service.application.rest_controllers.DTO;
+namespace core_service.application.rest_api.DTO;
 
 public class DTOCurrency()
 {

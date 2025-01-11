@@ -1,8 +1,6 @@
 using core_service.domain.models;
-using core_service.domain.models.@base;
-using core_service.services.Result;
 
-namespace core_service.application.rest_controllers.DTO;
+namespace core_service.application.rest_api.DTO;
 
 public class  DTOCategory()
 {

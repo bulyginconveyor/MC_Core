@@ -1,4 +1,4 @@
-using core_service.application.rest_controllers.DTO;
+using core_service.application.rest_api.DTO;
 using core_service.domain.models;
 using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;

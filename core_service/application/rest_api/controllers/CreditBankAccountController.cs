@@ -1,4 +1,4 @@
-using core_service.application.rest_controllers.DTO;
+using core_service.application.rest_api.DTO;
 using core_service.domain.logic;
 using core_service.domain.logic.filters.bank_account.contribution;
 using core_service.domain.logic.filters.bank_account.credit;
@@ -35,7 +35,7 @@ namespace core_service.application.rest_api.controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([FromBody] DTOCreditBankAccount contributionBankAccount)
+        public async Task<ActionResult> Add([FromBody] DataDTOCreditBankAccount contributionBankAccount)
         {
             var resAdd = await _logic.Add(contributionBankAccount);
             if (resAdd.IsError)
@@ -45,7 +45,7 @@ namespace core_service.application.rest_api.controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update([FromBody] DTOCreditBankAccount contributionBankAccount)
+        public async Task<ActionResult> Update([FromBody] DataDTOCreditBankAccount contributionBankAccount)
         {
             var resUpdate = await _logic.Update(contributionBankAccount);
             if (resUpdate.IsError)

@@ -3,7 +3,7 @@ using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
 using core_service.domain.models.valueobjects.enums;
 
-namespace core_service.application.rest_controllers.DTO;
+namespace core_service.application.rest_api.DTO;
 
 public class DTOCreditBankAccount : DTOBankAccount
 {

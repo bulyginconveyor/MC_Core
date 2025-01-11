@@ -1,7 +1,7 @@
 using core_service.domain.models;
 using core_service.domain.models.enums;
 
-namespace core_service.application.rest_controllers.DTO;
+namespace core_service.application.rest_api.DTO;
 
 public class DTOBankAccount
 {

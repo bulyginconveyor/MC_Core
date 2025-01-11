@@ -26,7 +26,7 @@ public class ContributionBankAccount : BankAccount
     }
     
     public ContributionBankAccount(string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
-        : base(GuidGenerator.GenerateByBytes(), name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
+        : base(name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
     {
         this.DateRange = contribution.DateRange;
         this.ActualСlosed = contribution.ActualСlosed;

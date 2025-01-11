@@ -1,4 +1,4 @@
-using core_service.application.rest_controllers.DTO;
+using core_service.application.rest_api.DTO;
 using core_service.domain.logic;
 using core_service.domain.logic.filters.operation;
 using core_service.domain.models;
@@ -52,7 +52,7 @@ namespace core_service.application.rest_api.controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([FromBody] DTOOperation operation)
+        public async Task<ActionResult> Add([FromBody] DataDTOOperation operation)
         {
             var resAdd = await _logic.Add(operation);
             if (resAdd.IsError)
@@ -62,7 +62,7 @@ namespace core_service.application.rest_api.controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update([FromBody] DTOOperation operation)
+        public async Task<ActionResult> Update([FromBody] DataDTOOperation operation)
         {
             var resUpdate = await _logic.Update(operation);
             if (resUpdate.IsError)

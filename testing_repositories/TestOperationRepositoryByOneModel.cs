@@ -55,7 +55,7 @@ public class TestOperationRepositoryByOneModel : BaseOperationRep
             Fail();
         
         operation.Name = Name.Create("New Name");
-        var resUpdate = operation.ChangeAmount(UDecimal.Parse(40000));
+        var resUpdate = operation.TryChangeAmount(UDecimal.Parse(40000));
         if(resUpdate.IsError)
             Fail();
         

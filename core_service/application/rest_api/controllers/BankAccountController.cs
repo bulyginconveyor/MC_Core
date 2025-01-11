@@ -1,4 +1,4 @@
-using core_service.application.rest_controllers.DTO;
+using core_service.application.rest_api.DTO;
 using core_service.domain.logic;
 using core_service.domain.logic.filters.bank_account;
 using core_service.domain.models;

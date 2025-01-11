@@ -21,7 +21,7 @@ public class ActiveBankAccount : BankAccount
     }
     
     public ActiveBankAccount(string name, string color, Currency currency, Active active, decimal balance = 0) 
-        : base(GuidGenerator.GenerateByBytes(), name, color, currency, false, balance, TypeBankAccount.Active)
+        : base(name, color, currency, false, balance, TypeBankAccount.Active)
     {
         this.BuyPrice = active.BuyPrice;
         this.BuyDate = active.BuyDate;

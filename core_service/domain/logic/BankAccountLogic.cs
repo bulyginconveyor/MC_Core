@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using core_service.application.rest_controllers.DTO;
+using core_service.application.rest_api.DTO;
 using core_service.domain.logic.filters.bank_account;
 using core_service.domain.models;
 using core_service.infrastructure.repository.enums;

@@ -25,6 +25,6 @@ public static class ServiceProviderExtensionsRepositories
         services.AddScoped<IDbRepository<ContributionBankAccount>, BaseBankAccountRepository<ContributionBankAccount>>();
         services.AddScoped<IDbRepository<CreditBankAccount>, CreditBankAccountRepository>();
         
-        services.AddScoped<IDbRepository<Operation>, BaseRepository<Operation>>();
+        services.AddScoped<IDbRepository<Operation>, OperationRepository>();
     }
 }

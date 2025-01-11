@@ -79,7 +79,7 @@ public class Period : Entity, IDbModel, IByUserModel
         return end;
     }
 
-    public DateTime CreatedAt { get; }
+    public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
     public Guid UserId { get; set; }
