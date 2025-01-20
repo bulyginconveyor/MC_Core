@@ -5,9 +5,21 @@ using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql;
 using core_service.infrastructure.repository.postgresql.context;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
+using core_service.infrastructure.repository.redis;
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsDevelopment())
+{
+    Env.Load("dev.env");
+}
+else
+{
+    Env.Load(".env");
+}
 
 // Add service DbContext
 builder.Services.AddPostgreSqlDbContext();
@@ -17,6 +29,10 @@ builder.Services.AddRepositories();
 
 // Add services with Logic
 builder.Services.AddLogics();
+
+// Add REDIS-Cache
+builder.Services.AddRedisCache();
+builder.Services.AddRedisCacheRepositories();
 
 // Add services to the container.
 
