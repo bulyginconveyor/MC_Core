@@ -26,7 +26,7 @@ public sealed class PostgreSqlDbContext : DbContext
     
     public PostgreSqlDbContext()
     {
-        _connectionString = "Server=localhost;Port=5432;Database=CoreService;User Id=postgres;Password=vova2005;";
+        _connectionString = "Server=localhost;Port=5432;Database=CoreService;User Id=postgres;Password=postgres;";
         //Database.EnsureDeleted();
         Database.EnsureCreated();
 
@@ -56,16 +56,7 @@ public sealed class PostgreSqlDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
-        modelBuilder.ApplyConfiguration(new TermConfiguration());
-        modelBuilder.ApplyConfiguration(new PeriodConfiguration());
-        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-        modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
-        modelBuilder.ApplyConfiguration(new DebetBankAccountConfiguration());
-        modelBuilder.ApplyConfiguration(new ActiveBankAccountConfiguration());
-        modelBuilder.ApplyConfiguration(new ContributionBankAccountConfiguration());
-        modelBuilder.ApplyConfiguration(new CreditBankAccountConfiguration());
-        modelBuilder.ApplyConfiguration(new OperationConfiguration());
+        modelBuilder.AddConfigurations();
         
         base.OnModelCreating(modelBuilder);
     }
