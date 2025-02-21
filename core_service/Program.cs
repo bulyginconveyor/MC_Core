@@ -16,10 +16,6 @@ if (builder.Environment.IsDevelopment())
 {
     Env.Load("dev.env");
 }
-else
-{
-    Env.Load(".env");
-}
 
 // Add service DbContext
 builder.Services.AddPostgreSqlDbContext();
