@@ -1,7 +1,6 @@
 using core_service.domain;
 using core_service.domain.models;
 using core_service.domain.models.valueobjects;
-using core_service.infrastructure.repository.enums;
 using Microsoft.EntityFrameworkCore;
 using Renci.SshNet.Messages.Authentication;
 using testing_repositories.@base;
@@ -108,7 +107,7 @@ public class TestBaseRepositoryByManyModels : BaseRep
         await _rep.Save();
         
         // Act
-        var resGet = await _rep.GetAll(c => c.IsoCode == currencies[0].IsoCode, Tracking.No);
+        var resGet = await _rep.GetAll(c => c.IsoCode == currencies[0].IsoCode);
         if (resGet.IsError)
             Fail(resGet.ErrorMessage);
         

@@ -12,7 +12,7 @@ public record Result
         _result = ResultStatus.Success;
     }
 
-    protected Result(string errorMessage)
+    protected Result(string? errorMessage)
     {
         ErrorMessage = errorMessage;
         _result = ResultStatus.Error;
@@ -27,12 +27,12 @@ public record Result<T> : Result
 {
     public T? Value { get; init; }
 
-    protected Result(T value) : base()
+    private Result(T value) : base()
     {
         this.Value = value;
     }
 
-    protected Result(T value, string? errorMessage) : base(errorMessage!)
+    private Result(T value, string? errorMessage) : base(errorMessage!)
     {
         this.Value = value;
         this.ErrorMessage = errorMessage ?? $"Error in type {typeof(T).Name}. This is default error message!";

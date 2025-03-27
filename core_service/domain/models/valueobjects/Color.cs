@@ -19,10 +19,7 @@ public partial record Color
     }
 
     public virtual bool Equals(Color? other) => Value == other?.Value;
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
+    public override int GetHashCode() => Value.GetHashCode();
 
     public static Result ColorIsValid(string color)
     {

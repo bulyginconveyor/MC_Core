@@ -4,7 +4,6 @@ using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.repositories;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
-using core_service.services.GuidGenerator;
 using testing_repositories;
 
 namespace testing_repositories.@base;
@@ -35,12 +34,12 @@ public class BaseOperationRep : BaseTest
         // создание категории "Зарплата"
         Name salaryName = Name.Create("Зарплата");
         Color salaryColor = Color.Parse("#0FF");
-        Category salary = new Category(GuidGenerator.GenerateByBytes(), salaryName, salaryColor);
+        Category salary = new Category(Guid.NewGuid(), salaryName, salaryColor);
         
         // создание категории "Продукты"
         Name foodName = Name.Create("Продукты");
         Color foodColor = Color.Parse("#0F0");
-        Category food = new Category(GuidGenerator.GenerateByBytes(), foodName, foodColor);
+        Category food = new Category(Guid.NewGuid(), foodName, foodColor);
         
         // создание операции "Получение зарплаты"
         Name salaryOperationName = Name.Create("Получение зарплаты");
@@ -76,7 +75,7 @@ public class BaseOperationRep : BaseTest
         
         // создание дебетового счета №1 с балансом 10000 рублей
         DebetBankAccount debet1 = new DebetBankAccount(
-            GuidGenerator.GenerateByBytes(), 
+            Guid.NewGuid(), 
             "Дебетовый счет №1",
             "#F0F",
             rub, 
@@ -84,7 +83,7 @@ public class BaseOperationRep : BaseTest
         
         // создание дебетового счета №1 с балансом 127.54 рублей
         DebetBankAccount debet2 = new DebetBankAccount(
-            GuidGenerator.GenerateByBytes(), 
+            Guid.NewGuid(), 
             "Дебетовый счет №2",
             "#0FF",
             rub, 

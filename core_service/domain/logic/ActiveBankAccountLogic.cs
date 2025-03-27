@@ -5,7 +5,6 @@ using core_service.domain.logic.filters.bank_account.active;
 using core_service.domain.models;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.services.ExpressionHelpers;
 using core_service.services.Result;
@@ -21,8 +20,8 @@ public class ActiveBankAccountLogic(IDbRepository<ActiveBankAccount> rep, IDbRep
     public async Task<Result<List<DTOActiveBankAccount>>> GetAll(ActiveBankAccountFilter? filter = null)
     {
         var resGet = filter is null
-            ? await _rep.GetAll(Tracking.No)
-            : await _rep.GetAll(filter!.ToExpression(), Tracking.No);
+            ? await _rep.GetAll()
+            : await _rep.GetAll(filter!.ToExpression());
         
         if(resGet.IsError)
             return Result<List<DTOActiveBankAccount>>.Error(new List<DTOActiveBankAccount>(), resGet.ErrorMessage);
@@ -32,7 +31,7 @@ public class ActiveBankAccountLogic(IDbRepository<ActiveBankAccount> rep, IDbRep
     
     public async Task<Result<DTOActiveBankAccount>> GetOneById(Guid id)
     {
-        var resGet = await _rep.GetOne(id, Tracking.No);
+        var resGet = await _rep.GetOne(id);
         if(resGet.Value is null)
             return Result<DTOActiveBankAccount>.Error(null!, "Not found");
         
@@ -43,7 +42,7 @@ public class ActiveBankAccountLogic(IDbRepository<ActiveBankAccount> rep, IDbRep
     {
         var resCurrency = await _repCurrency.GetOne(dataDto.CurrencyId);
         if(resCurrency.IsError)
-            return Result.Error(resCurrency.ErrorMessage);
+            return Result.Error(resCurrency.ErrorMessage!);
         
         UDecimal buyPrice = UDecimal.Parse(dataDto.BuyPrice);
         TypeActiveBankAccount typeActive = (TypeActiveBankAccount)Enum.Parse(typeof(TypeActiveBankAccount), dataDto.TypeActive);

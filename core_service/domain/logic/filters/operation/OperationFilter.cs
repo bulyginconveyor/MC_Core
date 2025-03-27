@@ -26,30 +26,30 @@ public struct OperationFilter()
         Expression<Func<Operation, bool>>? expression = null;
 
         if (filter.Name != null)
-            expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterName());
+            expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterName());
         
         if (filter.StartDate != null && filter.EndDate != null)
-            expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterDateRange());
+            expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterDateRange());
         else if(filter.StartDate != null && filter.EndDate == null)
-            expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterDate());
+            expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterDate());
         
         if (filter.MinAmount != null && filter.MaxAmount != null)
-            expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterAmountRange());
+            expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterAmountRange());
         else if(filter.MinAmount != null && filter.MaxAmount == null)
-            expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterAmount());
+            expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterAmount());
         
         if(filter.CreditBankAccountId != null && filter.DebetBankAccountId != null && filter.CreditBankAccountId == filter.DebetBankAccountId)
-            expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterBankAccount());
+            expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterBankAccount());
         else
         {
             if(filter.CreditBankAccountId != null)
-                expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterCreditBankAccount());
+                expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterCreditBankAccount());
             if(filter.DebetBankAccountId != null)
-                expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterDebetBankAccount());
+                expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterDebetBankAccount());
         }
         
         if(filter.CategoryId != null)
-            expression = expression.ExpressionСoncatWithAnd(filter.ExpressionFilterCategory());
+            expression = expression.ExpressionConcatWithAnd(filter.ExpressionFilterCategory());
 
         if (expression == null)
             expression = o => true;

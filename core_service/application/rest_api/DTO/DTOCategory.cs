@@ -1,12 +1,17 @@
+using System.Text.Json.Serialization;
 using core_service.domain.models;
 
 namespace core_service.application.rest_api.DTO;
 
 public class  DTOCategory()
 {
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
+    [JsonPropertyName("name")]
     public string Name { get; set; }
+    [JsonPropertyName("color")]
     public string Color { get; set; }
+    [JsonPropertyName("sub_categories")]
     public List<DTOCategory>? SubCategories { get; set; }
 
     public static implicit operator Category?(DTOCategory? dto)

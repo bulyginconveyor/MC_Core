@@ -1,7 +1,6 @@
 using core_service.domain;
 using core_service.domain.models;
 using core_service.domain.models.valueobjects;
-using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,7 +12,7 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
     {
         builder.ToTable("currency");
         
-        builder.Property(c => c.Id).HasDefaultValue(GuidGenerator.GenerateByBytes());
+        builder.Property(c => c.Id).HasDefaultValue(Guid.NewGuid());
         builder.ComplexProperty(c => c.IsoCode, isoCodeBuilder =>
         {
             isoCodeBuilder.Property(ic => ic.Value).HasMaxLength(3).HasColumnName("iso_code");

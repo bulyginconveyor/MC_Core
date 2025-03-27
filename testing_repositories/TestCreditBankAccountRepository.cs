@@ -1,4 +1,3 @@
-using core_service.infrastructure.repository.enums;
 using testing_repositories.@base;
 using static NUnit.Framework.Assert;
 

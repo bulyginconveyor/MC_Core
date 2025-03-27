@@ -1,7 +1,6 @@
 using core_service.domain.models.@base;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
-using core_service.services.GuidGenerator;
 using core_service.services.Result;
 using Color = core_service.domain.models.valueobjects.Color;
 
@@ -27,7 +26,7 @@ public class BankAccount : Entity, IDbModel, IByUserModel
     
     public BankAccount(string name, string color, Currency currency, bool isMaybeNegative, decimal balance = 0, TypeBankAccount type = TypeBankAccount.Debet)
     {
-        this.Id = GuidGenerator.GenerateByBytes();
+        this.Id = Guid.NewGuid();
         this.Name = Name.Create(name);
         this.Color = Color.Parse(color);
         this.Balance = Balance.Create(isMaybeNegative, balance);

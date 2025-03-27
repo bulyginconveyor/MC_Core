@@ -27,25 +27,25 @@ public class CreditBankAccountFilter : BankAccountFilter<CreditBankAccount>
         Expression<Func<CreditBankAccount, bool>>? expression = base.ToExpression();
 
         if (f.MinAmount.HasValue && f.MaxAmount.HasValue)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterAmountRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterAmountRange());
         else if (f.MinAmount.HasValue && !f.MaxAmount.HasValue)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterAmount());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterAmount());
         
         if (f.MinInitPayment.HasValue && f.MaxInitPayment.HasValue)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterInitPaymentRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterInitPaymentRange());
         else if (f.MinInitPayment.HasValue && !f.MaxInitPayment.HasValue)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterInitPayment());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterInitPayment());
         
         if (f.MinPercent.HasValue && f.MaxPercent.HasValue)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterPercentRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterPercentRange());
         else if (f.MinPercent.HasValue && !f.MaxPercent.HasValue)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterPercent());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterPercent());
         
         if (f.StartDateRange != null && f.EndDateRange != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterDateRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterDateRange());
         
         if (f.TypeCredit != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterTypeCredit());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterTypeCredit());
         
         if (expression == null)
             expression = b => true;

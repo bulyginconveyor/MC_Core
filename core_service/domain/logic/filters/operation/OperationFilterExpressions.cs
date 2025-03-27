@@ -20,7 +20,7 @@ public static class OperationFilterExpressions
         => o => o.Amount.Value >= filter.MinAmount && o.Amount.Value <= filter.MaxAmount;
 
     internal static Expression<Func<Operation, bool>> ExpressionFilterBankAccount(this OperationFilter filter)
-        => filter.ExpressionFilterCreditBankAccount().ExpressionСoncatWithOr(filter.ExpressionFilterDebetBankAccount());
+        => filter.ExpressionFilterCreditBankAccount().ExpressionConcatWithOr(filter.ExpressionFilterDebetBankAccount());
     
     internal static Expression<Func<Operation, bool>> ExpressionFilterCreditBankAccount(this OperationFilter filter)
         => o => o.CreditBankAccount != null && o.CreditBankAccount.Id == filter.CreditBankAccountId;

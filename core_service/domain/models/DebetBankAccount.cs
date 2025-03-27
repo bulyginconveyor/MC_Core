@@ -1,5 +1,3 @@
-using core_service.services.GuidGenerator;
-
 namespace core_service.domain.models;
 
 public class DebetBankAccount : BankAccount

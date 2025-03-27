@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
 using core_service.domain;
 using core_service.domain.models;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.postgresql.context;
 using core_service.services.Result;
 using Microsoft.EntityFrameworkCore;
@@ -22,39 +21,13 @@ public class BaseBankAccountRepository<B>(DbContext context) : BaseRepository<B>
         
         return Result<IEnumerable<B>>.Success(res);
     }
-    public override async Task<Result<IEnumerable<B>>> GetAll(Tracking tracking)
+    public override async Task<Result<IEnumerable<B>>> GetAll(Expression<Func<B, bool>> filter)
     {
-        if(tracking == Tracking.Yes)
-            return await this.GetAll();
-        
-        var res = await _context.Set<B>()
-            .AsNoTracking()
-            .Include(c => c.Currency)
+         List<B> res = await _context.Set<B>()
+            .Include(b => b.Currency)
+            .Where(filter)
             .Where(c => c.DeletedAt == null)
             .ToListAsync();
-        
-        if (res.Count == 0)
-            return Result<IEnumerable<B>>.Error(res, "BankAccounts not found");
-        
-        return Result<IEnumerable<B>>.Success(res);
-    }
-    public override async Task<Result<IEnumerable<B>>> GetAll(Expression<Func<B, bool>> filter, Tracking tracking = Tracking.Yes)
-    {
-        List<B> res;
-        
-        if (tracking == Tracking.No)
-            res = await _context.Set<B>()
-                .AsNoTracking()
-                .Include(b => b.Currency)
-                .Where(filter)
-                .Where(c => c.DeletedAt == null)
-                .ToListAsync();
-        else 
-            res = await _context.Set<B>()
-                .Include(b => b.Currency)
-                .Where(filter)
-                .Where(c => c.DeletedAt == null)
-                .ToListAsync();
         
         if (res.Count == 0)
             return Result<IEnumerable<B>>.Error(res, "BankAccounts not found");
@@ -74,43 +47,13 @@ public class BaseBankAccountRepository<B>(DbContext context) : BaseRepository<B>
             : 
             Result<B>.Success(res);
     }
-    public override async Task<Result<B>> GetOne(Guid id, Tracking tracking = Tracking.Yes)
+    public override async Task<Result<B>> GetOne(Expression<Func<B, bool>> filter)
     {
-        B? res;
-        
-        if(tracking == Tracking.Yes)
-            res = await _context.Set<B>()
+        B? res = await _context.Set<B>()
                 .Include(c => c.Currency)
                 .Where(c => c.DeletedAt == null)
-                .FirstOrDefaultAsync(c => c.Id == id);
-        else 
-            res = await _context.Set<B>()
-                .AsNoTracking()
-                .Include(c => c.Currency)
-                .Where(c => c.DeletedAt == null)
-                .FirstOrDefaultAsync(c => c.Id == id);
-        
-        return res == null ? 
-            Result<B>.Error(res!, "BankAccount not found") 
-            : 
-            Result<B>.Success(res);
-    }
-    public override async Task<Result<B>> GetOne(Expression<Func<B, bool>> filter, Tracking tracking = Tracking.Yes)
-    {
-        B? res;
+                .FirstOrDefaultAsync(filter);
 
-        if (tracking == Tracking.Yes)
-            res = await _context.Set<B>()
-                .Include(c => c.Currency)
-                .Where(c => c.DeletedAt == null)
-                .FirstOrDefaultAsync(filter);
-        else 
-            res = await _context.Set<B>()
-                .AsNoTracking()
-                .Include(c => c.Currency)
-                .Where(c => c.DeletedAt == null)
-                .FirstOrDefaultAsync(filter);
-        
         return res == null ? 
             Result<B>.Error(res!, "BankAccount not found") 
             : 

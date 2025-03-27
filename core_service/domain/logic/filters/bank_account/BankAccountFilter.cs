@@ -25,18 +25,18 @@ public class BankAccountFilter<T>() where T : BankAccount
         Expression<Func<T, bool>>? expression = null;
         
         if (f.Name != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterName());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterName());
         
         if (f.MinBalance != null && f.MaxBalance != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterBalanceRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterBalanceRange());
         else if(f.MinBalance != null && f.MaxBalance == null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterBalance());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterBalance());
         
         if (f.CurrencyId != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterCurrencyId());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterCurrencyId());
         
         if (f.TypeBankAccount != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterTypeBankAccount());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterTypeBankAccount());
 
         if (expression is null)
             expression = b => true;

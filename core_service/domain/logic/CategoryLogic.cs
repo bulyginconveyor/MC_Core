@@ -1,6 +1,5 @@
 using core_service.application.rest_api.DTO;
 using core_service.domain.models;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.services.Result;
 
@@ -13,8 +12,8 @@ public class CategoryLogic(IDbRepository<Category> rep)
     public async Task<Result<List<DTOCategory>>> GetAll(string filterName = null)
     {
         var resGet = string.IsNullOrEmpty(filterName)
-            ? await _rep.GetAll(Tracking.No)
-            : await _rep.GetAll(c => c.Name.Value.ToLower().Contains(filterName.ToLower()), Tracking.No);
+            ? await _rep.GetAll()
+            : await _rep.GetAll(c => c.Name.Value.ToLower().Contains(filterName.ToLower()));
         
         if(resGet.IsError)
             return Result<List<DTOCategory>>.Error(null, resGet.ErrorMessage);
@@ -28,7 +27,7 @@ public class CategoryLogic(IDbRepository<Category> rep)
 
     public async Task<Result<DTOCategory>> GetById(Guid id)
     {
-        var resGet = await _rep.GetOne(id, Tracking.No);
+        var resGet = await _rep.GetOne(id);
         
         if(resGet.IsError)
             return Result<DTOCategory>.Error(null, resGet.ErrorMessage);

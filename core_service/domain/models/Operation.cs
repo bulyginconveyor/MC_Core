@@ -1,7 +1,6 @@
 using core_service.domain.models.@base;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
-using core_service.services.GuidGenerator;
 using core_service.services.Result;
 
 namespace core_service.domain.models;
@@ -32,7 +31,7 @@ public class Operation : Entity, IDbModel, IByUserModel
         if (credit != null && debet != null)
             throw new ArgumentException("Can't debet is null and credit is null! Min - one bankAccount is not null!");
 
-        this.Id = GuidGenerator.GenerateByBytes();
+        this.Id = Guid.NewGuid();
         this.Name = name;
         this.Date = date;
         this.Amount = amount;

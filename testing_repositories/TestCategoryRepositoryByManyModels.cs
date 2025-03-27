@@ -1,6 +1,5 @@
 using core_service.domain;
 using core_service.domain.models;
-using core_service.infrastructure.repository.enums;
 using testing_repositories.@base;
 using static NUnit.Framework.Assert;
 
@@ -42,7 +41,7 @@ public class TestCategoryRepositoryByManyModels : BaseCategoryRep
         await _rep.Save();
 
         // Act
-        var result = await _rep.GetAll(Tracking.No);
+        var result = await _rep.GetAll();
         if (result.IsError)
             Fail(result.ErrorMessage);
 
