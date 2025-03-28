@@ -1,6 +1,5 @@
 ﻿using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
-using core_service.services.GuidGenerator;
 
 namespace core_service.domain.models;
 

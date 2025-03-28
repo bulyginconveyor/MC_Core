@@ -36,14 +36,14 @@ public class CreditBankAccountConfiguration : IEntityTypeConfiguration<CreditBan
         
         builder
             .Property(c => c.TypeCredit)
-            .HasConversion(v => v.ToString(),
-                v => (TypeCreditBankAccount)Enum.Parse(typeof(TypeCreditBankAccount), v)).HasColumnName("type_credit");
+            .HasConversion<int>()
+            .HasColumnName("type_credit");
         
         builder
             .HasOne(c => c.Term)
-            .WithMany();
+            .WithMany().HasForeignKey("term_id");;
         builder
             .HasOne(c => c.LoanObject)
-            .WithMany();
+            .WithMany().HasForeignKey("loan_object_id");;
     }
 }

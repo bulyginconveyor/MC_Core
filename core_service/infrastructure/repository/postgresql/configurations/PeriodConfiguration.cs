@@ -1,6 +1,5 @@
 using core_service.domain.models.valueobjects;
 using core_service.domain.models.valueobjects.enums;
-using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,13 +13,13 @@ public class PeriodConfiguration : IEntityTypeConfiguration<Period>
         
         builder.HasKey(p => p.Id);
 
-        builder.Property(p => p.Id).HasDefaultValue(GuidGenerator.GenerateByBytes());
+        builder.Property(p => p.Id).HasDefaultValue(Guid.NewGuid());
         builder.Property(b => b.UserId).HasColumnName("user_id").IsRequired();
         builder.Property(p => p.Value).HasColumnName("count");
         builder
             .Property(p => p.TypePeriod)
-            .HasConversion(v => v.ToString(),
-                v => (TypePeriod)Enum.Parse(typeof(TypePeriod), v)).HasColumnName("type");
+            .HasConversion<int>()
+            .HasColumnName("type");
         
         builder.Property(c => c.CreatedAt).HasColumnName("created_at").IsRequired().HasDefaultValue(DateTime.UtcNow);;
         builder.Property(c => c.UpdatedAt).HasColumnName("updated_at");

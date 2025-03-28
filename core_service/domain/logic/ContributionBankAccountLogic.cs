@@ -3,7 +3,6 @@ using core_service.domain.logic.filters.bank_account.contribution;
 using core_service.domain.models;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.services.Result;
 
@@ -28,7 +27,7 @@ public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount>
     
     public async Task<Result<DTOContributionBankAccount>> GetOneById(Guid id)
     {
-        var resGet = await _rep.GetOne(id, Tracking.No);
+        var resGet = await _rep.GetOne(id);
         if(resGet.Value is null)
             return Result<DTOContributionBankAccount>.Error(null!, "Not found");
         

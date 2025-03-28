@@ -1,6 +1,5 @@
 using core_service.domain.models.@base;
 using core_service.domain.models.valueobjects;
-using core_service.services.GuidGenerator;
 using core_service.services.Result;
 using Color = core_service.domain.models.valueobjects.Color;
 
@@ -23,7 +22,7 @@ public class Category : Entity, IDbModel
     
     public Category(Name name, Color color)
     {
-        this.Id = GuidGenerator.GenerateByBytes();
+        this.Id = Guid.NewGuid();
         this.Name = name;
         this.Color = color;
     }

@@ -1,6 +1,5 @@
 using core_service.domain.models.valueobjects;
 using core_service.domain.models.valueobjects.enums;
-using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,12 +13,12 @@ public class TermConfiguration : IEntityTypeConfiguration<Term>
         
         builder.HasKey(t => t.Id);
         
-        builder.Property(t => t.Id).HasDefaultValue(GuidGenerator.GenerateByBytes());
+        builder.Property(t => t.Id).HasDefaultValue(Guid.NewGuid());
         builder.Property(t => t.UserId).HasColumnName("user_id").IsRequired();
         builder
             .Property(t => t.Unit)
-            .HasConversion(v => v.ToString(),
-                v => (UnitTerm)Enum.Parse(typeof(UnitTerm), v)).HasColumnName("unit");
+            .HasConversion<int>()
+            .HasColumnName("unit");
         builder.Property(t => t.CountUnits).HasColumnName("count_units");
         
         builder.Property(c => c.CreatedAt).HasColumnName("created_at").IsRequired().HasDefaultValue(DateTime.UtcNow);;

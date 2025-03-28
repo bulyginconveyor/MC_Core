@@ -1,36 +1,25 @@
 using core_service.application.rest_api.DTO;
 using core_service.domain.models;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.services.Result;
 
 namespace core_service.domain.logic;
 
-public class CurrencyLogic(IDbRepository<Currency> rep, ICacheRepositoryWithLists<DTOCurrency> cache)
+public class CurrencyLogic(IDbRepository<Currency> rep)
 {
     private IDbRepository<Currency> _rep = rep;
-    private ICacheRepositoryWithLists<DTOCurrency> _cache = cache; //TODO: Реализовать Cache
 
     public async Task<Result<IEnumerable<DTOCurrency>>> GetAll()
     {
         IEnumerable<DTOCurrency>? resGet = null;
         
-        // По-моему, фигня идея - хранить всё-всё в кеше... не напасусь я столько ОЗУ
-        // ОЗУ напасусь, но, сука, прироста 0! Полный 0!!! Entity, тварь, похоже сразу всё кеширует
-        /* var resGetCache = await _cache.GetAll();
-        if (resGetCache.IsSuccess && resGetCache.Value.Any())
-            return Result<IEnumerable<DTOCurrency>>.Success(resGetCache.Value);
-        */
-        
-        var resGetRep = await _rep.GetAll(Tracking.No);
+        var resGetRep = await _rep.GetAll();
         
         if(resGetRep.IsError)
             return Result<IEnumerable<DTOCurrency>>.Error(null, resGetRep.ErrorMessage);
 
         var listDtos = resGetRep.Value.ToList()
                 .Select(x => (DTOCurrency)x);
-        
-        // await _cache.Add(listDtos.ToList());
         
         return Result<IEnumerable<DTOCurrency>>.Success(listDtos);
     }

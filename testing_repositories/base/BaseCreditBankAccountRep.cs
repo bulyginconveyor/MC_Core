@@ -7,7 +7,6 @@ using core_service.domain.models.valueobjects.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.repositories;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
-using core_service.services.GuidGenerator;
 
 namespace testing_repositories.@base;
 
@@ -31,14 +30,14 @@ public class BaseCreditBankAccountRep : BaseTest
         DateTime startDate = new DateTime(2021, 1, 20).ToUniversalTime();
 
         Active loanObjectActive = new Active(UDecimal.Parse(750000), startDate, TypeActiveBankAccount.Transport);
-        ActiveBankAccount loanObject = new ActiveBankAccount(GuidGenerator.GenerateByBytes(), "Toyota Mark II", "#FF0",
+        ActiveBankAccount loanObject = new ActiveBankAccount(Guid.NewGuid(), "Toyota Mark II", "#FF0",
             rub, loanObjectActive, 750000);
 
         Loan loan = new Loan(UDecimal.Parse(750000), UDecimal.Parse(100000), percent, term, startDate,
             TypeCreditBankAccount.CarLoan, loanObject);
         
-        CreditBankAccount credit = new CreditBankAccount(GuidGenerator.GenerateByBytes(), "Автокредит", "#F00", rub, loan, 750000);
-        credit.UserId = GuidGenerator.GenerateByBytes();
+        CreditBankAccount credit = new CreditBankAccount(Guid.NewGuid(), "Автокредит", "#F00", rub, loan, 750000);
+        credit.UserId = Guid.NewGuid();
         return credit;
     }
 }

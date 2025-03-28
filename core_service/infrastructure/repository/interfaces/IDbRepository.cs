@@ -1,16 +1,13 @@
 using System.Linq.Expressions;
 using core_service.domain.models.@base;
-using core_service.infrastructure.repository.enums;
 using core_service.services.Result;
 
 namespace core_service.infrastructure.repository.interfaces;
 
 public interface IDbRepository<T> : IRepository<T> where T : class, IDbModel, IEntity<Guid>
 {
-    public Task<Result<IEnumerable<T>>> GetAll(Expression<Func<T, bool>> filter, Tracking tracking = Tracking.Yes);
-    public Task<Result<IEnumerable<T>>> GetAll(Tracking tracking);
-    public Task<Result<T>> GetOne(Expression<Func<T, bool>> filter, Tracking tracking = Tracking.Yes);
-    public Task<Result<T>> GetOne(Guid id, Tracking tracking = Tracking.Yes);
+    public Task<Result<IEnumerable<T>>> GetAll(Expression<Func<T, bool>> filter);
+    public Task<Result<T>> GetOne(Expression<Func<T, bool>> filter);
     public Task AddRange(IEnumerable<T> entities);
     public Task UpdateRange(IEnumerable<T> entities);
     public Task DeleteRange(IEnumerable<T> entities);

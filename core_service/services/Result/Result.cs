@@ -5,7 +5,7 @@ public record Result
     private ResultStatus _result;
     public bool IsSuccess => _result == ResultStatus.Success;
     public bool IsError => _result == ResultStatus.Error;
-    public string? ErrorMessage { get; protected set; } = null;
+    public string ErrorMessage { get; protected set; } = null!;
 
     protected Result()
     {
@@ -27,17 +27,17 @@ public record Result<T> : Result
 {
     public T? Value { get; init; }
 
-    protected Result(T value) : base()
+    private Result(T value) : base()
     {
         this.Value = value;
     }
 
-    protected Result(T value, string? errorMessage) : base(errorMessage!)
+    private Result(T value, string errorMessage) : base(errorMessage!)
     {
         this.Value = value;
-        this.ErrorMessage = errorMessage ?? $"Error in type {typeof(T).Name}. This is default error message!";
+        this.ErrorMessage = errorMessage;
     }
     
     public static Result<T> Success(T value) => new Result<T>(value);
-    public static Result<T> Error(T value, string? errorMessage) => new Result<T>(value, errorMessage);
+    public static Result<T> Error(T value, string errorMessage) => new Result<T>(value, errorMessage);
 }

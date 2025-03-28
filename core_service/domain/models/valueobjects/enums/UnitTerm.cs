@@ -2,6 +2,7 @@
 
 public enum UnitTerm
 {
+    None = 0,
     Year,
     Month,
     Week,

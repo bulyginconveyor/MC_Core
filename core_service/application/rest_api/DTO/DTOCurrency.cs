@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using core_service.domain.models;
 using core_service.domain.models.valueobjects;
 
@@ -5,9 +6,13 @@ namespace core_service.application.rest_api.DTO;
 
 public class DTOCurrency()
 {
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
+    [JsonPropertyName("iso_code")]
     public string IsoCode { get; set; }
+    [JsonPropertyName("full_name")]
     public string FullName { get; set; }
+    [JsonPropertyName("photo_url")]
     public string? PhotoUrl { get; set; }
 
     public static implicit operator Currency(DTOCurrency dto)

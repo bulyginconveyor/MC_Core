@@ -1,6 +1,5 @@
 using core_service.domain.models.@base;
 using core_service.domain.models.valueobjects;
-using core_service.services.GuidGenerator;
 
 namespace core_service.domain.models;
 
@@ -19,7 +18,7 @@ public class Currency : Entity, IDbModel
     }
     private Currency(){}
 
-    public static Currency Create(IsoCode isoCode, Name fullName, PhotoUrl imageUrl) => new Currency(GuidGenerator.GenerateByBytes(), isoCode, fullName, imageUrl);
+    public static Currency Create(IsoCode isoCode, Name fullName, PhotoUrl imageUrl) => new Currency(Guid.NewGuid(), isoCode, fullName, imageUrl);
     public static Currency Create(Guid id, IsoCode isoCode, Name fullName, PhotoUrl imageUrl) => new Currency(id, isoCode, fullName, imageUrl);
     
     public DateTime CreatedAt { get; set; }

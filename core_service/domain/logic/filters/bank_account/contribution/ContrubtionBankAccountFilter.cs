@@ -28,25 +28,25 @@ public class ContributionBankAccountFilter : BankAccountFilter<ContributionBankA
         Expression<Func<ContributionBankAccount, bool>>? expression = null;
 
         if (f.StartDateRange != null && f.EndDateRange != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterDateRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterDateRange());
         
         if (f.MinAmount != null && f.MaxAmount != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterAmountRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterAmountRange());
         else if (f.MinAmount != null && f.MaxAmount == null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterAmount());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterAmount());
         
         if (f.TypeContribution != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterTypeContribution());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterTypeContribution());
         
         if (f.MinPercent != null && f.MaxPercent != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterPercentRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterPercentRange());
         else if (f.MinPercent != null && f.MaxPercent == null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterPercent());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterPercent());
         
         if (f.MinCountDaysForPercent != null && f.MaxCountDaysForPercent != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterCountDaysForPercentRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterCountDaysForPercentRange());
         else if (f.MinCountDaysForPercent != null && f.MaxCountDaysForPercent == null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterCountDaysForPercent());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterCountDaysForPercent());
 
         if (expression != null)
             expression = b => true;

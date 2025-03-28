@@ -22,11 +22,8 @@ public class ActiveBankAccountConfiguration : IEntityTypeConfiguration<ActiveBan
             photoUrlBuilder.Property(p => p.Url).HasColumnName("photo_url");
         });
         
-        builder
-            .Property(b => b.TypeActive)
-            .HasConversion(v => v.ToString(),
-                v => (TypeActiveBankAccount)Enum.Parse(typeof(TypeActiveBankAccount), v)).HasColumnName("type_active");
-        
-        
+        builder.Property(b => b.TypeActive)
+            .HasConversion<int>()
+            .HasColumnName("type_active");
     }
 }

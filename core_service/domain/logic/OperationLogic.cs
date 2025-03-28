@@ -4,7 +4,6 @@ using core_service.domain.logic.filters.operation;
 using core_service.domain.models;
 using core_service.domain.models.valueobjects;
 using core_service.domain.models.valueobjects.enums;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.services.ExpressionHelpers;
 using core_service.services.Result;
@@ -46,7 +45,7 @@ public class OperationLogic(
 
     public async Task<Result<DTOOperation>> GetById(Guid id)
     {
-        var operation = await _rep.GetOne(id, Tracking.No);
+        var operation = await _rep.GetOne(id);
         if(operation.Value is null)
             return Result<DTOOperation>.Error(null, "Not found");
         

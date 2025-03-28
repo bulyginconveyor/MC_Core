@@ -23,17 +23,17 @@ public class ActiveBankAccountFilter : BankAccountFilter<ActiveBankAccount>
         Expression<Func<ActiveBankAccount, bool>> expression = base.ToExpression();
         
         if(f.MinBuyPrice != null && f.MaxBuyPrice != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterBuyPriceRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterBuyPriceRange());
         else if(f.MinBuyPrice != null && f.MaxBuyPrice == null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterBuyPrice());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterBuyPrice());
         
         if(f.StartBuyDate != null && f.EndBuyDate != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterDateRange());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterDateRange());
         else if(f.StartBuyDate != null && f.EndBuyDate == null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterDate());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterDate());
         
         if(f.TypeActive != null)
-            expression = expression.ExpressionСoncatWithAnd(f.ExpressionFilterTypeActive());
+            expression = expression.ExpressionConcatWithAnd(f.ExpressionFilterTypeActive());
 
         if (expression is null)
             return ab => true;

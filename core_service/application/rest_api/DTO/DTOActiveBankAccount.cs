@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using core_service.domain.models;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
@@ -8,9 +9,13 @@ public class DTOActiveBankAccount : DTOBankAccount
 {
     public new string TypeBankAccount { get; set; } = "Active";
     
+    [JsonPropertyName("buy_price")]
     public decimal BuyPrice { get; set; }
+    [JsonPropertyName("buy_date")]
     public DateTime BuyDate { get; set; }
+    [JsonPropertyName("type_active")]
     public string TypeActive { get; set; }
+    [JsonPropertyName("photo_url")]
     public string? PhotoUrl { get; set; }
 
     public static DTOActiveBankAccount? CreateLight(ActiveBankAccount? bankAccount)

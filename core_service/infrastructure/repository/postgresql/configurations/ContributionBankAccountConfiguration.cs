@@ -28,8 +28,8 @@ public class ContributionBankAccountConfiguration : IEntityTypeConfiguration<Con
         });
         builder
             .Property(c => c.TypeContribution)
-            .HasConversion(v => v.ToString(),
-                v => (TypeContributionBankAccount)Enum.Parse(typeof(TypeContributionBankAccount), v)).HasColumnName("type_contribution");
+            .HasConversion<int>()
+            .HasColumnName("type_contribution");
         builder.ComplexProperty(c => c.Amount, amountBuilder =>
         {
             amountBuilder.Property(a => a.Value).HasColumnName("amount");

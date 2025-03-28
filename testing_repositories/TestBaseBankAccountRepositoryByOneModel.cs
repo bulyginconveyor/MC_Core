@@ -1,5 +1,4 @@
 using core_service.domain.models.valueobjects;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
 using testing_repositories.ase;
 using static NUnit.Framework.Assert;
@@ -154,7 +153,7 @@ public class TestBaseBankAccountRepositoryByOneModel : BaseBankAccountRep
         await _rep.Save();
         
         // Act
-        var resGet = await _rep.GetOne(c => c.Name == bankAccount.Name, Tracking.No);
+        var resGet = await _rep.GetOne(c => c.Name == bankAccount.Name);
         if(resGet.IsError)
             Fail(resGet.ErrorMessage);
         

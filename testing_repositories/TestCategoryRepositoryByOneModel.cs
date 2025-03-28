@@ -1,8 +1,6 @@
 using core_service.domain;
 using core_service.domain.models;
 using core_service.domain.models.valueobjects;
-using core_service.infrastructure.repository.enums;
-using core_service.services.GuidGenerator;
 using testing_repositories.@base;
 using static NUnit.Framework.Assert;
 
@@ -21,7 +19,7 @@ public class TestCategoryRepositoryByOneModel : BaseCategoryRep
         var expected = all.First();
 
         // Act
-        var actual = await _rep.GetOne(expected.Id, Tracking.No);
+        var actual = await _rep.GetOne(expected.Id);
         if(actual.IsError)
             Fail();
         
@@ -48,7 +46,7 @@ public class TestCategoryRepositoryByOneModel : BaseCategoryRep
 
         Name name = Name.Create("New subcategory");
         Color color = Color.Parse("#F0F00F");
-        Category newSubCategory = new(GuidGenerator.GenerateByBytes(), name, color);
+        Category newSubCategory = new(Guid.NewGuid(), name, color);
         
         expected.AddSubCategory(newSubCategory);
         
@@ -57,7 +55,7 @@ public class TestCategoryRepositoryByOneModel : BaseCategoryRep
             Fail();
         await _rep.Save();
 
-        var actual = await _rep.GetOne(expected.Id, Tracking.No);
+        var actual = await _rep.GetOne(expected.Id);
         actual = await _rep.LoadData(actual.Value!);
         if(actual.IsError)
             Fail();

@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using core_service.domain.models.@base;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.context;
 using core_service.services.Result;
@@ -32,21 +31,12 @@ public class BaseRepository<T>(DbContext context)
         
         return Result<IEnumerable<T>>.Success(result);
     }
-    public virtual async Task<Result<IEnumerable<T>>> GetAll(Tracking tracking)
+    public virtual async Task<Result<IEnumerable<T>>> GetAll(Expression<Func<T, bool>> filter)
     {
-        if(tracking == Tracking.No)
-        {
-            var resNoTracking = await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).ToListAsync();
-            return Result<IEnumerable<T>>.Success(resNoTracking);
-        }
-        
-        return await this.GetAll();
-    }
-    public virtual async Task<Result<IEnumerable<T>>> GetAll(Expression<Func<T, bool>> filter, Tracking tracking = Tracking.Yes)
-    {
-        var result = tracking == Tracking.No
-            ? await _context.Set<T>().AsNoTracking().Where(filter).Where(e => e.DeletedAt == null).ToListAsync()
-            : await _context.Set<T>().Where(filter).Where(e => e.DeletedAt == null).ToListAsync();
+        var result = await _context.Set<T>()
+            .AsNoTracking()
+            .Where(filter).Where(e => e.DeletedAt == null)
+            .ToListAsync();
         
         return Result<IEnumerable<T>>.Success(result);
     }
@@ -60,26 +50,13 @@ public class BaseRepository<T>(DbContext context)
         
         return Result<T>.Success(result);
     }
-    public virtual async Task<Result<T>> GetOne(Guid id, Tracking tracking = Tracking.Yes)
+    public virtual async Task<Result<T>> GetOne(Expression<Func<T, bool>> filter)
     {
-        if (tracking == Tracking.No)
-        {
-            var resNoTracking = await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(e => e.Id == id);
-            if(resNoTracking == null)
-                return Result<T>.Error(null!, $"Not found. Return null");
-            
-            return Result<T>.Success(resNoTracking);
-        }
-
-        return await this.GetOne(id);
-    }
-    public virtual async Task<Result<T>> GetOne(Expression<Func<T, bool>> filter, Tracking tracking = Tracking.Yes)
-    {
-        var result = tracking == Tracking.No ?
-            await _context.Set<T>().AsNoTracking().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(filter) 
-            :
-            await _context.Set<T>().Where(e => e.DeletedAt == null).FirstOrDefaultAsync(filter);
-
+        var result = await _context.Set<T>()
+            .AsNoTracking()
+            .Where(e => e.DeletedAt == null)
+            .FirstOrDefaultAsync(filter);
+        
         if (result == null)
             return Result<T>.Error(null!,$"Not found. Return null");
         

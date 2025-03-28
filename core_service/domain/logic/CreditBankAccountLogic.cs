@@ -5,7 +5,6 @@ using core_service.domain.models;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
 using core_service.domain.models.valueobjects.enums;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.interfaces;
 using core_service.services.Result;
 
@@ -35,7 +34,7 @@ public class CreditBankAccountLogic(
     
     public async Task<Result<DTOCreditBankAccount>> GetOneById(Guid id)
     {
-        var resGet = await _rep.GetOne(id, Tracking.No);
+        var resGet = await _rep.GetOne(id);
         if(resGet.Value is null)
             return Result<DTOCreditBankAccount>.Error(null!, "Not found");
         

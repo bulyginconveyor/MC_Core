@@ -1,7 +1,6 @@
 using core_service.domain;
 using core_service.domain.models;
 using core_service.domain.models.enums;
-using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,7 +14,7 @@ public class OperationConfiguration : IEntityTypeConfiguration<Operation>
         
         builder.HasKey(o => o.Id);
 
-        builder.Property(o => o.Id).HasDefaultValue(GuidGenerator.GenerateByBytes());
+        builder.Property(o => o.Id).HasDefaultValue(Guid.NewGuid());
         builder.Property(b => b.UserId).HasColumnName("user_id").IsRequired();
         builder.ComplexProperty(o => o.Name, nameBuilder =>
         {
@@ -34,21 +33,21 @@ public class OperationConfiguration : IEntityTypeConfiguration<Operation>
 
         builder
             .HasOne(o => o.Period)
-            .WithMany();
+            .WithMany().HasForeignKey("period_id");;
         builder
             .HasOne(o => o.Category)
-            .WithMany();
+            .WithMany().HasForeignKey("category_id");;
         builder
             .HasOne(o => o.CreditBankAccount)
-            .WithMany();
+            .WithMany().HasForeignKey("credit_bank_account_id");;
         builder
             .HasOne(o => o.DebetBankAccount)
-            .WithMany();
+            .WithMany().HasForeignKey("debet_bank_account_id");;;
 
         builder
             .Property(c => c.Status)
-            .HasConversion(v => v.ToString(),
-                v => (StatusOperation)Enum.Parse(typeof(StatusOperation), v)).HasColumnName("status");
+            .HasConversion<int>()
+            .HasColumnName("status");
         
         builder.Property(c => c.CreatedAt).HasColumnName("created_at").IsRequired().HasDefaultValue(DateTime.UtcNow);;
         builder.Property(c => c.UpdatedAt).HasColumnName("updated_at");

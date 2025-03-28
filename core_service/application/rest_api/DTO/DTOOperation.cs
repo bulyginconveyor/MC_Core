@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using core_service.domain.models;
 using core_service.domain.models.enums;
 using core_service.domain.models.valueobjects;
@@ -6,17 +7,26 @@ namespace core_service.application.rest_api.DTO;
 
 public class DTOOperation
 {
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
     
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
+    [JsonPropertyName("date")]
     public DateOnly Date { get; set; }
+    [JsonPropertyName("amount")]
     public decimal Amount { get; set; }
     
+    [JsonPropertyName("period")]
     public DTOPeriod? Period { get; set; }
+    [JsonPropertyName("credit_bank_account")]
     public DTOBankAccount? CreditBankAccount { get; set; }
+    [JsonPropertyName("debet_bank_account")]
     public DTOBankAccount? DebetBankAccount { get; set; }
+    [JsonPropertyName("category")]
     public DTOCategory? Category { get; set; }
     
+    [JsonPropertyName("status")]
     public bool Status { get; set; }
     
     public static DTOOperation? CreateLight(Operation? operation)

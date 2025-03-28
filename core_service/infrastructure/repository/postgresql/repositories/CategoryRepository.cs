@@ -1,6 +1,5 @@
 using core_service.domain;
 using core_service.domain.models;
-using core_service.infrastructure.repository.enums;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
 using core_service.services.Result;
 using Microsoft.EntityFrameworkCore;
@@ -22,27 +21,6 @@ public class CategoryRepository(DbContext context) : BaseRepository<Category>(co
             : 
             Result<IEnumerable<Category>>.Success(res);
     }
-    public override async Task<Result<IEnumerable<Category>>> GetAll(Tracking tracking)
-    {
-        if(tracking == Tracking.Yes)
-            return await this.GetAll();
-
-        var res = await _context.Set<Category>()
-            .AsNoTracking()
-            .Include(c => c.SubCategories)
-            .Where(e => e.DeletedAt == null)
-            .Where(c => c.SubCategories.Count() > 0)
-            .ToListAsync();
-            
-        if (res == null || res.Count() == 0)
-            return Result<IEnumerable<Category>>.Error(res, "Categories not found");
-
-        foreach (var category in res)
-            category.ChangeSubCategories(category.SubCategories.Where(c => c.DeletedAt == null));
-        
-        return Result<IEnumerable<Category>>.Success(res);
-    }
-
     public override async Task<Result> Update(Category entity)
     {
         try

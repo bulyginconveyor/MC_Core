@@ -2,6 +2,7 @@
 
 public enum TypeCreditBankAccount
 {
+    None = 0,
     MortgageLoan,
     CarLoan,
     ConsumerLoan,

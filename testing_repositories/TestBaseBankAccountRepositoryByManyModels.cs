@@ -1,6 +1,5 @@
 using core_service.domain;
 using core_service.domain.models;
-using core_service.infrastructure.repository.enums;
 using testing_repositories.ase;
 using static NUnit.Framework.Assert;
 
@@ -40,7 +39,7 @@ public class TestBaseBankAccountRepositoryByManyModels : BaseBankAccountRep
         await _rep.Save();
         
         // Act
-        var result = await _rep.GetAll(ba => ba.Name.Value == "Дом", Tracking.No);
+        var result = await _rep.GetAll(ba => ba.Name.Value == "Дом");
 
         // Assert
         AreEqual(1, result.Value.Count());

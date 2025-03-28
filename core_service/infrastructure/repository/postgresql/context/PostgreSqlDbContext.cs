@@ -2,7 +2,6 @@ using core_service.domain;
 using core_service.domain.models;
 using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.postgresql.configurations;
-using core_service.services.GuidGenerator;
 using Microsoft.EntityFrameworkCore;
 
 namespace core_service.infrastructure.repository.postgresql.context;
@@ -22,33 +21,35 @@ public sealed class PostgreSqlDbContext : DbContext
     
     public DbSet<Operation> Operations { get; set; }
     
-    private readonly string _connectionString;
+    private readonly string _connectionString = "";
     
     public PostgreSqlDbContext(string connectionString)
     {
         _connectionString = connectionString;
         
         //Database.EnsureDeleted();
-        Database.EnsureCreated();
+        //Database.EnsureCreated();
+        Database.Migrate();
 
         if (!Currencies.Any())
         {
             Currencies.AddRange(
-                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("RUB"), Name.Create("Российский рубль"),
+                Currency.Create(Guid.NewGuid(), IsoCode.Create("RUB"), Name.Create("Российский рубль"),
                     PhotoUrl.Empty),
-                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("USD"),
+                Currency.Create(Guid.NewGuid(), IsoCode.Create("USD"),
                     Name.Create("Американский доллар"),
                     PhotoUrl.Empty),
-                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("EUR"), Name.Create("Евро"),
+                Currency.Create(Guid.NewGuid(), IsoCode.Create("EUR"), Name.Create("Евро"),
                     PhotoUrl.Empty),
-                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("CNY"), Name.Create("Китайский юань"),
+                Currency.Create(Guid.NewGuid(), IsoCode.Create("CNY"), Name.Create("Китайский юань"),
                     PhotoUrl.Empty),
-                Currency.Create(GuidGenerator.GenerateByBytes(), IsoCode.Create("JPY"), Name.Create("Японская иена"),
+                Currency.Create(Guid.NewGuid(), IsoCode.Create("JPY"), Name.Create("Японская иена"),
                     PhotoUrl.Empty));
 
             SaveChanges();
         }
     }
+    public PostgreSqlDbContext(){}
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(_connectionString); 
