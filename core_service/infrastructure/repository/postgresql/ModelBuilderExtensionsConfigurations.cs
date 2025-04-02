@@ -17,5 +17,7 @@ public static class ModelBuilderExtensionsConfigurations
         modelBuilder.ApplyConfiguration(new ContributionBankAccountConfiguration());
         modelBuilder.ApplyConfiguration(new CreditBankAccountConfiguration());
         modelBuilder.ApplyConfiguration(new OperationConfiguration());
+
+        modelBuilder.ApplyConfiguration(new HiddenCategoryConfiguration());
     }
 }
