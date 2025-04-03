@@ -1,6 +1,7 @@
 using core_service.domain.models;
 using core_service.infrastructure.repository.interfaces;
 using core_service.infrastructure.repository.postgresql.context;
+using core_service.infrastructure.repository.postgresql.models;
 using core_service.infrastructure.repository.postgresql.repositories;
 using core_service.infrastructure.repository.postgresql.repositories.@base;
 using Microsoft.EntityFrameworkCore;
@@ -34,5 +35,7 @@ public static class ServiceProviderExtensionsRepositories
         services.AddScoped<IDbRepository<CreditBankAccount>, CreditBankAccountRepository>();
         
         services.AddScoped<IDbRepository<Operation>, OperationRepository>();
+
+        services.AddScoped<IRepositoryForHiddenCategory<HiddenCategory>, HiddenCategoryRepository>();
     }
 }

@@ -2,6 +2,7 @@ using core_service.domain;
 using core_service.domain.models;
 using core_service.domain.models.valueobjects;
 using core_service.infrastructure.repository.postgresql.configurations;
+using core_service.infrastructure.repository.postgresql.models;
 using Microsoft.EntityFrameworkCore;
 
 namespace core_service.infrastructure.repository.postgresql.context;
@@ -18,7 +19,8 @@ public sealed class PostgreSqlDbContext : DbContext
     public DbSet<Currency> Currencies { get; set; }
     
     public DbSet<Category> Categories { get; set; }
-    
+    public DbSet<HiddenCategory> HiddenCategories { get; set; }
+
     public DbSet<Operation> Operations { get; set; }
     
     private readonly string _connectionString = "";
