@@ -23,27 +23,20 @@ public class CategoryRepository(DbContext context) : BaseRepository<Category>(co
     }
     public override async Task<Result> Update(Category entity)
     {
-        try
-        {
-            var res = await this.GetOne(entity.Id);
-            if (res.IsError)
-                return Result.Error(res.ErrorMessage!);
+        var res = await this.GetOne(entity.Id);
+        if (res.IsError)
+            return Result.Error(res.ErrorMessage!);
 
-            var category = res.Value!;
-            category.Name = entity.Name;
-            category.Color = entity.Color;
-            category.ChangeSubCategories(entity.SubCategories);
-            
-            category.UpdatedAt = DateTime.UtcNow;
-            
-            _context.Set<Category>().Update(category);
-            
-            return Result.Success();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        var category = res.Value!;
+        category.Name = entity.Name;
+        category.Color = entity.Color;
+        category.ChangeSubCategories(entity.SubCategories);
+        
+        category.UpdatedAt = DateTime.UtcNow;
+        
+        _context.Set<Category>().Update(category);
+        
+        return Result.Success();
     }
 
     public override async Task<Result<Category>> LoadData(Category entity)

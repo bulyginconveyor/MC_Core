@@ -14,15 +14,8 @@ public class BaseRepository<T>(DbContext context)
 
     public async Task<Result> Save()
     {
-        try
-        {
-            await _context.SaveChangesAsync();
-            return Result.Success();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        await _context.SaveChangesAsync();
+        return Result.Success();
     }
     
     public virtual async Task<Result<IEnumerable<T>>> GetAll()
@@ -65,16 +58,9 @@ public class BaseRepository<T>(DbContext context)
     
     public virtual async Task<Result> Add(T entity)
     {
-        try
-        {
-            await _context.Set<T>().AddAsync(entity);
-            //await Task.Run(() => _context.Set<T>().Attach(entity));
-            return Result.Success();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        await _context.Set<T>().AddAsync(entity);
+        //await Task.Run(() => _context.Set<T>().Attach(entity));
+        return Result.Success();
     }
     public virtual async Task AddRange(IEnumerable<T> entities)
     {
@@ -86,29 +72,22 @@ public class BaseRepository<T>(DbContext context)
 
     public virtual async Task<Result> Update(T entity)
     {
-        try
-        {
-            // Кажется, что это костыль и есть решение лучше
-            entity.CreatedAt = _context.Set<T>()
-                .Select(c => 
-                    new
-                    {
-                        Id = c.Id, 
-                        CreatedAt = c.CreatedAt
-                    })
-                .First(e => e.Id == entity.Id)
-                .CreatedAt;
-            entity.UpdatedAt = DateTime.UtcNow;
+        // Кажется, что это костыль и есть решение лучше
+        entity.CreatedAt = _context.Set<T>()
+            .Select(c => 
+                new
+                {
+                    Id = c.Id, 
+                    CreatedAt = c.CreatedAt
+                })
+            .First(e => e.Id == entity.Id)
+            .CreatedAt;
+        entity.UpdatedAt = DateTime.UtcNow;
 
-            //await Task.Run(() => _context.Set<T>().Attach(entity));
-            await Task.Run(() => _context.Set<T>().Update(entity));
-            
-            return Result.Success();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        //await Task.Run(() => _context.Set<T>().Attach(entity));
+        await Task.Run(() => _context.Set<T>().Update(entity));
+        
+        return Result.Success();
     }
     public virtual async Task UpdateRange(IEnumerable<T> entities)
     {
@@ -120,39 +99,25 @@ public class BaseRepository<T>(DbContext context)
     
     public virtual async Task<Result> Delete(Guid id)
     {
-        try
-        {
-            await _context
-                .Set<T>()
-                .Where(e => e.Id == id)
-                .ExecuteUpdateAsync(e => 
-                    e.SetProperty(model => model.DeletedAt, DateTime.UtcNow)
-                );
-            
-            return Result.Success();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        await _context
+            .Set<T>()
+            .Where(e => e.Id == id)
+            .ExecuteUpdateAsync(e => 
+                e.SetProperty(model => model.DeletedAt, DateTime.UtcNow)
+            );
+        
+        return Result.Success();
     }
     public virtual async Task<Result> Delete(T entity)
     {
-        try
-        {
-            await _context
-                .Set<T>()
-                .Where(e => e.Id == entity.Id)
-                .ExecuteUpdateAsync(e => 
-                    e.SetProperty(model => model.DeletedAt, DateTime.UtcNow)
-                );
-            
-            return Result.Success();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        await _context
+            .Set<T>()
+            .Where(e => e.Id == entity.Id)
+            .ExecuteUpdateAsync(e => 
+                e.SetProperty(model => model.DeletedAt, DateTime.UtcNow)
+            );
+        
+        return Result.Success();
     }
     public virtual async Task DeleteRange(IEnumerable<T> entities)
     {

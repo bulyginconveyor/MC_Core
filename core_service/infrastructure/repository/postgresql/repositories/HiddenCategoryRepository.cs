@@ -18,32 +18,18 @@ public class HiddenCategoryRepository(DbContext context) : IRepositoryForHiddenC
 
     public async Task<Result> Add(HiddenCategory entity)
     {
-        try
-        {
-            await context.Set<HiddenCategory>().AddAsync(entity);
-            await context.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            return Result<HiddenCategory>.Error(null, ex.Message);
-        }
+        await context.Set<HiddenCategory>().AddAsync(entity);
+        await context.SaveChangesAsync();
         
         return Result<HiddenCategory>.Success(entity);
     }
 
     public async Task<Result> Delete(HiddenCategory entity)
     {
-        try
-        {
-            await context.Set<HiddenCategory>()
-                .Where(hc => hc.CategoryId == entity.CategoryId && hc.UserId == entity.UserId)
-                .ExecuteDeleteAsync();
-            await context.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        await context.Set<HiddenCategory>()
+            .Where(hc => hc.CategoryId == entity.CategoryId && hc.UserId == entity.UserId)
+            .ExecuteDeleteAsync();
+        await context.SaveChangesAsync();
         
         return Result.Success();
     }

@@ -1,3 +1,4 @@
+using core_service.application.middleware;
 using core_service.domain;
 using core_service.domain.logic;
 using core_service.domain.models;
@@ -46,5 +47,7 @@ if (app.Environment.IsDevelopment())
 //app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseErrorBoundary();
 
 app.Run();
