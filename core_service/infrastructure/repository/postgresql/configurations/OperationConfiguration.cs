@@ -33,16 +33,16 @@ public class OperationConfiguration : IEntityTypeConfiguration<Operation>
 
         builder
             .HasOne(o => o.Period)
-            .WithMany().HasForeignKey("period_id");;
+            .WithMany().HasForeignKey("period_id");
         builder
             .HasOne(o => o.Category)
-            .WithMany().HasForeignKey("category_id");;
+            .WithMany().HasForeignKey("category_id");
         builder
             .HasOne(o => o.CreditBankAccount)
-            .WithMany().HasForeignKey("credit_bank_account_id");;
+            .WithMany().HasForeignKey("credit_bank_account_id");
         builder
             .HasOne(o => o.DebetBankAccount)
-            .WithMany().HasForeignKey("debet_bank_account_id");;;
+            .WithMany().HasForeignKey("debet_bank_account_id");
 
         builder
             .Property(c => c.Status)
