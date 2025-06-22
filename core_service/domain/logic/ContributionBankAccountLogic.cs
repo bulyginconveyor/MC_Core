@@ -34,7 +34,7 @@ public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount>
         return Result<DTOContributionBankAccount>.Success(resGet.Value!);
     }
 
-    public async Task<Result> Add(DataDTOContributionBankAccount dataDto)
+    public async Task<Result> Add(DataDTOContributionBankAccount dataDto, Guid userId)
     {
         var resCurrency = await _repCurrency.GetOne(dataDto.CurrencyId);
         if(resCurrency.IsError)
@@ -49,7 +49,7 @@ public class ContributionBankAccountLogic(IDbRepository<ContributionBankAccount>
 
         Contribution contribution = Contribution.Create(dateRange, amount, typeContribution, dataDto.ActualClosedDate, percentContribution);
         
-        var dto = new ContributionBankAccount(dataDto.Name, dataDto.Color, resCurrency.Value!, contribution, true, dataDto.Balance);
+        var dto = new ContributionBankAccount(userId, dataDto.Name, dataDto.Color, resCurrency.Value!, contribution, true, dataDto.Balance);
         
         var resAdd = await _rep.Add(dto);
         if(resAdd.IsError)

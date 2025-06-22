@@ -2,16 +2,16 @@
 
 public record DateRange
 {
-    public DateTime StartDate { get; init; }
-    public DateTime EndDate { get; init; }
+    public DateOnly StartDate { get; init; }
+    public DateOnly? EndDate { get; init; }
 
-    private DateRange(DateTime startDate, DateTime endDate)
+    private DateRange(DateOnly startDate, DateOnly? endDate)
     {
         StartDate = startDate;
         EndDate = endDate;
     }
 
-    public static DateRange Create(DateTime startDate, DateTime endDate)
+    public static DateRange Create(DateOnly startDate, DateOnly? endDate)
     {
         if(!IsValid(startDate, endDate))
             throw new ArgumentException("EndDate must be earlier than StartDate");
@@ -19,7 +19,7 @@ public record DateRange
         return new DateRange(startDate, endDate);
     }
 
-    private static bool IsValid(DateTime startDate, DateTime endDate)
+    private static bool IsValid(DateOnly startDate, DateOnly? endDate)
     {
         if(startDate > endDate)
             return false;

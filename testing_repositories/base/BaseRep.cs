@@ -25,7 +25,7 @@ public class BaseRep : BaseTest
     }
     protected List<Currency> AllCurrencies()
     {
-        PhotoUrl photoUrl = PhotoUrl.Empty;
+        CurrencySimbol simbol = CurrencySimbol.Empty;
         
         IsoCode icRub = IsoCode.Create("RUB");
         Name nRub = Name.Create("Российский рубль");
@@ -39,10 +39,10 @@ public class BaseRep : BaseTest
         IsoCode icCny = IsoCode.Create("CNY");
         Name nCny = Name.Create("Китайский юань");
 
-        Currency rub = Currency.Create(icRub, nRub, photoUrl);
-        Currency usd = Currency.Create(icUsd, nUsd, photoUrl);
-        Currency eur = Currency.Create(icEur, nEur, photoUrl);
-        Currency cny = Currency.Create(icCny, nCny, photoUrl);
+        Currency rub = Currency.Create(icRub, nRub, simbol);
+        Currency usd = Currency.Create(icUsd, nUsd, simbol);
+        Currency eur = Currency.Create(icEur, nEur, simbol);
+        Currency cny = Currency.Create(icCny, nCny, simbol);
         
         return new List<Currency>() { rub, usd, eur, cny };
     }

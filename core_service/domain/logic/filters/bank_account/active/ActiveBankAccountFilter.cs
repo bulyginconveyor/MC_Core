@@ -10,8 +10,8 @@ public class ActiveBankAccountFilter : BankAccountFilter<ActiveBankAccount>
     public decimal? MinBuyPrice { get; set; } = null;
     public decimal? MaxBuyPrice { get; set; } = null;
     
-    public DateTime? StartBuyDate { get; set; } = null;
-    public DateTime? EndBuyDate { get; set; } = null;
+    public DateOnly? StartBuyDate { get; set; } = null;
+    public DateOnly? EndBuyDate { get; set; } = null;
     public string? TypeActive { get; set; } = null;
     
     public new static BankAccountFilterBuilder<ActiveBankAccount> CreateBuilder => new ActiveBankAccountFilterBuilder();
@@ -54,9 +54,9 @@ public class ActiveBankAccountFilterBuilder : BankAccountFilterBuilder<ActiveBan
         ((ActiveBankAccountFilter)_filter).MaxBuyPrice = max;
     }
 
-    public void WithBuyDate(DateTime value) => ((ActiveBankAccountFilter)_filter).StartBuyDate = value;
+    public void WithBuyDate(DateOnly value) => ((ActiveBankAccountFilter)_filter).StartBuyDate = value;
 
-    public void WithBuyDateRange(DateTime start, DateTime end)
+    public void WithBuyDateRange(DateOnly start, DateOnly end)
     {
         ((ActiveBankAccountFilter)_filter).StartBuyDate = start;
         ((ActiveBankAccountFilter)_filter).EndBuyDate = end;

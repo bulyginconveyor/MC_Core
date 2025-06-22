@@ -7,8 +7,8 @@ namespace core_service.domain.logic.filters.bank_account.contribution;
 
 public class ContributionBankAccountFilter : BankAccountFilter<ContributionBankAccount>
 {
-    public DateTime? StartDateRange { get; set; } = null;
-    public DateTime? EndDateRange { get; set; } = null;
+    public DateOnly? StartDateRange { get; set; } = null;
+    public DateOnly? EndDateRange { get; set; } = null;
     
     public decimal? MinAmount { get; set; } = null;
     public decimal? MaxAmount { get; set; } = null;
@@ -59,7 +59,7 @@ public class ContributionBankAccountFilterBuilder : BankAccountFilterBuilder<Con
 {
     protected override BankAccountFilter<ContributionBankAccount> _filter { get; set; } = new ContributionBankAccountFilter();
     
-    public void WithDateRange(DateTime? start, DateTime? end)
+    public void WithDateRange(DateOnly? start, DateOnly? end)
     {
         if (start == null || end == null)
             return;

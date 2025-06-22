@@ -70,7 +70,7 @@ public class BaseOperationRep : BaseTest
         // создание валюты "Российский рубль"
         IsoCode rubIsoCode = IsoCode.Create("RUB");
         Name rubName = Name.Create("Российский рубль");
-        PhotoUrl empty = PhotoUrl.Empty;
+        CurrencySimbol empty = CurrencySimbol.Create("\u20bd");
         Currency rub = Currency.Create(rubIsoCode, rubName, empty);
         
         // создание дебетового счета №1 с балансом 10000 рублей

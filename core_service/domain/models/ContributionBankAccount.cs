@@ -7,15 +7,15 @@ namespace core_service.domain.models;
 public class ContributionBankAccount : BankAccount
 {
     public DateRange DateRange { get; set; }
-    public DateTime? ActualСlosed { get; set; }
+    public DateOnly? ActualСlosed { get; set; }
     public UDecimal Amount { get; set; }
     
     public TypeContributionBankAccount TypeContribution { get; set; }
 
     public PercentContribution Percent { get; set; }
 
-    public ContributionBankAccount(Guid id, string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
-        : base(id, name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
+    public ContributionBankAccount(Guid id, Guid userId, string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
+        : base(id, userId,  name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
     {
         this.DateRange = contribution.DateRange;
         this.ActualСlosed = contribution.ActualСlosed;
@@ -24,8 +24,8 @@ public class ContributionBankAccount : BankAccount
         this.Percent = contribution.Percent ?? PercentContribution.Empty;
     }
     
-    public ContributionBankAccount(string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
-        : base(name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
+    public ContributionBankAccount(Guid userId, string name, string color, Currency currency, Contribution contribution, bool isMaybeNegative, decimal balance = 0)
+        : base(userId, name, color, currency, isMaybeNegative, balance, TypeBankAccount.Contribution)
     {
         this.DateRange = contribution.DateRange;
         this.ActualСlosed = contribution.ActualСlosed;
@@ -39,12 +39,12 @@ public class ContributionBankAccount : BankAccount
 public readonly struct Contribution
 {
     public DateRange DateRange { get; }
-    public DateTime? ActualСlosed { get; }
+    public DateOnly? ActualСlosed { get; }
     public UDecimal Amount { get; }
     public TypeContributionBankAccount Type { get; }
     public PercentContribution? Percent { get; }
     
-    private Contribution(DateRange dateRange, UDecimal amount, TypeContributionBankAccount type, DateTime? actualClosed = null, PercentContribution? percent = null)
+    private Contribution(DateRange dateRange, UDecimal amount, TypeContributionBankAccount type, DateOnly? actualClosed = null, PercentContribution? percent = null)
     {
         this.DateRange = dateRange;
         this.Amount = amount;
@@ -54,7 +54,7 @@ public readonly struct Contribution
     }
 
     public static Contribution Create(DateRange dateRange, UDecimal amount, TypeContributionBankAccount type,
-        DateTime? actualClosed = null, PercentContribution? percent = null)
+        DateOnly? actualClosed = null, PercentContribution? percent = null)
     {
         var res = IsValid(dateRange, amount, type, actualClosed, percent);
         if(res.IsError)
@@ -64,7 +64,7 @@ public readonly struct Contribution
     }
 
     public static Result IsValid(DateRange dateRange, UDecimal amount, TypeContributionBankAccount type,
-        DateTime? actualClosed = null, PercentContribution? percent = null)
+        DateOnly? actualClosed = null, PercentContribution? percent = null)
     {
         if(actualClosed != null && actualClosed < dateRange.StartDate)
             return Result.Error("Contribution.ActualClosed can't be less than DateRange.StartDate");

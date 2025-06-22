@@ -14,9 +14,10 @@ public class BankAccount : Entity, IDbModel, IByUserModel
     public Currency Currency { get; set; } = null!;
     public TypeBankAccount Type { get; set; }
 
-    public BankAccount(Guid id, string name, string color, Currency currency, bool isMaybeNegative, decimal balance = 0, TypeBankAccount type = TypeBankAccount.Debet)
+    public BankAccount(Guid id, Guid userId, string name, string color, Currency currency, bool isMaybeNegative, decimal balance = 0, TypeBankAccount type = TypeBankAccount.Debet)
     {
         this.Id = id;
+        this.UserId = userId;
         this.Name = Name.Create(name);
         this.Color = Color.Parse(color);
         this.Balance = Balance.Create(isMaybeNegative, balance);
@@ -24,9 +25,10 @@ public class BankAccount : Entity, IDbModel, IByUserModel
         this.Type = type;
     }
     
-    public BankAccount(string name, string color, Currency currency, bool isMaybeNegative, decimal balance = 0, TypeBankAccount type = TypeBankAccount.Debet)
+    public BankAccount(Guid userId, string name, string color, Currency currency, bool isMaybeNegative, decimal balance = 0, TypeBankAccount type = TypeBankAccount.Debet)
     {
         this.Id = Guid.NewGuid();
+        this.UserId = userId;
         this.Name = Name.Create(name);
         this.Color = Color.Parse(color);
         this.Balance = Balance.Create(isMaybeNegative, balance);

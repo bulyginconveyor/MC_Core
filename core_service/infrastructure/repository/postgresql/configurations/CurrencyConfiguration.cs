@@ -21,9 +21,9 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
         {
             nameBuilder.Property(n => n.Value).HasMaxLength(100).HasColumnName("name");
         });
-        builder.ComplexProperty(c => c.ImageUrl, photoUrlBuilder =>
+        builder.ComplexProperty(c => c.Simbol, photoUrlBuilder =>
         {
-            photoUrlBuilder.Property(pu => pu.Url).HasMaxLength(2048).HasColumnName("image_url");
+            photoUrlBuilder.Property(pu => pu.Value).HasMaxLength(4).HasColumnName("simbol");
         });
         
         builder.HasKey(c => c.Id);

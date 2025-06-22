@@ -9,21 +9,22 @@ public class DataDTOCreditBankAccount : DataDTOBankAccount
     
     [JsonPropertyName("amount")]
     public decimal Amount { get; set; }
-    [JsonPropertyName("init_payment")]
+
+    [JsonPropertyName("init_payment")] 
     public decimal InitPayment { get; set; }
     
     [JsonPropertyName("percent")]
     public decimal? Percent { get; set; }
     
     [JsonPropertyName("unit")]
-    public string Unit { get; init; }
+    public string? Unit { get; init; }
     [JsonPropertyName("count_units")]
-    public uint CountUnits { get; init; }
+    public uint? CountUnits { get; init; }
 
     [JsonPropertyName("start_date")]
-    public DateTime StartDate { get; set; }
+    public DateOnly StartDate { get; set; }
     [JsonPropertyName("end_date")]
-    public DateTime? EndDate { get; set; } = null;
+    public DateOnly? EndDate { get; set; } = null;
 
     [JsonPropertyName("loan_object_id")]
     public Guid? LoanObjectId { get; set; }

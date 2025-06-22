@@ -36,13 +36,13 @@ public class DebetBankAccountLogic(IDbRepository<DebetBankAccount> rep, IDbRepos
         return Result<DTODebetBankAccount>.Success(resGet.Value);
     }
 
-    public async Task<Result> Add(DataDTODebetBankAccount dataDto)
+    public async Task<Result> Add(DataDTODebetBankAccount dataDto, Guid userId)
     {
         var resCurrency = await _repCurrency.GetOne(dataDto.CurrencyId);
         if(resCurrency.IsError)
             return Result.Error(resCurrency.ErrorMessage);
 
-        DebetBankAccount dto = new DebetBankAccount(dataDto.Name, dataDto.Color, resCurrency.Value!, dataDto.Balance);
+        DebetBankAccount dto = new DebetBankAccount(userId, dataDto.Name, dataDto.Color, resCurrency.Value!, dataDto.Balance);
         
         var resAdd = await _rep.Add(dto);
         if(resAdd.IsError)

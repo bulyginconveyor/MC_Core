@@ -34,6 +34,8 @@ public class Term : Entity, IDbModel, IByUserModel
         return Result.Success();
     }
 
+    public static Term? Null => new Term(UnitTerm.Day, 0);
+    
     public Result<DateTime> EndDate(DateTime startDate)
     {
         DateTime? endDate = null;
@@ -73,4 +75,5 @@ public class Term : Entity, IDbModel, IByUserModel
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
     public Guid UserId { get; set; }
+    
 }

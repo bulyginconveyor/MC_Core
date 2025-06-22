@@ -24,10 +24,10 @@ public class BaseCreditBankAccountRep : BaseTest
     {
         IsoCode rubIsoCode = IsoCode.Create("RUB");
         Name rubName = Name.Create("Российский рубль");
-        Currency rub = Currency.Create(rubIsoCode, rubName, PhotoUrl.Empty);
+        Currency rub = Currency.Create(rubIsoCode, rubName, CurrencySimbol.Create("\u20bd"));
         Percent percent = Percent.Create(24.6); 
         Term term = Term.Create(UnitTerm.Week, 60u);
-        DateTime startDate = new DateTime(2021, 1, 20).ToUniversalTime();
+        DateOnly startDate = new DateOnly(2021, 1, 20);
 
         Active loanObjectActive = new Active(UDecimal.Parse(750000), startDate, TypeActiveBankAccount.Transport);
         ActiveBankAccount loanObject = new ActiveBankAccount(Guid.NewGuid(), "Toyota Mark II", "#FF0",

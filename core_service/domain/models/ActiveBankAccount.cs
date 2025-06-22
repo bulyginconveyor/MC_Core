@@ -6,12 +6,12 @@ namespace core_service.domain.models;
 public class ActiveBankAccount : BankAccount
 {
     public UDecimal BuyPrice { get; set; }
-    public DateTime BuyDate { get; set; }
+    public DateOnly BuyDate { get; set; }
     public TypeActiveBankAccount TypeActive { get; set; }
     public PhotoUrl PhotoUrl { get; set; }
     
-    public ActiveBankAccount(Guid id, string name, string color, Currency currency, Active active, decimal balance = 0) 
-        : base(id, name, color, currency, false, balance, TypeBankAccount.Active)
+    public ActiveBankAccount(Guid id, Guid userId, string name, string color, Currency currency, Active active, decimal balance = 0) 
+        : base(id, userId, name, color, currency, false, balance, TypeBankAccount.Active)
     {
         this.BuyPrice = active.BuyPrice;
         this.BuyDate = active.BuyDate;
@@ -19,8 +19,8 @@ public class ActiveBankAccount : BankAccount
         this.PhotoUrl = active.PhotoUrl;
     }
     
-    public ActiveBankAccount(string name, string color, Currency currency, Active active, decimal balance = 0) 
-        : base(name, color, currency, false, balance, TypeBankAccount.Active)
+    public ActiveBankAccount(Guid userId, string name, string color, Currency currency, Active active, decimal balance = 0) 
+        : base(userId, name, color, currency, false, balance, TypeBankAccount.Active)
     {
         this.BuyPrice = active.BuyPrice;
         this.BuyDate = active.BuyDate;
@@ -34,11 +34,11 @@ public class ActiveBankAccount : BankAccount
 public readonly struct Active
 {
     public UDecimal BuyPrice { get; }
-    public DateTime BuyDate { get; }
+    public DateOnly BuyDate { get; }
     public TypeActiveBankAccount Type { get; }
     public PhotoUrl PhotoUrl{ get; }
 
-    public Active(UDecimal buyPrice, DateTime buyDate, TypeActiveBankAccount type, PhotoUrl? photoUrl = null)
+    public Active(UDecimal buyPrice, DateOnly buyDate, TypeActiveBankAccount type, PhotoUrl? photoUrl = null)
     {
         BuyPrice = buyPrice;
         BuyDate = buyDate;

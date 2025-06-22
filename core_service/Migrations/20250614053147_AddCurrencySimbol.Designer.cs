@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using core_service.infrastructure.repository.postgresql.context;
@@ -12,9 +13,11 @@ using core_service.infrastructure.repository.postgresql.context;
 namespace core_service.Migrations
 {
     [DbContext(typeof(PostgreSqlDbContext))]
-    partial class PostgreSqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614053147_AddCurrencySimbol")]
+    partial class AddCurrencySimbol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,12 +31,12 @@ namespace core_service.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("a9f15b2e-e157-4225-a204-881e4aedf066"));
+                        .HasDefaultValue(new Guid("7d98edfb-9b4e-4f72-a8ab-723dd7e86be3"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 6, 22, 12, 16, 15, 471, DateTimeKind.Utc).AddTicks(913))
+                        .HasDefaultValue(new DateTime(2025, 6, 14, 5, 31, 46, 656, DateTimeKind.Utc).AddTicks(2088))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -103,12 +106,12 @@ namespace core_service.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("acfed09e-9896-4c8a-bd3e-85913d8fec4b"));
+                        .HasDefaultValue(new Guid("7afdc300-fd58-4bd0-90c6-45f95e6a3a2c"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 6, 22, 12, 16, 15, 469, DateTimeKind.Utc).AddTicks(5991))
+                        .HasDefaultValue(new DateTime(2025, 6, 14, 5, 31, 46, 654, DateTimeKind.Utc).AddTicks(7047))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -155,12 +158,12 @@ namespace core_service.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("7b1fd04b-2c97-4425-b5fe-240909afe6c1"));
+                        .HasDefaultValue(new Guid("fad1c114-b865-45a0-a361-8ffb1afb74ff"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 6, 22, 12, 16, 15, 467, DateTimeKind.Utc).AddTicks(6769))
+                        .HasDefaultValue(new DateTime(2025, 6, 14, 5, 31, 46, 652, DateTimeKind.Utc).AddTicks(7616))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -213,7 +216,7 @@ namespace core_service.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("4fc6487a-166e-492d-8ef1-db32cb503641"));
+                        .HasDefaultValue(new Guid("fb84a9b3-d30c-4b81-ab65-61c43afe86b8"));
 
                     b.Property<Guid?>("BankAccountId")
                         .HasColumnType("uuid");
@@ -221,7 +224,7 @@ namespace core_service.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 6, 22, 12, 16, 15, 481, DateTimeKind.Utc).AddTicks(525))
+                        .HasDefaultValue(new DateTime(2025, 6, 14, 5, 31, 46, 666, DateTimeKind.Utc).AddTicks(8533))
                         .HasColumnName("created_at");
 
                     b.Property<DateOnly>("Date")
@@ -293,12 +296,12 @@ namespace core_service.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("cab76488-70a0-4db7-aece-9821c00e7fec"));
+                        .HasDefaultValue(new Guid("1911eea3-6701-4e76-b632-98ad345f9b82"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 6, 22, 12, 16, 15, 468, DateTimeKind.Utc).AddTicks(4840))
+                        .HasDefaultValue(new DateTime(2025, 6, 14, 5, 31, 46, 653, DateTimeKind.Utc).AddTicks(5915))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -331,7 +334,7 @@ namespace core_service.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("8faaf886-a2cd-4c67-953b-5d0706fd231a"));
+                        .HasDefaultValue(new Guid("a1f8e239-3989-4de0-a4ff-6f18a444c849"));
 
                     b.Property<long>("CountUnits")
                         .HasColumnType("bigint")
@@ -340,7 +343,7 @@ namespace core_service.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 6, 22, 12, 16, 15, 467, DateTimeKind.Utc).AddTicks(9628))
+                        .HasDefaultValue(new DateTime(2025, 6, 14, 5, 31, 46, 653, DateTimeKind.Utc).AddTicks(529))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -383,8 +386,8 @@ namespace core_service.Migrations
                 {
                     b.HasBaseType("core_service.domain.models.BankAccount");
 
-                    b.Property<DateOnly>("BuyDate")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("BuyDate")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("buy_date");
 
                     b.Property<int>("TypeActive")
@@ -414,8 +417,8 @@ namespace core_service.Migrations
                 {
                     b.HasBaseType("core_service.domain.models.BankAccount");
 
-                    b.Property<DateOnly?>("ActualСlosed")
-                        .HasColumnType("date")
+                    b.Property<DateTime?>("ActualСlosed")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("actual_closed");
 
                     b.Property<int>("TypeContribution")
@@ -433,12 +436,12 @@ namespace core_service.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<DateOnly?>("EndDate")
-                                .HasColumnType("date")
+                            b1.Property<DateTime>("EndDate")
+                                .HasColumnType("timestamp with time zone")
                                 .HasColumnName("end_date");
 
-                            b1.Property<DateOnly>("StartDate")
-                                .HasColumnType("date")
+                            b1.Property<DateTime>("StartDate")
+                                .HasColumnType("timestamp with time zone")
                                 .HasColumnName("start_date");
                         });
 
@@ -486,12 +489,12 @@ namespace core_service.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<DateOnly?>("EndDate")
-                                .HasColumnType("date")
+                            b1.Property<DateTime>("EndDate")
+                                .HasColumnType("timestamp with time zone")
                                 .HasColumnName("end_date");
 
-                            b1.Property<DateOnly>("StartDate")
-                                .HasColumnType("date")
+                            b1.Property<DateTime>("StartDate")
+                                .HasColumnType("timestamp with time zone")
                                 .HasColumnName("start_date");
                         });
 
