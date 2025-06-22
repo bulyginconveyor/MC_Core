@@ -8,12 +8,12 @@ public class DataDTOContributionBankAccount : DataDTOBankAccount
     public new string TypeBankAccount { get; set; } = "Contribution";
     
     [JsonPropertyName("start_date")]
-    public DateTime StartDate { get; set; }
+    public DateOnly StartDate { get; set; }
     [JsonPropertyName("end_date")]
-    public DateTime EndDate { get; set; }
+    public DateOnly? EndDate { get; set; }
     
     [JsonPropertyName("actual_closed_date")]
-    public DateTime? ActualClosedDate { get; set; }
+    public DateOnly? ActualClosedDate { get; set; }
     [JsonPropertyName("amount")]
     public decimal Amount { get; set; }
     

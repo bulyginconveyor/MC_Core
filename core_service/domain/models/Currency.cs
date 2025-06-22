@@ -7,24 +7,21 @@ public class Currency : Entity, IDbModel
 {
     public IsoCode IsoCode { get; private set; }
     public Name FullName { get; private set; }
-    public PhotoUrl ImageUrl { get; private set; }
+    public CurrencySimbol Simbol { get; private set; }
 
-    private Currency(Guid id, IsoCode isoCode, Name fullName, PhotoUrl imageUrl)
+    private Currency(Guid id, IsoCode isoCode, Name fullName, CurrencySimbol simbol)
     {
         Id = id;
         IsoCode = isoCode;
         FullName = fullName;
-        ImageUrl = imageUrl;
+        Simbol = simbol;
     }
     private Currency(){}
 
-    public static Currency Create(IsoCode isoCode, Name fullName, PhotoUrl imageUrl) => new Currency(Guid.NewGuid(), isoCode, fullName, imageUrl);
-    public static Currency Create(Guid id, IsoCode isoCode, Name fullName, PhotoUrl imageUrl) => new Currency(id, isoCode, fullName, imageUrl);
+    public static Currency Create(IsoCode isoCode, Name fullName, CurrencySimbol simbol) => new Currency(Guid.NewGuid(), isoCode, fullName, simbol);
+    public static Currency Create(Guid id, IsoCode isoCode, Name fullName, CurrencySimbol simbol) => new Currency(id, isoCode, fullName, simbol);
     
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; }
-    
-    
-    public void ChangeName(Name fullName) => FullName = fullName;
 }

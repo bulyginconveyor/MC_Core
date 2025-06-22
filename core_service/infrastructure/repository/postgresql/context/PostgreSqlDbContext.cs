@@ -37,16 +37,16 @@ public sealed class PostgreSqlDbContext : DbContext
         {
             Currencies.AddRange(
                 Currency.Create(Guid.NewGuid(), IsoCode.Create("RUB"), Name.Create("Российский рубль"),
-                    PhotoUrl.Empty),
+                    CurrencySimbol.Create("\u20bd")),
                 Currency.Create(Guid.NewGuid(), IsoCode.Create("USD"),
                     Name.Create("Американский доллар"),
-                    PhotoUrl.Empty),
+                    CurrencySimbol.Create("$")),
                 Currency.Create(Guid.NewGuid(), IsoCode.Create("EUR"), Name.Create("Евро"),
-                    PhotoUrl.Empty),
+                    CurrencySimbol.Create("\u20ac")),
                 Currency.Create(Guid.NewGuid(), IsoCode.Create("CNY"), Name.Create("Китайский юань"),
-                    PhotoUrl.Empty),
+                    CurrencySimbol.Create("\u00a5")),
                 Currency.Create(Guid.NewGuid(), IsoCode.Create("JPY"), Name.Create("Японская иена"),
-                    PhotoUrl.Empty));
+                    CurrencySimbol.Create("\u00a5")));
 
             SaveChanges();
         }

@@ -38,7 +38,7 @@ public class ActiveBankAccountLogic(IDbRepository<ActiveBankAccount> rep, IDbRep
         return Result<DTOActiveBankAccount>.Success(resGet.Value!);
     }
 
-    public async Task<Result> Add(DataDTOActiveBankAccount dataDto)
+    public async Task<Result> Add(DataDTOActiveBankAccount dataDto, Guid userId)
     {
         var resCurrency = await _repCurrency.GetOne(dataDto.CurrencyId);
         if(resCurrency.IsError)
@@ -50,7 +50,7 @@ public class ActiveBankAccountLogic(IDbRepository<ActiveBankAccount> rep, IDbRep
 
         Active active = new Active(buyPrice, dataDto.BuyDate, typeActive, photoUrl);
         
-        ActiveBankAccount dto = new ActiveBankAccount(dataDto.Name, dataDto.Color, resCurrency.Value!, active);
+        ActiveBankAccount dto = new ActiveBankAccount(userId, dataDto.Name, dataDto.Color, resCurrency.Value!, active);
         
         var resAdd = await _rep.Add(dto);
         if(resAdd.IsError)

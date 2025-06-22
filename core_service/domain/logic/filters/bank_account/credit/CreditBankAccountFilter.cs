@@ -16,8 +16,8 @@ public class CreditBankAccountFilter : BankAccountFilter<CreditBankAccount>
     public decimal? MinPercent { get; set; } = null;
     public decimal? MaxPercent { get; set; } = null;
     
-    public DateTime? StartDateRange { get; set; } = null;
-    public DateTime? EndDateRange { get; set; } = null;
+    public DateOnly? StartDateRange { get; set; } = null;
+    public DateOnly? EndDateRange { get; set; } = null;
     
     public string? TypeCredit { get; set; } = null;
 
@@ -112,7 +112,7 @@ public class CreditBankAccountFilterBuilder : BankAccountFilterBuilder<CreditBan
         f.MaxPercent = max;
     }
 
-    public void WithDateRange(DateTime startDate, DateTime endDate)
+    public void WithDateRange(DateOnly startDate, DateOnly endDate)
     {
         if(startDate > endDate)
             return;

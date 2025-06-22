@@ -11,11 +11,19 @@ public partial record Color
 
     public static Color Parse(string color)
     {
+        if(string.IsNullOrWhiteSpace(color))
+            return Color.Empty();
+        
         var resultColorValidation = ColorIsValid(color);
         if(resultColorValidation.IsError)
             throw new ArgumentException(resultColorValidation.ErrorMessage);
         
         return new Color(color);
+    }
+
+    public static Color Empty()
+    {
+        return new Color("");
     }
 
     public virtual bool Equals(Color? other) => Value == other?.Value;

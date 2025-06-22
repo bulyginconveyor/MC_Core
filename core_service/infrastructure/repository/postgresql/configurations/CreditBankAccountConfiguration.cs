@@ -41,9 +41,9 @@ public class CreditBankAccountConfiguration : IEntityTypeConfiguration<CreditBan
         
         builder
             .HasOne(c => c.Term)
-            .WithMany().HasForeignKey("term_id");;
+            .WithMany().HasForeignKey("term_id");
         builder
             .HasOne(c => c.LoanObject)
-            .WithMany().HasForeignKey("loan_object_id");;
+            .WithMany().HasForeignKey("loan_object_id");
     }
 }

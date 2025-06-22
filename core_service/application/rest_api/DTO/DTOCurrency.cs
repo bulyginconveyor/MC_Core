@@ -12,8 +12,8 @@ public class DTOCurrency()
     public string IsoCode { get; set; }
     [JsonPropertyName("full_name")]
     public string FullName { get; set; }
-    [JsonPropertyName("photo_url")]
-    public string? PhotoUrl { get; set; }
+    [JsonPropertyName("simbol")]
+    public string Simbol { get; set; }
 
     public static implicit operator Currency(DTOCurrency dto)
     {
@@ -22,9 +22,9 @@ public class DTOCurrency()
         
         IsoCode isoCode = domain.models.valueobjects.IsoCode.Create(dto.IsoCode);
         Name fullName = Name.Create(dto.FullName);
-        PhotoUrl photoUrl = dto.PhotoUrl is null ? domain.models.valueobjects.PhotoUrl.Empty : domain.models.valueobjects.PhotoUrl.Create(dto.PhotoUrl);
+        CurrencySimbol simbol = dto.Simbol is null ? domain.models.valueobjects.CurrencySimbol.Empty : domain.models.valueobjects.CurrencySimbol.Create(dto.Simbol);
         
-        return Currency.Create(dto.Id, isoCode, fullName, photoUrl);
+        return Currency.Create(dto.Id, isoCode, fullName, simbol);
     }
 
     public static implicit operator DTOCurrency(Currency currency)
@@ -37,7 +37,7 @@ public class DTOCurrency()
             Id = currency.Id,
             FullName = currency.FullName.Value,
             IsoCode = currency.IsoCode.Value,
-            PhotoUrl = currency.ImageUrl.Url
+            Simbol = currency.Simbol.Value
         };
     }
 }

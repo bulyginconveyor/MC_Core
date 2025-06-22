@@ -35,40 +35,7 @@ public class TestBaseRepositoryByOneModel : BaseRep
             AreEqual(currency.Id, resGet.Value.Id);
             AreEqual(currency.IsoCode, resGet.Value.IsoCode);
             AreEqual(currency.FullName, resGet.Value.FullName);
-            AreEqual(currency.ImageUrl, resGet.Value.ImageUrl);
-        });
-    }
-
-    [Test]
-    public async Task UpdateCurrency()
-    {
-        // Arrange
-        var currency = OneCurrency();
-        
-        await _rep.Add(currency);
-        await _rep.Save();
-        
-        // Act
-        currency.ChangeName(Name.Create("New Name"));
-        var resUpdate = await _rep.Update(currency);
-        if(resUpdate.IsError)
-            Fail(resUpdate.ErrorMessage);
-        
-        var resSave = await _rep.Save();
-        if (resSave.IsError)
-            Fail(resSave.ErrorMessage);
-        
-        var resGet = await _rep.GetOne(currency.Id);
-        if(resGet.IsError)
-            Fail(resGet.ErrorMessage);
-        
-        // Assert
-        Multiple(async () =>
-        {
-            NotNull(resGet.Value);
-            AreEqual(currency.FullName, resGet.Value.FullName);
-            AreEqual(currency.IsoCode, resGet.Value.IsoCode);
-            AreEqual(currency.ImageUrl, resGet.Value.ImageUrl);
+            AreEqual(currency.Simbol, resGet.Value.Simbol);
         });
     }
 

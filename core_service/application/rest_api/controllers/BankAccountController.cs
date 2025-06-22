@@ -2,6 +2,7 @@ using core_service.application.rest_api.DTO;
 using core_service.domain.logic;
 using core_service.domain.logic.filters.bank_account;
 using core_service.domain.models;
+using core_service.services.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,9 @@ namespace core_service.application.rest_api.controllers
         [HttpPatch]
         public async Task<ActionResult<List<DTOBankAccount>>> GetAll(BankAccountFilter<BankAccount>? filter = null)
         {
-            var resGet = await _logic.GetAll(filter);
+            var userId = JwtHelper.UserId(HttpContext.Request.Headers.Authorization);
+            
+            var resGet = await _logic.GetAll(userId, filter);
             if (resGet.IsError)
                 return NoContent();
 

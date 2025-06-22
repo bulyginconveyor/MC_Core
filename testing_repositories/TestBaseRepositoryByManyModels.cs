@@ -29,37 +29,6 @@ public class TestBaseRepositoryByManyModels : BaseRep
     }
     
     [Test]
-    public async Task UpdateManyCurrencies()
-    {
-        // Arrange
-        await _context.Set<Currency>().ExecuteDeleteAsync();
-        
-        var currencies = AllCurrencies();
-        
-        await _rep.AddRange(currencies);
-        await _rep.Save();
-
-        Name name = Name.Create("New Name");
-        foreach (var cur in currencies)
-            cur.ChangeName(name);
-        
-        // Act
-        await _rep.UpdateRange(currencies);
-        
-        var resSave = await _rep.Save();
-        if(resSave.IsError)
-            Fail(resSave.ErrorMessage);
-        
-        var resGet = await _rep.GetAll();
-        if(resGet.IsError)
-            Fail(resGet.ErrorMessage);
-        
-        // Assert
-        foreach (var cur in resGet.Value)
-            AreEqual(name, cur.FullName);
-    }
-    
-    [Test]
     public async Task DeleteManyCurrencies()
     {
         // Arrange

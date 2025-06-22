@@ -12,7 +12,7 @@ public class BankAccountLogic(IDbRepository<BankAccount> rep)
 {
     private IDbRepository<BankAccount> _rep = rep;
 
-    public async Task<Result<List<DTOBankAccount>>> GetAll(BankAccountFilter<BankAccount>? filter = null)
+    public async Task<Result<List<DTOBankAccount>>> GetAll(Guid userId, BankAccountFilter<BankAccount>? filter = null)
     {
         var resGet = filter is null
             ? await _rep.GetAll()
@@ -21,7 +21,7 @@ public class BankAccountLogic(IDbRepository<BankAccount> rep)
         if(resGet.IsError)
             return Result<List<DTOBankAccount>>.Error(new List<DTOBankAccount>(), resGet.ErrorMessage);
 
-        return Result<List<DTOBankAccount>>.Success(resGet.Value!.Select(e => (DTOBankAccount)e!).ToList());
+        return Result<List<DTOBankAccount>>.Success(resGet.Value!.Where(b => b.UserId == userId).Select(e => (DTOBankAccount)e!).ToList());
     }
 
     public async Task<Result<DTOBankAccount>> GetOneById(Guid id)

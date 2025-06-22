@@ -41,7 +41,7 @@ public class CreditBankAccountLogic(
         return Result<DTOCreditBankAccount>.Success(resGet.Value!);
     }
 
-    public async Task<Result> Add(DataDTOCreditBankAccount dataDto)
+    public async Task<Result> Add(DataDTOCreditBankAccount dataDto, Guid userId)
     {
         var resCurrency = await _repCurrency.GetOne(dataDto.CurrencyId);
         if(resCurrency.IsError)
@@ -49,10 +49,17 @@ public class CreditBankAccountLogic(
 
         UDecimal amount = UDecimal.Parse(dataDto.Amount);
         UDecimal initPayment = UDecimal.Parse(dataDto.InitPayment);
-        Percent percent = dataDto.Percent > 0 ? Percent.Create((decimal)dataDto.Percent) : Percent.Zero;
+        Percent percent = (dataDto.Percent is not null && dataDto.Percent > 0) ? Percent.Create((decimal)dataDto.Percent) : Percent.Zero;
         
-        UnitTerm unitTerm = (UnitTerm)Enum.Parse(typeof(UnitTerm), dataDto.Unit);
-        Term term = Term.Create(unitTerm, dataDto.CountUnits);
+        UnitTerm unitTerm;
+        Term term;
+        if (dataDto.Unit is not null)
+        {
+            unitTerm = (UnitTerm)Enum.Parse(typeof(UnitTerm), dataDto.Unit);
+            term = Term.Create(unitTerm, dataDto.CountUnits ?? 0);
+        }
+        else
+            term = null;
         
         TypeCreditBankAccount typeCredit = (TypeCreditBankAccount)Enum.Parse(typeof(TypeCreditBankAccount), dataDto.TypeCredit);
         var resLoanObject = dataDto.LoanObjectId is null 
@@ -63,10 +70,10 @@ public class CreditBankAccountLogic(
             ? Name.Empty
             : Name.Create(dataDto.PurposeLoan);
         
-        Loan loan = new Loan(amount, initPayment, percent, term, dataDto.StartDate, typeCredit, loanObject, purposeLoan);
+        Loan loan = new Loan(amount, initPayment, dataDto.StartDate, typeCredit, loanObject, purposeLoan, percent, term);
         
         CreditBankAccount dto =
-            new CreditBankAccount(dataDto.Name, dataDto.Color, resCurrency.Value!, loan, dataDto.Balance);
+            new CreditBankAccount(userId, dataDto.Name, dataDto.Color, resCurrency.Value!, loan, dataDto.Balance);
         
         var resAdd = await _rep.Add(dto);
         if(resAdd.IsError)
@@ -90,11 +97,18 @@ public class CreditBankAccountLogic(
 
         UDecimal amount = UDecimal.Parse(dataDto.Amount);
         UDecimal initPayment = UDecimal.Parse(dataDto.InitPayment);
-        Percent percent = dataDto.Percent > 0 ? Percent.Create((decimal)dataDto.Percent) : Percent.Zero;
-        
-        UnitTerm unitTerm = (UnitTerm)Enum.Parse(typeof(UnitTerm), dataDto.Unit);
-        Term term = Term.Create(unitTerm, dataDto.CountUnits);
-        
+        Percent percent = (dataDto.Percent is not null && dataDto.Percent > 0) ? Percent.Create((decimal)dataDto.Percent) : Percent.Zero;
+
+        UnitTerm unitTerm;
+        Term term;
+        if (dataDto.Unit is not null)
+        {
+            unitTerm = (UnitTerm)Enum.Parse(typeof(UnitTerm), dataDto.Unit);
+            term = Term.Create(unitTerm, dataDto.CountUnits ?? 0);
+        }
+        else
+            term = null;
+
         TypeCreditBankAccount typeCredit = (TypeCreditBankAccount)Enum.Parse(typeof(TypeCreditBankAccount), dataDto.TypeCredit);
         var resLoanObject = dataDto.LoanObjectId is null 
             ? null 
@@ -104,7 +118,7 @@ public class CreditBankAccountLogic(
             ? Name.Empty
             : Name.Create(dataDto.PurposeLoan);
         
-        Loan loan = new Loan(amount, initPayment, percent, term, dataDto.StartDate, typeCredit, loanObject, purposeLoan);
+        Loan loan = new Loan(amount, initPayment, dataDto.StartDate, typeCredit, loanObject, purposeLoan, percent, term);
         
         CreditBankAccount dto = new CreditBankAccount(
             (Guid)dataDto.Id, 

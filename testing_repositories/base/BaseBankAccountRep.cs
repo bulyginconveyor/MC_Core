@@ -26,7 +26,7 @@ public class BaseBankAccountRep : BaseTest
     }
     protected List<ActiveBankAccount> AllActiveBankAccounts()
     {
-        var photoUrl = PhotoUrl.Empty;
+        var photoUrl = CurrencySimbol.Create("\u20bd");
         var isoCode = IsoCode.Create("RUB");
         var name = Name.Create("Российский рубль");
         var rub = Currency.Create(isoCode, name, photoUrl);

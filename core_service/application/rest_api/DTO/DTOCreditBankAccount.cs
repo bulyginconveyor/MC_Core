@@ -13,20 +13,20 @@ public class DTOCreditBankAccount : DTOBankAccount
     [JsonPropertyName("amount")]
     public decimal Amount { get; set; }
     [JsonPropertyName("init_payment")]
-    public decimal InitPayment { get; set; }
+    public decimal? InitPayment { get; set; }
     
     [JsonPropertyName("percent")]
-    public decimal Percent { get; set; }
+    public decimal? Percent { get; set; }
     
     [JsonPropertyName("unit")]
-    public string Unit { get; init; }
+    public string? Unit { get; init; }
     [JsonPropertyName("count_units")]
-    public uint CountUnits { get; init; }
+    public uint? CountUnits { get; init; }
 
     [JsonPropertyName("start_date")]
-    public DateTime StartDate { get; set; }
+    public DateOnly StartDate { get; set; }
     [JsonPropertyName("end_date")]
-    public DateTime EndDate { get; set; }
+    public DateOnly? EndDate { get; set; }
 
     [JsonPropertyName("loan_object")]
     public DTOActiveBankAccount? LoanObject { get; set; }
@@ -76,11 +76,13 @@ public class DTOCreditBankAccount : DTOBankAccount
         try
         {
             UDecimal amount = UDecimal.Parse(dto.Amount);
-            UDecimal initPayment = UDecimal.Parse(dto.InitPayment);
-            Percent percent = domain.models.valueobjects.Percent.Create(dto.Percent);
+            UDecimal initPayment = dto.InitPayment is not null ? UDecimal.Parse((decimal)dto.InitPayment) : UDecimal.Zero;
+            Percent percent = dto.Percent is not null
+                ? domain.models.valueobjects.Percent.Create((decimal)dto.Percent)
+                : domain.models.valueobjects.Percent.Zero;
 
             UnitTerm unitTerm = (UnitTerm)Enum.Parse(typeof(UnitTerm), dto.Unit);
-            Term term = Term.Create(unitTerm, dto.CountUnits);
+            Term term = dto.CountUnits is not null ? Term.Create(unitTerm, (uint)dto.CountUnits) : null;
 
             TypeCreditBankAccount typeCreditBankAccount =
                 (TypeCreditBankAccount)Enum.Parse(typeof(TypeCreditBankAccount), dto.TypeCredit);
@@ -88,8 +90,8 @@ public class DTOCreditBankAccount : DTOBankAccount
                 ? domain.models.valueobjects.Name.Empty
                 : domain.models.valueobjects.Name.Create(dto.PurposeLoan);
 
-            Loan loan = new Loan(amount, initPayment, percent, term, dto.StartDate, typeCreditBankAccount, 
-                dto.LoanObject, purposeLoan);
+            Loan loan = new Loan(amount, initPayment, dto.StartDate, typeCreditBankAccount, 
+                dto.LoanObject, purposeLoan, percent, term);
 
 
             return new CreditBankAccount(dto.Id, dto.Name, dto.Color, dto.Currency, loan, dto.Balance);

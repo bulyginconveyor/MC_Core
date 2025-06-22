@@ -11,8 +11,8 @@ public class DateRangeTest
     public void TestStartDateEarlierEndDate()
     {
         // Arrange
-        var dateStart = new DateTime(2020, 1, 1);
-        var dateEnd = new DateTime(2021, 1, 1);
+        var dateStart = new DateOnly(2020, 1, 1);
+        var dateEnd = new DateOnly(2021, 1, 1);
 
         // Act
         var dateRange = DateRange.Create(dateStart, dateEnd);
@@ -25,8 +25,8 @@ public class DateRangeTest
     public void TestEndDateEarlierStartDate()
     {
         // Arrange
-        var dateStart = new DateTime(2021, 1, 1);
-        var dateEnd = new DateTime(2020, 1, 1);
+        var dateStart = new DateOnly(2021, 1, 1);
+        var dateEnd = new DateOnly(2020, 1, 1);
         
         // Act
         try

@@ -10,7 +10,7 @@ public class DataDTOActiveBankAccount : DataDTOBankAccount
     [JsonPropertyName("buy_price")]
     public decimal BuyPrice { get; set; }
     [JsonPropertyName("buy_date")]
-    public DateTime BuyDate { get; set; }
+    public DateOnly BuyDate { get; set; }
     [JsonPropertyName("type_active")]
     public string TypeActive { get; set; }
     [JsonPropertyName("photo_url")]
